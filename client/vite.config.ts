@@ -1,13 +1,15 @@
+import { paraglideVitePlugin as paraglide, paraglideVitePlugin  } from '@inlang/paraglide-js'
 import { defineConfig } from 'vite'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import viteReact from '@vitejs/plugin-react'
 import viteTsConfigPaths from 'vite-tsconfig-paths'
 import tailwindcss from '@tailwindcss/vite'
 
+
 import { wrapVinxiConfigWithSentry } from '@sentry/tanstackstart-react'
 
 const config = defineConfig({
-  plugins: [
+  plugins: [paraglideVitePlugin({ project: './project.inlang', outdir: './src/lib/paraglide' }),
     // this is the plugin that enables path aliases
     viteTsConfigPaths({
       projects: ['./tsconfig.json'],
@@ -16,6 +18,14 @@ const config = defineConfig({
     tanstackStart({
       customViteReactPlugin: true,
     }),
+      paraglide({
+          project: "./project.inlang",
+          outdir: "./src/lib/paraglide",
+          outputStructure: "message-modules",
+          cookieName: "PARAGLIDE_LOCALE",
+          strategy: ["cookie", "preferredLanguage", "baseLocale"],
+
+      }),
     viteReact(),
   ],
 })

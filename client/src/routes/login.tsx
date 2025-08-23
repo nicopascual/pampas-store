@@ -8,6 +8,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {useAppForm} from "@/hooks/demo.form.ts";
+import {m} from "@/lib/paraglide/messages"
 
 const schema = z.object({
     email: z.string().min(1, 'Title is required'),
@@ -38,7 +39,7 @@ function RouteComponent() {
       <div className="w-full max-w-sm">
           <Card>
               <CardHeader>
-                  <CardTitle>Login to your account</CardTitle>
+                  <CardTitle>{m.example_message({username: "Nico"})}</CardTitle>
                   <CardDescription>
                       Enter your email below to login to your account
                   </CardDescription>
