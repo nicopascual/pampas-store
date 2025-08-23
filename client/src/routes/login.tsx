@@ -11,8 +11,8 @@ import {useAppForm} from "@/hooks/demo.form.ts";
 import {m} from "@/lib/paraglide/messages"
 
 const schema = z.object({
-    email: z.string().min(1, 'Title is required'),
-    password: z.string().min(1, 'Description is required'),
+    email: z.string().min(1, m.field_required({field: "Email"})).email(m.email_valid()),
+    password: z.string().min(1, m.field_required({field: "Password"})),
 })
 
 export const Route = createFileRoute('/login')({
@@ -53,12 +53,12 @@ function RouteComponent() {
                       <div className="flex flex-col gap-6">
                           <div className="grid gap-3">
                               <form.AppField name="email">
-                                  {(field) => <field.TextField label="Email" />}
+                                  {(field) => <field.TextField label={m.email()} />}
                               </form.AppField>
                           </div>
                           <div className="grid gap-3">
                               <form.AppField name="password">
-                                  {(field) => <field.TextField label="Password" />}
+                                  {(field) => <field.TextField label={m.password()} />}
                               </form.AppField>
                           </div>
                           <form.AppForm>

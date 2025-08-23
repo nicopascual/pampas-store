@@ -1,4 +1,4 @@
-# E-commerce Platform PRD - LATAM Focus
+# E-commerce Platform PRD - LATAM Focus (Updated Stack)
 
 ## 1. Project Overview
 
@@ -507,81 +507,93 @@ Build a comprehensive, user-friendly e-commerce platform specifically designed f
 
 ---
 
-## 3. Technical Architecture
+## 3. Technical Architecture (Updated)
 
 ### 3.1 Full-Stack Architecture
-- **Framework**: Laravel 11+ with Inertia.js
-- **Frontend**: React/Vue with TypeScript
+- **Frontend Framework**: **TanStack Start** (React + TypeScript)
+    - File-based routing
+    - Data loading via server functions
+    - Suspense-ready for SSR/streaming
+    - TanStack Router & Query for client-side navigation & data management
+    - TanStack Forms for form handling and validation
+
 - **Styling**: Tailwind CSS 4
-- **State Management**: Inertia.js (no complex state needed)
-- **Charts**: Chart.js or ApexCharts
-- **Authentication**: Laravel Sanctum
-- **API**: Laravel API Resources (REST) + GraphQL (optional)
+- **Charts**: Recharts or Chart.js
+- **Authentication**: JWT-based via GraphQL (Laravel backend)
+- **API Layer**: **GraphQL** (single endpoint, schema-first)
+- **State/Data Management**: TanStack Query (normalized caching of GraphQL queries)
 
 ### 3.2 Backend Architecture
-- **Framework**: Laravel 11+
-- **Database**: MySQL with Redis for caching
-- **ORM**: Eloquent ORM with relationships
-- **Queue System**: Laravel Queues (Redis/Database)
-- **File Storage**: Laravel Storage (S3/Local/CloudFlare R2)
-- **Email**: Laravel Mail with SendGrid/AWS SES/Mailgun
-- **Payments**: Laravel Cashier + Mercado Pago SDK
+- **Framework**: Laravel 11
+- **GraphQL Server**: Lighthouse or Rebing GraphQL for Laravel
+- **Database**: MySQL (primary) with Redis for caching
+- **ORM**: Eloquent ORM
+- **Queue System**: Laravel Queues (Redis/Database drivers)
+- **File Storage**: Laravel Storage (S3 / Cloudflare R2 / Local)
+- **Email**: Laravel Mail (SendGrid / SES / Mailgun)
+- **Payments**: Mercado Pago SDK integrated into GraphQL mutations
 
 ### 3.3 Infrastructure & Development
-- **Hosting**: Laravel Forge + DigitalOcean/AWS/Hetzner
-- **CDN**: CloudFlare
-- **Monitoring**: Laravel Telescope + Sentry
-- **CI/CD**: GitHub Actions + Laravel Envoy
-- **Database**: Managed MySQL + Redis
-- **Local Development**: Laravel Sail (Docker)
-- **Package Management**: Composer + NPM/Yarn
+- **Hosting**:
+    - Backend: Laravel Forge + DigitalOcean/AWS/Hetzner
+    - Frontend: Vercel/Netlify or Docker deploy alongside Laravel
 
-### 3.4 Laravel-Specific Benefits
-- **Rapid Development**: Built-in authentication, queues, caching
-- **Eloquent ORM**: Perfect for complex e-commerce relationships
-- **Laravel Nova**: Admin panel for internal management
-- **Artisan Commands**: Custom commands for data processing
-- **Event/Listener System**: Perfect for order processing workflows
-- **Policy System**: Fine-grained permissions for multi-user stores
-- **Laravel Cashier**: Subscription billing for SaaS model
-- **Inertia.js Benefits**:
-    - No API layer needed for most features
-    - Server-side routing with client-side navigation
-    - Perfect for admin dashboards
-    - Shared validation between frontend/backend
+- **CDN**: Cloudflare
+- **Monitoring**: Sentry + Laravel Telescope
+- **CI/CD**: GitHub Actions
+- **Local Development**: Docker (Laravel Sail)
+- **Package Management**: Composer (backend), PNPM/NPM (frontend)
+
+### 3.4 Benefits of This Stack
+- **TanStack Start Benefits**
+    - First-class SSR/SSG/streaming
+    - Strong data-fetching model with GraphQL
+    - Declarative routing + mutations using server functions
+    - Great DX with React & TypeScript
+
+- **GraphQL Benefits**
+    - Unified schema for frontend/backend communication
+    - Typed operations via GraphQL Code Generator
+    - Efficient over-fetching/under-fetching prevention
+    - Flexible queries for dashboard & storefront
+
+- **Laravel Benefits**
+    - Strong ecosystem for queues, mail, payments, and storage
+    - Secure, proven backend for e-commerce operations
+    - Eloquent ORM simplifies complex product/order relationships
+    - Rich tooling for observability & scalability
 
 ---
 
-## 4. Development Phases
+## 4. Development Phases (Updated with Stack)
 
 ### Phase 1: Core MVP (3-4 months)
-- Authentication & basic user management
-- Product management (basic)
+- Authentication & user management (JWT via GraphQL)
+- Basic product management (GraphQL mutations & queries)
 - Inventory tracking
 - Order processing
-- Basic storefront
-- **Store customization (theme editor)**
-- Mercado Pago integration
+- Basic storefront (TanStack Start SSR)
+- Store customization (theme editor)
+- Mercado Pago integration via GraphQL
 
 ### Phase 2: Essential Features (2-3 months)
-- Customer management
-- Shipping integration
-- Basic analytics
-- Email notifications
-- Theme system
+- Customer management (GraphQL-based)
+- Shipping integrations (GraphQL resolvers for carriers)
+- Basic analytics dashboard (TanStack Query + Recharts)
+- Email/SMS notifications (via Laravel + GraphQL mutations)
 - Reviews system
 
 ### Phase 3: Advanced Features (3-4 months)
-- Advanced inventory management
+- Advanced inventory & supplier management
 - Marketing tools
 - Advanced analytics
-- Multi-user roles
-- API for third-party integrations
+- Multi-user roles & permissions via GraphQL directives
+- Public API access (GraphQL schema extensions)
 
-### Phase 4: Scale & Optimize (Ongoing)
-- Performance optimization
-- Advanced SEO tools
-- Mobile apps
+### Phase 4: Scale & Optimize
+- Performance optimization (TanStack caching, GraphQL batching)
+- Advanced SEO tooling in TanStack Start
+- Mobile apps (consume GraphQL API)
 - Additional payment methods
 - Multi-country expansion
 
@@ -624,4 +636,4 @@ Build a comprehensive, user-friendly e-commerce platform specifically designed f
 - Gradual rollout approach
 - Strong customer support
 - Legal compliance verification
-- Performance monitoring and optimization
+- Performance monitoring and optimization  
