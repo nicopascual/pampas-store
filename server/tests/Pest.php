@@ -12,7 +12,9 @@
 */
 
 pest()->extend(Tests\TestCase::class)
- // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+    ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+    ->use(\Nuwave\Lighthouse\Testing\MakesGraphQLRequests::class)
+    ->use(\Nuwave\Lighthouse\Testing\RefreshesSchemaCache::class)
     ->in('Feature');
 
 /*

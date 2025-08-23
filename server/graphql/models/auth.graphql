@@ -1,0 +1,184 @@
+"User role enum"
+enum UserRole {
+    CUSTOMER @enum(value: "CUSTOMER")
+    ADMIN @enum(value: "ADMIN")
+    SELLER @enum(value: "SELLER")
+}
+
+"Account of a person who uses this application."
+type User {
+    "Unique primary key."
+    id: ID!
+
+    "Non-unique name."
+    name: String!
+
+    "Unique email address."
+    email: String!
+
+    "User role."
+    role: UserRole!
+
+    "When the email was verified."
+    email_verified_at: DateTime
+
+    "When the account was created."
+    created_at: DateTime!
+
+    "When the account was last updated."
+    updated_at: DateTime!
+}
+
+type Mutation {
+    "Register a new user."
+    registerUser(input: RegisterUserInput!): RegisterUserResult! @field(resolver: "App\\GraphQL\\Mutations\\RegisterUser")
+
+    "Login a user."
+    loginUser(input: LoginUserInput!): LoginUserResult! @field(resolver: "App\\GraphQL\\Mutations\\LoginUser")
+
+    "Refresh access token using refresh token."
+    refreshToken(input: RefreshTokenInput!): RefreshTokenResult! @field(resolver: "App\\GraphQL\\Mutations\\RefreshToken")
+
+    "Logout user and invalidate tokens."
+    logoutUser: LogoutUserResult! @field(resolver: "App\\GraphQL\\Mutations\\LogoutUser") @guard
+
+    "Verify user email address."
+    verifyEmail(input: VerifyEmailInput!): VerifyEmailResult! @field(resolver: "App\\GraphQL\\Mutations\\VerifyEmail")
+
+    "Request password reset token."
+    requestPasswordReset(input: RequestPasswordResetInput!): RequestPasswordResetResult! @field(resolver: "App\\GraphQL\\Mutations\\RequestPasswordReset")
+
+    "Reset password using token."
+    resetPassword(input: ResetPasswordInput!): ResetPasswordResult! @field(resolver: "App\\GraphQL\\Mutations\\ResetPassword")
+}
+
+"Input for registering a new user."
+input RegisterUserInput {
+    "User's full name."
+    name: String!
+
+    "User's email address."
+    email: String!
+
+    "User's password."
+    password: String!
+
+    "Password confirmation."
+    password_confirmation: String!
+
+    "User role (defaults to CUSTOMER)."
+    role: UserRole = CUSTOMER
+}
+
+"Registration response payload."
+type RegisterUserPayload implements MutationSuccess {
+    "The registered user."
+    user: User!
+
+    "Success message."
+    message: String!
+}
+
+union RegisterUserResult = RegisterUserPayload | MutationError
+
+"Input for logging in a user."
+input LoginUserInput {
+    "User's email address."
+    email: String!
+
+    "User's password."
+    password: String!
+}
+
+"Login response payload."
+type LoginUserPayload implements MutationSuccess {
+    "The authenticated user."
+    user: User!
+
+    "Access token for API authentication."
+    accessToken: String!
+
+    "Refresh token for token renewal."
+    refreshToken: String!
+
+    "Success message."
+    message: String!
+}
+
+union LoginUserResult = LoginUserPayload | MutationError
+
+"Input for refreshing access token."
+input RefreshTokenInput {
+    "Refresh token."
+    refreshToken: String!
+}
+
+"Refresh token response payload."
+type RefreshTokenPayload implements MutationSuccess {
+    "New access token for API authentication."
+    accessToken: String!
+
+    "Success message."
+    message: String!
+}
+
+union RefreshTokenResult = RefreshTokenPayload | MutationError
+
+"Logout response payload."
+type LogoutUserPayload implements MutationSuccess {
+    "Success message."
+    message: String!
+}
+
+union LogoutUserResult = LogoutUserPayload | MutationError
+
+"Input for verifying user email."
+input VerifyEmailInput {
+    "Email verification token."
+    token: String!
+}
+
+"Email verification response payload."
+type VerifyEmailPayload implements MutationSuccess {
+    "The user with verified email."
+    user: User!
+
+    "Success message."
+    message: String!
+}
+
+union VerifyEmailResult = VerifyEmailPayload | MutationError
+
+"Input for requesting password reset."
+input RequestPasswordResetInput {
+    "User's email address."
+    email: String!
+}
+
+"Password reset request response payload."
+type RequestPasswordResetPayload implements MutationSuccess {
+    "Success message."
+    message: String!
+}
+
+union RequestPasswordResetResult = RequestPasswordResetPayload | MutationError
+
+"Input for resetting password."
+input ResetPasswordInput {
+    "Password reset token."
+    token: String!
+
+    "New password."
+    newPassword: String!
+}
+
+"Password reset response payload."
+type ResetPasswordPayload implements MutationSuccess {
+    "The user with reset password."
+    user: User!
+
+    "Success message."
+    message: String!
+}
+
+union ResetPasswordResult = ResetPasswordPayload | MutationError
