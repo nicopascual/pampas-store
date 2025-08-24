@@ -51,7 +51,7 @@ it('creates a store successfully for authenticated user', function () {
         ->and($response->json('data.createStore.store.plan'))->toBe('FREE')
         ->and($response->json('data.createStore.store.status'))->toBe('ACTIVE')
         ->and($response->json('data.createStore.store.domain'))->toBeNull()
-        ->and($response->json('data.createStore.message'))->toBe('Store created successfully.');
+        ->and($response->json('data.createStore.message'))->toBe(__('store.create_success'));
 
     $store = Store::where('name', 'My Awesome Store')->first();
     expect($store)->not->toBeNull()

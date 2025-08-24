@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(/C:\\Users\\pascu\\code\\pampas-store/**)",
+      "mcp__Framelink_Figma_MCP__get_figma_data"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "enabledMcpjsonServers": ["Framelink_Figma_MCP"]
+}

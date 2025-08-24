@@ -16,7 +16,7 @@ final class CreateStore extends BaseMutation
     {
         try {
             $input = $args['input'] ?? $args;
-            $validated = $this->validateInput($input, new CreateStoreRequest, 'Failed to create store.');
+            $validated = $this->validateInput($input, new CreateStoreRequest, __('store.create_error'));
 
             if (isset($validated['__typename'])) {
                 return $validated;
@@ -49,10 +49,10 @@ final class CreateStore extends BaseMutation
 
             return $this->success('CreateStorePayload', [
                 'store' => $store->load('owner'),
-            ], 'Store created successfully.');
+            ], __('store.create_success'));
 
         } catch (\Exception $e) {
-            return $this->handleException($e, 'Failed to create store.');
+            return $this->handleException($e, __('store.create_error'));
         }
     }
 }

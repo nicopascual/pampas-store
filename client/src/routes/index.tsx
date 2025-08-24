@@ -1,4 +1,4 @@
-import {Link, createFileRoute} from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -7,9 +7,7 @@ export const Route = createFileRoute('/')({
 function App() {
   return (
     <div className="text-center">
-      <Link to="/wizard">
-       Start wizard flow.
-      </Link>
+      <Link to="/wizard">Start wizard flow.</Link>
     </div>
   )
 }

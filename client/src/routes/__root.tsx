@@ -6,13 +6,12 @@ import {
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanstackDevtools } from '@tanstack/react-devtools'
 
-
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
 import appCss from '../styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
-import {getLocale} from "@/lib/paraglide/runtime";
+import { getLocale } from '@/lib/paraglide/runtime'
 
 interface MyRouterContext {
   queryClient: QueryClient

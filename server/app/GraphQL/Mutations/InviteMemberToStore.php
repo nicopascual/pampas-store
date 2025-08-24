@@ -12,7 +12,7 @@ final class InviteMemberToStore extends BaseMutation
     {
         try {
             $input = $args['input'] ?? $args;
-            $validated = $this->validateInput($input, new InviteMemberToStoreRequest, 'Failed to invite member to store.');
+            $validated = $this->validateInput($input, new InviteMemberToStoreRequest, __('store.member_invite_error'));
 
             if (isset($validated['__typename'])) {
                 return $validated;
@@ -24,7 +24,7 @@ final class InviteMemberToStore extends BaseMutation
                 ->first();
 
             if ($existingMember) {
-                return $this->error('User is already a member of this store.', 'ALREADY_MEMBER');
+                return $this->error(__('store.member_already_exists'), 'ALREADY_MEMBER');
             }
 
             $storeMember = StoreMember::create([
@@ -35,10 +35,10 @@ final class InviteMemberToStore extends BaseMutation
 
             return $this->success('InviteMemberToStorePayload', [
                 'storeMember' => $storeMember->load(['store.owner', 'user']),
-            ], 'Member invited to store successfully.');
+            ], __('store.member_invite_success'));
 
         } catch (\Exception $e) {
-            return $this->handleException($e, 'Failed to invite member to store.');
+            return $this->handleException($e, __('store.member_invite_error'));
         }
     }
 }

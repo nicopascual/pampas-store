@@ -20,7 +20,7 @@ final class UpdateStoreSettings extends BaseMutation
             $store = $this->requireCurrentStore($root, $args, $context, $resolveInfo);
 
             $input = $args['input'] ?? $args;
-            $validated = $this->validateInput($input, new UpdateStoreSettingsRequest, 'Failed to update store settings.');
+            $validated = $this->validateInput($input, new UpdateStoreSettingsRequest, __('store.update_error'));
 
             if (isset($validated['__typename'])) {
                 return $validated;
@@ -29,7 +29,7 @@ final class UpdateStoreSettings extends BaseMutation
             // Authorization: only owner or admin can update store settings
             $user = Auth::user();
             if ($store->owner_id !== $user->id && $user->role->value !== 'ADMIN') {
-                return $this->error('You are not authorized to update this store\'s settings.', 'UNAUTHORIZED');
+                return $this->error(__('store.unauthorized'), 'UNAUTHORIZED');
             }
 
             // Update only provided fields
@@ -50,10 +50,10 @@ final class UpdateStoreSettings extends BaseMutation
 
             return $this->success('UpdateStoreSettingsPayload', [
                 'store' => $store->load('owner'),
-            ], 'Store settings updated successfully.');
+            ], __('store.update_success'));
 
         } catch (\Exception $e) {
-            return $this->handleException($e, 'Failed to update store settings.');
+            return $this->handleException($e, __('store.update_error'));
         }
     }
 }

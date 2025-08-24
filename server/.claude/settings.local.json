@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(/C:\\Users\\pascu\\code\\pampas-store/**)",
+      "Bash(find:*)",
+      "Bash(php artisan test:*)",
+      "mcp__laravel-boost__tinker",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan test tests/Feature/CreateStoreTest.php)"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "laravel-boost",
+    "herd"
+  ]
+}

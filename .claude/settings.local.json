@@ -26,10 +26,15 @@
       "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan test --filter=\"StoreMembershipTest\" --stop-on-failure)",
       "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan test --filter=\"invites a member to store successfully\" --stop-on-failure)",
       "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan test --filter=\"validates store member invitation input\" --stop-on-failure)",
-      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan test --filter=\"StoreMembershipTest\")"
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan test --filter=\"StoreMembershipTest\")",
+      "mcp__Framelink_Figma_MCP__get_figma_data"
     ],
     "additionalDirectories": [
       "C:\\mnt\\c\\Users\\pascu\\code\\pampas-store"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "laravel-boost",
+    "Framelink_Figma_MCP"
+  ]
 }

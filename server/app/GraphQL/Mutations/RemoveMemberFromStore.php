@@ -12,7 +12,7 @@ final class RemoveMemberFromStore extends BaseMutation
     {
         try {
             $input = $args['input'] ?? $args;
-            $validated = $this->validateInput($input, new RemoveMemberFromStoreRequest, 'Failed to remove member from store.');
+            $validated = $this->validateInput($input, new RemoveMemberFromStoreRequest, __('store.member_remove_error'));
 
             if (isset($validated['__typename'])) {
                 return $validated;
@@ -23,15 +23,15 @@ final class RemoveMemberFromStore extends BaseMutation
                 ->first();
 
             if (! $storeMember) {
-                return $this->error('User is not a member of this store.', 'NOT_A_MEMBER');
+                return $this->error(__('store.member_not_found'), 'NOT_A_MEMBER');
             }
 
             $storeMember->delete();
 
-            return $this->success('RemoveMemberFromStorePayload', [], 'Member removed from store successfully.');
+            return $this->success('RemoveMemberFromStorePayload', [], __('store.member_remove_success'));
 
         } catch (\Exception $e) {
-            return $this->handleException($e, 'Failed to remove member from store.');
+            return $this->handleException($e, __('store.member_remove_error'));
         }
     }
 }
