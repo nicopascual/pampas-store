@@ -510,18 +510,18 @@ Build a comprehensive, user-friendly e-commerce platform specifically designed f
 ## 3. Technical Architecture (Updated)
 
 ### 3.1 Full-Stack Architecture
-- **Frontend Framework**: **TanStack Start** (React + TypeScript)
+- **Frontend Framework**: **SvelteKit** (Svelte + TypeScript)
     - File-based routing
-    - Data loading via server functions
-    - Suspense-ready for SSR/streaming
-    - TanStack Router & Query for client-side navigation & data management
-    - TanStack Forms for form handling and validation
+    - Data loading via load functions
+    - SSR/SSG/SPA support
+    - Built-in stores for state management
+    - Native form handling with actions and use:enhance
 
 - **Styling**: Tailwind CSS 4
 - **Charts**: Recharts or Chart.js
 - **Authentication**: JWT-based via GraphQL (Laravel backend)
 - **API Layer**: **GraphQL** (single endpoint, schema-first)
-- **State/Data Management**: TanStack Query (normalized caching of GraphQL queries)
+- **State/Data Management**: SvelteKit load functions with built-in caching and Svelte stores
 
 ### 3.2 Backend Architecture
 - **Framework**: Laravel 11
@@ -545,11 +545,12 @@ Build a comprehensive, user-friendly e-commerce platform specifically designed f
 - **Package Management**: Composer (backend), PNPM/NPM (frontend)
 
 ### 3.4 Benefits of This Stack
-- **TanStack Start Benefits**
-    - First-class SSR/SSG/streaming
-    - Strong data-fetching model with GraphQL
-    - Declarative routing + mutations using server functions
-    - Great DX with React & TypeScript
+- **SvelteKit Benefits**
+    - First-class SSR/SSG/SPA with excellent performance
+    - Intuitive data-fetching model with load functions
+    - Built-in form actions and progressive enhancement
+    - Excellent DX with Svelte & TypeScript
+    - Smaller bundle sizes and faster runtime performance
 
 - **GraphQL Benefits**
     - Unified schema for frontend/backend communication
@@ -572,14 +573,14 @@ Build a comprehensive, user-friendly e-commerce platform specifically designed f
 - Basic product management (GraphQL mutations & queries)
 - Inventory tracking
 - Order processing
-- Basic storefront (TanStack Start SSR)
+- Basic storefront (SvelteKit SSR)
 - Store customization (theme editor)
 - Mercado Pago integration via GraphQL
 
 ### Phase 2: Essential Features (2-3 months)
 - Customer management (GraphQL-based)
 - Shipping integrations (GraphQL resolvers for carriers)
-- Basic analytics dashboard (TanStack Query + Recharts)
+- Basic analytics dashboard (SvelteKit + Recharts)
 - Email/SMS notifications (via Laravel + GraphQL mutations)
 - Reviews system
 
@@ -591,8 +592,8 @@ Build a comprehensive, user-friendly e-commerce platform specifically designed f
 - Public API access (GraphQL schema extensions)
 
 ### Phase 4: Scale & Optimize
-- Performance optimization (TanStack caching, GraphQL batching)
-- Advanced SEO tooling in TanStack Start
+- Performance optimization (SvelteKit caching, GraphQL batching)
+- Advanced SEO tooling in SvelteKit
 - Mobile apps (consume GraphQL API)
 - Additional payment methods
 - Multi-country expansion

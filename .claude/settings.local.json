@@ -30,7 +30,8 @@
       "mcp__Framelink_Figma_MCP__get_figma_data"
     ],
     "additionalDirectories": [
-      "C:\\mnt\\c\\Users\\pascu\\code\\pampas-store"
+      "C:\\mnt\\c\\Users\\pascu\\code\\pampas-store",
+      "C:\\"
     ]
   },
   "enabledMcpjsonServers": [

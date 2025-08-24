@@ -4,15 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is **Pampas Store**, an e-commerce platform designed specifically for Latin American markets. It's a full-stack application with TanStack Start frontend and Laravel backend, focusing on superior LATAM payment integration, inventory management, and business tools.
+This is **Pampas Store**, an e-commerce platform designed specifically for Latin American markets. It's a full-stack application with SvelteKit frontend and Laravel backend, focusing on superior LATAM payment integration, inventory management, and business tools.
 
 ## Architecture
 
 ### Frontend (client/)
-- **Framework**: TanStack Start with React & TypeScript
-- **Routing**: File-based routing via TanStack Router
-- **Data Management**: TanStack Query for server state, TanStack Forms for forms
-- **Styling**: Tailwind CSS 4 with Shadcn/ui components
+- **Framework**: SvelteKit with TypeScript
+- **Routing**: File-based routing via SvelteKit
+- **Data Management**: SvelteKit load functions for server state, native Svelte stores for client state
+- **Styling**: Tailwind CSS 4 with Shadcn-Svelte components
 - **Internationalization**: Paraglide.js for Spanish/Portuguese/English support
 - **Monitoring**: Sentry for error tracking and instrumentation
 
@@ -28,13 +28,14 @@ This is **Pampas Store**, an e-commerce platform designed specifically for Latin
 ### Frontend Development (client/)
 ```bash
 pnpm install          # Install dependencies
-pnpm run dev          # Development server (port 3000)
+pnpm run dev          # Development server (port 5173)
 pnpm run build        # Production build
-pnpm run start        # Start production server
+pnpm run preview      # Preview production build
 pnpm run test         # Run Vitest tests
+pnpm run test:unit    # Run unit tests
 pnpm run lint         # ESLint check
 pnpm run format       # Prettier format
-pnpm run check        # Format and lint fix
+pnpm run check        # SvelteKit sync and type check
 ```
 
 ### Backend Development (server/)
@@ -48,17 +49,18 @@ php artisan migrate       # Run database migrations
 ```
 
 ### Adding Components
-Use the latest Shadcn version:
+Use Shadcn-Svelte for components:
 ```bash
-pnpx shadcn@latest add button
+pnpx shadcn-svelte@latest add button
 ```
 
 ## Key File Locations
 
-### Router Configuration
-- `client/src/router.tsx` - Main router factory with TanStack Query integration
-- `client/src/routeTree.gen.ts` - Auto-generated route tree (don't edit)
-- `client/src/routes/` - File-based route definitions
+### Routing Configuration
+- `client/src/routes/` - File-based route definitions (SvelteKit)
+- `client/src/app.html` - App template file
+- `client/src/hooks.server.ts` - Server-side hooks
+- `client/src/hooks.client.ts` - Client-side hooks
 
 ### Internationalization
 - `client/project.inlang/settings.json` - Paraglide configuration
@@ -74,9 +76,9 @@ pnpx shadcn@latest add button
 ## Development Notes
 
 ### Sentry Integration
-- Error collection configured in `client/src/router.tsx`
+- Error collection configured in `client/src/hooks.client.ts` and `client/src/hooks.server.ts`
 - Instrument server functions with `Sentry.startSpan`
-- Import: `import * as Sentry from '@sentry/tanstackstart-react'`
+- Import: `import * as Sentry from '@sentry/sveltekit'`
 
 ### Database
 - Uses SQLite for development (`server/database/database.sqlite`)
@@ -88,10 +90,10 @@ Files prefixed with `demo` can be safely deleted - they're provided as examples.
 ## Code Style
 
 ### Frontend
-- Follow TanStack conventions for routing and data fetching
+- Follow SvelteKit conventions for routing and data fetching
 - Use TypeScript strictly
-- Prefer TanStack Query for server state management
-- Use TanStack Forms for form handling
+- Use SvelteKit load functions for server state management
+- Use Svelte stores and actions for form handling
 
 ### Backend
 - Follow Laravel conventions and PSR standards
@@ -101,16 +103,16 @@ Files prefixed with `demo` can be safely deleted - they're provided as examples.
 
 ## Important Patterns
 
-1. **Router Factory**: Use `createRouter()` function from `router.tsx`, don't import a static router instance
+1. **Load Functions**: Use SvelteKit's `load` functions for data fetching in `+page.ts` and `+layout.ts` files
 2. **Server Functions**: Wrap lengthy operations with Sentry spans
 3. **Internationalization**: Messages managed through Paraglide.js system
-4. **Component Structure**: UI components in `client/src/components/ui/` following Shadcn patterns
+4. **Component Structure**: UI components in `client/src/lib/components/ui/` following Shadcn-Svelte patterns
    === tailwindcss/core rules ===
 
 ## Tailwind Core
 
 - Use Tailwind CSS classes to style HTML, check and use existing tailwind conventions within the project before writing your own.
-- Offer to extract repeated patterns into components that match the project's conventions (i.e. Blade, JSX, Vue, etc..)
+- Offer to extract repeated patterns into components that match the project's conventions (i.e. Blade, Svelte, Vue, etc..)
 - Think through class placement, order, priority, and defaults - remove redundant classes, add classes to parent or child carefully to limit repetition, group elements logically
 - You can use the `search-docs` tool to get exact examples from the official documentation when needed.
 

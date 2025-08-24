@@ -1,0 +1,535 @@
+"""Input for creating a new store."""
+input CreateStoreInput {
+  """Custom domain (optional)."""
+  domain: String
+
+  """Store name."""
+  name: String!
+}
+
+"""Store creation response payload."""
+type CreateStorePayload implements MutationSuccess {
+  """Success message."""
+  message: String!
+
+  """The created store."""
+  store: Store!
+}
+
+union CreateStoreResult = CreateStorePayload | MutationError
+
+"""
+A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`.
+"""
+scalar DateTime
+
+"""Input for inviting a member to a store."""
+input InviteMemberToStoreInput {
+  """Role to assign to the member."""
+  role: StoreMemberRole!
+
+  """Store ID."""
+  storeId: ID!
+
+  """User ID to invite."""
+  userId: ID!
+}
+
+"""Store member invitation response payload."""
+type InviteMemberToStorePayload implements MutationSuccess {
+  """Success message."""
+  message: String!
+
+  """The created store membership."""
+  storeMember: StoreMember!
+}
+
+union InviteMemberToStoreResult = InviteMemberToStorePayload | MutationError
+
+"""Input for logging in a user."""
+input LoginUserInput {
+  """User's email address."""
+  email: String!
+
+  """User's password."""
+  password: String!
+}
+
+"""Login response payload."""
+type LoginUserPayload implements MutationSuccess {
+  """Access token for API authentication."""
+  accessToken: String!
+
+  """Success message."""
+  message: String!
+
+  """Refresh token for token renewal."""
+  refreshToken: String!
+
+  """The authenticated user."""
+  user: User!
+}
+
+union LoginUserResult = LoginUserPayload | MutationError
+
+"""Logout response payload."""
+type LogoutUserPayload implements MutationSuccess {
+  """Success message."""
+  message: String!
+}
+
+union LogoutUserResult = LogoutUserPayload | MutationError
+
+type Mutation {
+  """Create a new store."""
+  createStore(input: CreateStoreInput!): CreateStoreResult!
+
+  """Invite a member to a store."""
+  inviteMemberToStore(input: InviteMemberToStoreInput!): InviteMemberToStoreResult!
+
+  """Login a user."""
+  loginUser(input: LoginUserInput!): LoginUserResult!
+
+  """Logout user and invalidate tokens."""
+  logoutUser: LogoutUserResult!
+
+  """Refresh access token using refresh token."""
+  refreshToken(input: RefreshTokenInput!): RefreshTokenResult!
+
+  """Register a new user."""
+  registerUser(input: RegisterUserInput!): RegisterUserResult!
+
+  """Remove a member from a store."""
+  removeMemberFromStore(input: RemoveMemberFromStoreInput!): RemoveMemberFromStoreResult!
+
+  """Request password reset token."""
+  requestPasswordReset(input: RequestPasswordResetInput!): RequestPasswordResetResult!
+
+  """Reset password using token."""
+  resetPassword(input: ResetPasswordInput!): ResetPasswordResult!
+
+  """Update store settings."""
+  updateStoreSettings(input: UpdateStoreSettingsInput!): UpdateStoreSettingsResult!
+
+  """Verify user email address."""
+  verifyEmail(input: VerifyEmailInput!): VerifyEmailResult!
+}
+
+"""Error response for mutations."""
+type MutationError {
+  """Error code for client handling."""
+  code: String
+
+  """Error message."""
+  message: String!
+
+  """Validation errors if applicable."""
+  validationErrors: [ValidationError!]
+}
+
+"""Base success response interface."""
+interface MutationSuccess {
+  """Success message."""
+  message: String
+}
+
+"""Allows ordering a list of records."""
+input OrderByClause {
+  """The column that is used for ordering."""
+  column: String!
+
+  """The direction that is used for ordering."""
+  order: SortOrder!
+}
+
+"""
+Aggregate functions when ordering by a relation without specifying a column.
+"""
+enum OrderByRelationAggregateFunction {
+  """Amount of items."""
+  COUNT
+}
+
+"""
+Aggregate functions when ordering by a relation that may specify a column.
+"""
+enum OrderByRelationWithColumnAggregateFunction {
+  """Average."""
+  AVG
+
+  """Amount of items."""
+  COUNT
+
+  """Maximum."""
+  MAX
+
+  """Minimum."""
+  MIN
+
+  """Sum."""
+  SUM
+}
+
+"""Information about pagination using a fully featured paginator."""
+type PaginatorInfo {
+  """Number of items in the current page."""
+  count: Int!
+
+  """Index of the current page."""
+  currentPage: Int!
+
+  """Index of the first item in the current page."""
+  firstItem: Int
+
+  """Are there more pages after this one?"""
+  hasMorePages: Boolean!
+
+  """Index of the last item in the current page."""
+  lastItem: Int
+
+  """Index of the last available page."""
+  lastPage: Int!
+
+  """Number of items per page."""
+  perPage: Int!
+
+  """Number of total available items."""
+  total: Int!
+}
+
+"""
+Indicates what fields are available at the top level of a query operation.
+"""
+type Query {
+  """Get all stores owned by the authenticated user."""
+  myStores: [Store!]!
+
+  """Find a store by domain."""
+  storeByDomain(
+    """Store domain."""
+    domain: String!
+  ): Store
+
+  """Find a store by slug."""
+  storeBySlug(
+    """Store slug."""
+    slug: String!
+  ): Store
+
+  """Get all members of a specific store."""
+  storeMembers(
+    """Store ID."""
+    storeId: ID!
+  ): [StoreMember!]!
+
+  """Find a single user by an identifying attribute."""
+  user(
+    """Search by email address."""
+    email: String
+
+    """Search by primary key."""
+    id: ID
+  ): User
+
+  """List multiple users."""
+  users(
+    """Limits number of fetched items."""
+    first: Int! = 10
+
+    """Filters by name. Accepts SQL LIKE wildcards `%` and `_`."""
+    name: String
+
+    """The offset from which items are returned."""
+    page: Int
+  ): UserPaginator!
+}
+
+"""Input for refreshing access token."""
+input RefreshTokenInput {
+  """Refresh token."""
+  refreshToken: String!
+}
+
+"""Refresh token response payload."""
+type RefreshTokenPayload implements MutationSuccess {
+  """New access token for API authentication."""
+  accessToken: String!
+
+  """Success message."""
+  message: String!
+}
+
+union RefreshTokenResult = MutationError | RefreshTokenPayload
+
+"""Input for registering a new user."""
+input RegisterUserInput {
+  """User's email address."""
+  email: String!
+
+  """User's full name."""
+  name: String!
+
+  """User's password."""
+  password: String!
+
+  """Password confirmation."""
+  password_confirmation: String!
+
+  """User role (defaults to CUSTOMER)."""
+  role: UserRole = CUSTOMER
+}
+
+"""Registration response payload."""
+type RegisterUserPayload implements MutationSuccess {
+  """Success message."""
+  message: String!
+
+  """The registered user."""
+  user: User!
+}
+
+union RegisterUserResult = MutationError | RegisterUserPayload
+
+"""Input for removing a member from a store."""
+input RemoveMemberFromStoreInput {
+  """Store ID."""
+  storeId: ID!
+
+  """User ID to remove."""
+  userId: ID!
+}
+
+"""Store member removal response payload."""
+type RemoveMemberFromStorePayload implements MutationSuccess {
+  """Success message."""
+  message: String!
+}
+
+union RemoveMemberFromStoreResult = MutationError | RemoveMemberFromStorePayload
+
+"""Input for requesting password reset."""
+input RequestPasswordResetInput {
+  """User's email address."""
+  email: String!
+}
+
+"""Password reset request response payload."""
+type RequestPasswordResetPayload implements MutationSuccess {
+  """Success message."""
+  message: String!
+}
+
+union RequestPasswordResetResult = MutationError | RequestPasswordResetPayload
+
+"""Input for resetting password."""
+input ResetPasswordInput {
+  """New password."""
+  newPassword: String!
+
+  """Password reset token."""
+  token: String!
+}
+
+"""Password reset response payload."""
+type ResetPasswordPayload implements MutationSuccess {
+  """Success message."""
+  message: String!
+
+  """The user with reset password."""
+  user: User!
+}
+
+union ResetPasswordResult = MutationError | ResetPasswordPayload
+
+"""Directions for ordering a list of records."""
+enum SortOrder {
+  """Sort records in ascending order."""
+  ASC
+
+  """Sort records in descending order."""
+  DESC
+}
+
+"""A store in the e-commerce platform."""
+type Store {
+  """When the store was created."""
+  created_at: DateTime!
+
+  """Custom domain (optional)."""
+  domain: String
+
+  """Unique primary key."""
+  id: ID!
+
+  """Store members."""
+  members: [StoreMember!]!
+
+  """Store name."""
+  name: String!
+
+  """Store owner."""
+  owner: User!
+
+  """Store plan."""
+  plan: StorePlan!
+
+  """Unique slug for subdomain handling."""
+  slug: String!
+
+  """Store status."""
+  status: StoreStatus!
+
+  """When the store was last updated."""
+  updated_at: DateTime!
+}
+
+"""A store member with role-based access."""
+type StoreMember {
+  """When the membership was created."""
+  created_at: DateTime!
+
+  """Unique primary key."""
+  id: ID!
+
+  """Role of the member in the store."""
+  role: StoreMemberRole!
+
+  """Store this member belongs to."""
+  store: Store!
+
+  """When the membership was last updated."""
+  updated_at: DateTime!
+
+  """User who is the member."""
+  user: User!
+}
+
+"""Store member role enum"""
+enum StoreMemberRole {
+  Manager
+  Owner
+  Staff
+}
+
+"""Store plan enum"""
+enum StorePlan {
+  ENTERPRISE
+  FREE
+  PRO
+}
+
+"""Store status enum"""
+enum StoreStatus {
+  ACTIVE
+  DELETED
+  SUSPENDED
+}
+
+"""
+Specify if you want to include or exclude trashed results from a query.
+"""
+enum Trashed {
+  """Only return trashed results."""
+  ONLY
+
+  """Return both trashed and non-trashed results."""
+  WITH
+
+  """Only return non-trashed results."""
+  WITHOUT
+}
+
+"""Input for updating store settings."""
+input UpdateStoreSettingsInput {
+  """Custom domain (optional)."""
+  domain: String
+
+  """Store name."""
+  name: String
+
+  """Store plan."""
+  plan: StorePlan
+}
+
+"""Store settings update response payload."""
+type UpdateStoreSettingsPayload implements MutationSuccess {
+  """Success message."""
+  message: String!
+
+  """The updated store."""
+  store: Store!
+}
+
+union UpdateStoreSettingsResult = MutationError | UpdateStoreSettingsPayload
+
+"""Account of a person who uses this application."""
+type User {
+  """When the account was created."""
+  created_at: DateTime!
+
+  """Unique email address."""
+  email: String!
+
+  """When the email was verified."""
+  email_verified_at: DateTime
+
+  """Unique primary key."""
+  id: ID!
+
+  """Non-unique name."""
+  name: String!
+
+  """User role."""
+  role: UserRole!
+
+  """Store memberships for this user."""
+  storeMemberships: [StoreMember!]!
+
+  """Stores owned by this user."""
+  stores: [Store!]!
+
+  """When the account was last updated."""
+  updated_at: DateTime!
+}
+
+"""A paginated list of User items."""
+type UserPaginator {
+  """A list of User items."""
+  data: [User!]!
+
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+}
+
+"""User role enum"""
+enum UserRole {
+  ADMIN
+  CUSTOMER
+  SELLER
+}
+
+"""Validation error details."""
+type ValidationError {
+  """The field that failed validation."""
+  field: String!
+
+  """All validation error messages for this field."""
+  messages: [String!]!
+}
+
+"""Input for verifying user email."""
+input VerifyEmailInput {
+  """Email verification token."""
+  token: String!
+}
+
+"""Email verification response payload."""
+type VerifyEmailPayload implements MutationSuccess {
+  """Success message."""
+  message: String!
+
+  """The user with verified email."""
+  user: User!
+}
+
+union VerifyEmailResult = MutationError | VerifyEmailPayload
