@@ -27,6 +27,12 @@ type User {
 
     "When the account was last updated."
     updated_at: DateTime!
+
+    "Stores owned by this user."
+    stores: [Store!]! @hasMany
+
+    "Store memberships for this user."
+    storeMemberships: [StoreMember!]! @hasMany
 }
 
 type Mutation {
@@ -50,6 +56,12 @@ type Mutation {
 
     "Reset password using token."
     resetPassword(input: ResetPasswordInput!): ResetPasswordResult! @field(resolver: "App\\GraphQL\\Mutations\\ResetPassword")
+
+    "Create a new store."
+    createStore(input: CreateStoreInput!): CreateStoreResult! @field(resolver: "App\\GraphQL\\Mutations\\CreateStore") @guard
+
+    "Update store settings."
+    updateStoreSettings(input: UpdateStoreSettingsInput!): UpdateStoreSettingsResult! @field(resolver: "App\\GraphQL\\Mutations\\UpdateStoreSettings") @guard
 }
 
 "Input for registering a new user."

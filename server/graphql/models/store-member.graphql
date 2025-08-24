@@ -1,0 +1,83 @@
+"Store member role enum"
+enum StoreMemberRole {
+    Owner @enum(value: "OWNER")
+    Manager @enum(value: "MANAGER")
+    Staff @enum(value: "STAFF")
+}
+
+"A store member with role-based access."
+type StoreMember {
+    "Unique primary key."
+    id: ID!
+
+    "Store this member belongs to."
+    store: Store!
+
+    "User who is the member."
+    user: User!
+
+    "Role of the member in the store."
+    role: StoreMemberRole!
+
+    "When the membership was created."
+    created_at: DateTime!
+
+    "When the membership was last updated."
+    updated_at: DateTime!
+}
+
+"Input for inviting a member to a store."
+input InviteMemberToStoreInput {
+    "Store ID."
+    storeId: ID!
+
+    "User ID to invite."
+    userId: ID!
+
+    "Role to assign to the member."
+    role: StoreMemberRole!
+}
+
+"Store member invitation response payload."
+type InviteMemberToStorePayload implements MutationSuccess {
+    "The created store membership."
+    storeMember: StoreMember!
+
+    "Success message."
+    message: String!
+}
+
+union InviteMemberToStoreResult = InviteMemberToStorePayload | MutationError
+
+"Input for removing a member from a store."
+input RemoveMemberFromStoreInput {
+    "Store ID."
+    storeId: ID!
+
+    "User ID to remove."
+    userId: ID!
+}
+
+"Store member removal response payload."
+type RemoveMemberFromStorePayload implements MutationSuccess {
+    "Success message."
+    message: String!
+}
+
+union RemoveMemberFromStoreResult = RemoveMemberFromStorePayload | MutationError
+
+extend type Query {
+    "Get all members of a specific store."
+    storeMembers(
+        "Store ID."
+        storeId: ID! @rules(apply: ["required", "exists:stores,id"])
+    ): [StoreMember!]! @field(resolver: "App\\GraphQL\\Queries\\StoreMembersQuery") @guard
+}
+
+extend type Mutation {
+    "Invite a member to a store."
+    inviteMemberToStore(input: InviteMemberToStoreInput!): InviteMemberToStoreResult! @field(resolver: "App\\GraphQL\\Mutations\\InviteMemberToStore") @guard
+
+    "Remove a member from a store."
+    removeMemberFromStore(input: RemoveMemberFromStoreInput!): RemoveMemberFromStoreResult! @field(resolver: "App\\GraphQL\\Mutations\\RemoveMemberFromStore") @guard
+}

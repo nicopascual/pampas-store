@@ -164,3 +164,4 @@ Files prefixed with `demo` can be safely deleted - they're provided as examples.
 | decoration-slice | box-decoration-slice |
 | decoration-clone | box-decoration-clone |
 </laravel-boost-guidelines>
+- memorize, the php path is in C:\Users\pascu\.config\herd\bin\php.bat

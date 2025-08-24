@@ -1,5 +1,33 @@
 {
   "permissions": {
+    "allow": [
+      "Bash(php artisan make:enum:*)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan make:test CreateStoreTest --no-interaction)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan test --filter=\"creates a store successfully\" --stop-on-failure)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan make:request UpdateStoreSettingsRequest --no-interaction)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan make:test UpdateStoreSettingsTest --no-interaction)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan test --filter=\"UpdateStoreSettingsTest\" --stop-on-failure)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan test --filter=\"validates required store ID\" --stop-on-failure)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan test --filter=\"UpdateStoreSettingsTest\")",
+      "Bash(vendor/bin/pint:*)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" vendor/bin/pint --dirty)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan make:middleware ResolveCurrentStore --no-interaction)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan make:provider GraphQLServiceProvider --no-interaction)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan make:class GraphQL/Directives/ScopeByCurrentStoreDirective --no-interaction)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan make:test TenantIsolationTest --no-interaction)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan test --filter=\"TenantIsolationTest\" --stop-on-failure)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan test --filter=\"TenantIsolationTest\")",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan make:enum StoreMemberRole --no-interaction)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan make:model StoreMember --migration --factory --no-interaction)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan make:request InviteMemberToStoreRequest --no-interaction)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan make:request RemoveMemberFromStoreRequest --no-interaction)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan make:test StoreMembershipTest --no-interaction)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan migrate)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan test --filter=\"StoreMembershipTest\" --stop-on-failure)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan test --filter=\"invites a member to store successfully\" --stop-on-failure)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan test --filter=\"validates store member invitation input\" --stop-on-failure)",
+      "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan test --filter=\"StoreMembershipTest\")"
+    ],
     "additionalDirectories": [
       "C:\\mnt\\c\\Users\\pascu\\code\\pampas-store"
     ]

@@ -1,4 +1,6 @@
 #import models/auth.graphql
+#import models/store.graphql
+#import models/store-member.graphql
 
 "A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
@@ -47,4 +49,19 @@ type Query {
       "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
       name: String @where(operator: "like")
     ): [User!]! @paginate(defaultCount: 10)
+
+    "Get all stores owned by the authenticated user."
+    myStores: [Store!]! @guard @field(resolver: "App\\GraphQL\\Queries\\MyStoresQuery")
+
+    "Find a store by slug."
+    storeBySlug(
+      "Store slug."
+      slug: String! @rules(apply: ["required", "string", "max:255"])
+    ): Store @field(resolver: "App\\GraphQL\\Queries\\StoreBySlugQuery")
+
+    "Find a store by domain."
+    storeByDomain(
+      "Store domain."
+      domain: String! @rules(apply: ["required", "string", "max:255"])
+    ): Store @field(resolver: "App\\GraphQL\\Queries\\StoreByDomainQuery")
 }

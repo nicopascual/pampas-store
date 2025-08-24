@@ -1,0 +1,89 @@
+"Store plan enum"
+enum StorePlan {
+    FREE @enum(value: "FREE")
+    PRO @enum(value: "PRO")
+    ENTERPRISE @enum(value: "ENTERPRISE")
+}
+
+"Store status enum"
+enum StoreStatus {
+    ACTIVE @enum(value: "ACTIVE")
+    SUSPENDED @enum(value: "SUSPENDED")
+    DELETED @enum(value: "DELETED")
+}
+
+"A store in the e-commerce platform."
+type Store {
+    "Unique primary key."
+    id: ID!
+
+    "Store name."
+    name: String!
+
+    "Unique slug for subdomain handling."
+    slug: String!
+
+    "Store owner."
+    owner: User!
+
+    "Custom domain (optional)."
+    domain: String
+
+    "Store plan."
+    plan: StorePlan!
+
+    "Store status."
+    status: StoreStatus!
+
+    "When the store was created."
+    created_at: DateTime!
+
+    "When the store was last updated."
+    updated_at: DateTime!
+
+    "Store members."
+    members: [StoreMember!]! @hasMany
+}
+
+"Input for creating a new store."
+input CreateStoreInput {
+    "Store name."
+    name: String!
+
+    "Custom domain (optional)."
+    domain: String
+}
+
+"Store creation response payload."
+type CreateStorePayload implements MutationSuccess {
+    "The created store."
+    store: Store!
+
+    "Success message."
+    message: String!
+}
+
+union CreateStoreResult = CreateStorePayload | MutationError
+
+"Input for updating store settings."
+input UpdateStoreSettingsInput {
+    "Store name."
+    name: String
+
+    "Custom domain (optional)."
+    domain: String
+
+    "Store plan."
+    plan: StorePlan
+}
+
+"Store settings update response payload."
+type UpdateStoreSettingsPayload implements MutationSuccess {
+    "The updated store."
+    store: Store!
+
+    "Success message."
+    message: String!
+}
+
+union UpdateStoreSettingsResult = UpdateStoreSettingsPayload | MutationError
