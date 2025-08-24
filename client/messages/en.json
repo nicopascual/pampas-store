@@ -1,8 +1,0 @@
-{
-  "$schema": "https://inlang.com/schema/inlang-message-format",
-  "example_message": "Hello world {username}",
-  "email": "Email",
-  "password": "Password",
-  "field_required": "{field} is required",
-  "email_valid": "Please provide a valid email"
-}

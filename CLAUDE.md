@@ -27,14 +27,14 @@ This is **Pampas Store**, an e-commerce platform designed specifically for Latin
 
 ### Frontend Development (client/)
 ```bash
-npm install           # Install dependencies
-npm run dev          # Development server (port 3000)
-npm run build        # Production build
-npm run start        # Start production server
-npm run test         # Run Vitest tests
-npm run lint         # ESLint check
-npm run format       # Prettier format
-npm run check        # Format and lint fix
+pnpm install          # Install dependencies
+pnpm run dev          # Development server (port 3000)
+pnpm run build        # Production build
+pnpm run start        # Start production server
+pnpm run test         # Run Vitest tests
+pnpm run lint         # ESLint check
+pnpm run format       # Prettier format
+pnpm run check        # Format and lint fix
 ```
 
 ### Backend Development (server/)
