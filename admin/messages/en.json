@@ -15,5 +15,8 @@
 	"validation.email.max": "Email must be at most {max} characters",
 	"validation.password.required": "Password is required",
 	"validation.password.min": "Password must be at least {min} characters",
-	"validation.password.max": "Password must be at most {max} characters"
+	"validation.password.max": "Password must be at most {max} characters",
+	"login.error.network": "Network error occurred. Please try again.",
+	"login.error.unexpected": "Unexpected server response. Please try again.",
+	"login.error.credentials": "Login failed. Please check your credentials and try again."
 }

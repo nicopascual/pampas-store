@@ -11,6 +11,9 @@ importers:
       '@inlang/paraglide-js':
         specifier: ^2.0.0
         version: 2.2.0
+      lucide-svelte:
+        specifier: ^0.542.0
+        version: 0.542.0(svelte@5.38.5)
       zod:
         specifier: 4.0.10
         version: 4.0.10
@@ -1768,6 +1771,11 @@ packages:
   lru-cache@11.1.0:
     resolution: {integrity: sha512-QIXZUBJUx+2zHUdQujWejBkcD9+cs94tLn0+YL8UrCh+D5sCXZ4c7LaEH48pNwRY3MLDgqUFyhlCyjJPf1WP0A==}
     engines: {node: 20 || >=22}
+
+  lucide-svelte@0.542.0:
+    resolution: {integrity: sha512-KxqJycY4EWaGy1zk/7sqEcf48j4YaP9zEujYczzrsw5j9b9b5pjAJ1qGFKZvD7T6xz9reSYAfUAd6Bz62TdqGw==}
+    peerDependencies:
+      svelte: ^3 || ^4 || ^5.0.0-next.42
 
   lz-string@1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
@@ -4183,6 +4191,10 @@ snapshots:
   lru-cache@10.4.3: {}
 
   lru-cache@11.1.0: {}
+
+  lucide-svelte@0.542.0(svelte@5.38.5):
+    dependencies:
+      svelte: 5.38.5
 
   lz-string@1.5.0: {}
 

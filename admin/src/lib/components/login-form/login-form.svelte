@@ -2,7 +2,8 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import * as Form from '$lib/components/ui/form';
-	import { Input } from '$lib/components/ui/input';
+	import { Input, PasswordInput } from '$lib/components/ui/input';
+	import FormErrorAlert from '$lib/components/ui/form-error-alert.svelte';
 	import * as m from '$lib/paraglide/messages';
 
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
@@ -15,7 +16,7 @@
 		validators: zod4Client(loginForm)
 	});
 
-	const { form: formData, enhance } = form;
+	const { form: formData, enhance, message } = form;
 </script>
 
 <Card.Root class="mx-auto w-full max-w-sm">
@@ -25,6 +26,9 @@
 	</Card.Header>
 	<Card.Content>
 		<form method="POST" use:enhance>
+			{#if $message}
+				<FormErrorAlert description={$message} class="mb-4" />
+			{/if}
 			<div class="grid gap-4">
 				<div class="grid gap-2">
 					<Form.Field {form} name="email">
@@ -38,17 +42,15 @@
 					</Form.Field>
 				</div>
 				<div class="grid gap-2">
-					<div class="flex items-center">
-						<Form.Field {form} name="password">
-							<Form.Control>
-								{#snippet children({ props })}
-									<Form.Label>{m['login.password.label']()}</Form.Label>
-									<Input {...props} bind:value={$formData.password} type="password" />
-								{/snippet}
-							</Form.Control>
-							<Form.FieldErrors />
-						</Form.Field>
-					</div>
+					<Form.Field {form} name="password">
+						<Form.Control>
+							{#snippet children({ props })}
+								<Form.Label>{m['login.password.label']()}</Form.Label>
+								<PasswordInput {...props} bind:value={$formData.password} />
+							{/snippet}
+						</Form.Control>
+						<Form.FieldErrors />
+					</Form.Field>
 				</div>
 				<Form.Button type="submit" class="w-full">{m['login.submit']()}</Form.Button>
 				<Button variant="outline" class="w-full">

@@ -15,5 +15,8 @@
 	"validation.email.max": "El email debe tener como máximo {max} caracteres",
 	"validation.password.required": "La contraseña es obligatoria",
 	"validation.password.min": "La contraseña debe tener al menos {min} caracteres",
-	"validation.password.max": "La contraseña debe tener como máximo {max} caracteres"
+	"validation.password.max": "La contraseña debe tener como máximo {max} caracteres",
+	"login.error.network": "Error de red. Por favor inténtalo de nuevo.",
+	"login.error.unexpected": "Respuesta inesperada del servidor. Por favor inténtalo de nuevo.",
+	"login.error.credentials": "Error de inicio de sesión. Por favor verifica tus credenciales e inténtalo de nuevo."
 }

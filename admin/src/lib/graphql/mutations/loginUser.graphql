@@ -1,0 +1,20 @@
+mutation loginUser($input: LoginUserInput!) {
+	loginUser(input: $input) {
+		... on MutationError {
+            message
+            code
+			validationErrors {
+				field
+				messages
+			}
+		}
+		... on LoginUserPayload {
+			user {
+				id
+			}
+			message
+			accessToken
+			refreshToken
+		}
+	}
+}
