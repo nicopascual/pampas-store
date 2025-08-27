@@ -50,6 +50,9 @@ input CreateStoreInput {
     "Store name."
     name: String!
 
+    "Unique slug for subdomain handling."
+    slug: String!
+
     "Custom domain (optional)."
     domain: String
 }

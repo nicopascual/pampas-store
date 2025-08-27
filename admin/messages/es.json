@@ -1,0 +1,19 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"hello_world": "Hello, {name} from es!",
+	"login.title": "Iniciar Sesión",
+	"login.description": "Introduce tu email para iniciar sesión en tu cuenta",
+	"login.email.label": "Email",
+	"login.password.label": "Contraseña",
+	"login.submit": "Iniciar Sesión",
+	"login.google": "Iniciar Sesión con Google",
+	"login.signup.text": "¿No tienes una cuenta?",
+	"login.signup.link": "Regístrate",
+	"validation.email.required": "El email es obligatorio",
+	"validation.email.invalid": "Por favor introduce un email válido",
+	"validation.email.min": "El email debe tener al menos {min} caracteres",
+	"validation.email.max": "El email debe tener como máximo {max} caracteres",
+	"validation.password.required": "La contraseña es obligatoria",
+	"validation.password.min": "La contraseña debe tener al menos {min} caracteres",
+	"validation.password.max": "La contraseña debe tener como máximo {max} caracteres"
+}

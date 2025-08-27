@@ -2,123 +2,80 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Common Commands
+## Project Overview
+
+This is a SvelteKit-based admin application for the Pampas Store, featuring internationalization support and modern UI components. The project uses Svelte 5, TypeScript, TailwindCSS, and shadcn-svelte components.
+
+## Commands
 
 ### Development
-- `pnpm dev` - Start development server on http://localhost:3000
-- `pnpm build` - Build application for production
-- `pnpm preview` - Preview production build locally
-- `pnpm install` - Install dependencies
+- `npm run dev` - Start development server on port 3000
+- `npm run dev -- --open` - Start dev server and open browser
 
-### Code Generation & GraphQL
-- `pnpm codegen` - Generate TypeScript types from GraphQL schema
-- `pnpm codegen:watch` - Watch mode for GraphQL code generation
+### Building & Preview
+- `npm run build` - Create production build
+- `npm run preview` - Preview production build
+
+### Code Quality
+- `npm run check` - Type check with svelte-check
+- `npm run check:watch` - Type check in watch mode
+- `npm run lint` - Run prettier check and ESLint
+- `npm run format` - Format code with prettier
+
+### Testing
+- `npm run test:unit` - Run unit tests with Vitest
+- `npm run test:e2e` - Run end-to-end tests with Playwright
+- `npm run test` - Run both unit and e2e tests
+
+## Architecture
+
+### Core Technologies
+- **SvelteKit**: Full-stack framework with adapter-auto
+- **Svelte 5**: Component framework with new syntax ($props, {@render})
+- **TypeScript**: Strict mode enabled with bundler module resolution
+- **TailwindCSS 4.0**: Utility-first CSS with Vite plugin
+- **Vite**: Build tool and dev server
+
+### Internationalization (i18n)
+- **Paraglide JS**: Type-safe i18n with inlang integration
+- **Supported locales**: English (en), Spanish (es), Portuguese (pt)
+- **Message files**: Located in `messages/{locale}.json`
+- **Generated code**: Auto-generated in `src/lib/paraglide/`
+- **Middleware**: Handles locale detection and URL rewriting via hooks
 
 ### UI Components
-- `pnpm shadcn:add <component>` - Add shadcn/ui components
+- **shadcn-svelte**: Modern component library with bits-ui primitives
+- **Components**: Located in `src/lib/components/ui/`
+- **Utilities**: `cn()` function for conditional class merging
+- **Theme**: Stone base color scheme
+- **Icons**: Lucide Svelte for consistent iconography
 
-### Linting
-- ESLint is configured via `.nuxt/eslint.config.mjs` (auto-generated)
-
-## Architecture Overview
-
-This is a **Nuxt 4** admin panel application with the following key architectural decisions:
-
-### Framework Stack
-- **Nuxt 4** with Vue 3 and TypeScript
-- **TailwindCSS 4** for styling with Vite plugin integration
-- **shadcn/ui** components (New York style) with Lucide icons
-- **Apollo Client** for GraphQL API communication
-- **Nuxt i18n** for internationalization (English, Spanish, Portuguese)
+### Testing Setup
+- **Unit Tests**: Vitest with browser mode using Playwright
+- **E2E Tests**: Playwright with automated build and preview
+- **Component Tests**: Svelte-specific testing with vitest-browser-svelte
+- **Test Files**: `.spec.ts` and `.test.ts` patterns supported
 
 ### Project Structure
-- `app/` - Main application directory (Nuxt 4 structure)
-  - `app.vue` - Root application component
-  - `components/ui/` - shadcn/ui components
-  - `lib/utils.ts` - Utility functions
-  - `assets/css/tailwind.css` - TailwindCSS entry point
-- `graphql/queries/` - GraphQL query definitions
-- `i18n/locales/` - Translation files (en.json, es.json, pt.json)
-- `types/graphql.ts` - Auto-generated GraphQL TypeScript types
+- `src/routes/` - SvelteKit pages and layouts
+- `src/lib/components/` - Reusable Svelte components
+- `src/lib/components/ui/` - shadcn-svelte UI components
+- `src/lib/paraglide/` - Auto-generated i18n code (do not edit manually)
+- `src/hooks.ts` - Client-side hooks for URL handling
+- `src/hooks.server.ts` - Server-side hooks for i18n middleware
+- `messages/` - Translation files
+- `e2e/` - End-to-end test files
 
-### Key Configuration
-- **Path alias**: `@/*` maps to `./app/*`
-- **GraphQL endpoint**: `http://server.test/graphql`
-- **Component directory**: `./app/components/ui` for shadcn components
-- **i18n strategy**: `no_prefix` with browser language detection
+### Key Configuration Files
+- `components.json` - shadcn-svelte configuration with path aliases
+- `project.inlang/settings.json` - Internationalization settings
+- `vite.config.ts` - Vite configuration with Paraglide plugin
+- `svelte.config.js` - SvelteKit configuration with adapter-auto
 
-### GraphQL Integration
-- Uses `@graphql-codegen/cli` to generate types from schema
-- Apollo client configured for GraphQL endpoint
-- Vue composition functions generated for queries/mutations
-- GraphQL files are watched for auto-generation
-
-### Styling & UI
-- TailwindCSS 4 with CSS variables for theming
-- shadcn/ui components with neutral base color
-- Component aliases configured in `components.json`
-- Lucide icons as the icon library
-
-### Development Workflow
-1. GraphQL schema changes trigger automatic type generation
-2. Components use generated composables for type-safe GraphQL operations
-3. i18n keys should be added to all three locale files
-4. New UI components added via `pnpm shadcn:add`
-
-You are an expert in TypeScript, Node.js, NuxtJS, Vue 3, Shadcn Vue, Radix Vue, VueUse, and Tailwind.
-
-   Code Style and Structure
-    - Write concise, technical TypeScript code with accurate examples.
-    - Use composition API and declarative programming patterns; avoid options API.
-    - Prefer iteration and modularization over code duplication.
-    - Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
-    - Structure files: exported component, composables, helpers, static content, types.
-
-   Naming Conventions
-    - Use lowercase with dashes for directories (e.g., components/auth-wizard).
-    - Use PascalCase for component names (e.g., AuthWizard.vue).
-    - Use camelCase for composables (e.g., useAuthState.ts).
-
-   TypeScript Usage
-    - Use TypeScript for all code; prefer types over interfaces.
-    - Avoid enums; use const objects instead.
-    - Use Vue 3 with TypeScript, leveraging defineComponent and PropType.
-
-   Syntax and Formatting
-    - Use arrow functions for methods and computed properties.
-    - Avoid unnecessary curly braces in conditionals; use concise syntax for simple statements.
-    - Use template syntax for declarative rendering.
-
-   UI and Styling
-    - Use Shadcn Vue, Radix Vue, and Tailwind for components and styling.
-    - Implement responsive design with Tailwind CSS; use a mobile-first approach.
-
-   Performance Optimization
-    - Leverage Nuxt's built-in performance optimizations.
-    - Use Suspense for asynchronous components.
-    - Implement lazy loading for routes and components.
-    - Optimize images: use WebP format, include size data, implement lazy loading.
-
-   Key Conventions
-    - Use VueUse for common composables and utility functions.
-    - Optimize Web Vitals (LCP, CLS, FID).
-    - Utilize Nuxt's auto-imports feature for components and composables.
-
-   Nuxt-specific Guidelines
-    - Follow Nuxt 4 directory structure (e.g., pages/, components/, composables/).
-    - Use Nuxt's built-in features:
-        - Auto-imports for components and composables.
-        - File-based routing in the pages/ directory.
-        - Server routes in the server/ directory.
-        - Leverage Nuxt plugins for global functionality.
-    - Use useFetch and useAsyncData for data fetching.
-    - Implement SEO best practices using Nuxt's useHead and useSeoMeta.
-
-   Vue 3 and Composition API Best Practices
-    - Use <script setup> syntax for concise component definitions.
-    - Leverage ref, reactive, and computed for reactive state management.
-    - Use provide/inject for dependency injection when appropriate.
-    - Implement custom composables for reusable logic.
-
-   Follow the official Nuxt.js and Vue.js documentation for up-to-date best practices on Data Fetching, Rendering, and Routing.
-      
+### Development Patterns
+- Use `$props()` for component properties in Svelte 5
+- Use `{@render children?.()}` for slot content
+- Import UI components from `$lib/components/ui/` barrel exports
+- Use `cn()` utility for conditional class names
+- Follow existing TypeScript strict mode conventions
+- always use pnpm as the package manager

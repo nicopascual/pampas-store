@@ -169,7 +169,7 @@ it('handles removing non-existent member', function () {
     ', ['input' => $input]);
 
     $response->assertOk();
-    expect($response->json('data.removeMemberFromStore.message'))->toBe('User is not a member of this store.')
+    expect($response->json('data.removeMemberFromStore.message'))->toBe('Member not found in this store.')
         ->and($response->json('data.removeMemberFromStore.code'))->toBe('NOT_A_MEMBER');
 });
 

@@ -8,6 +8,7 @@
       "Bash(\"C:\\Users\\pascu\\.config\\herd\\bin\\php.bat\" artisan test tests/Feature/CreateStoreTest.php)"
     ]
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "laravel-boost",
     "herd"

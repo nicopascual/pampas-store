@@ -15,6 +15,7 @@ class CreateStoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'slug' => ['required', 'string', 'max:255', 'unique:stores,slug'],
             'domain' => ['nullable', 'string', 'max:255', 'unique:stores,domain'],
         ];
     }
@@ -23,6 +24,7 @@ class CreateStoreRequest extends FormRequest
     {
         return [
             'name' => 'store name',
+            'slug' => 'slug',
             'domain' => 'domain',
         ];
     }
@@ -32,6 +34,9 @@ class CreateStoreRequest extends FormRequest
         return [
             'name.required' => 'The store name is required.',
             'name.max' => 'The store name must not exceed 255 characters.',
+            'slug.required' => 'The slug is required.',
+            'slug.unique' => 'This slug is already taken.',
+            'slug.max' => 'The slug must not exceed 255 characters.',
             'domain.unique' => 'This domain is already taken.',
             'domain.max' => 'The domain must not exceed 255 characters.',
         ];
