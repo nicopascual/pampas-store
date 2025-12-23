@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
-import SignInForm from "@/components/sign-in-form";
+import SignUpForm from "@/components/sign-up-form";
 
-export const Route = createFileRoute("/login")({
+export const Route = createFileRoute("/sign-up")({
 	component: RouteComponent,
 });
 
@@ -10,6 +10,6 @@ function RouteComponent() {
 	const navigate = useNavigate();
 
 	return (
-		<SignInForm onSwitchToSignUp={() => navigate({ to: "/sign-up" })} />
+		<SignUpForm onSwitchToSignIn={() => navigate({ to: "/login" })} />
 	);
 }
