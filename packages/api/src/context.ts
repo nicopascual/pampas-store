@@ -1,4 +1,10 @@
-import { auth } from "@pampas-store/auth";
+import {
+	type AdminSession,
+	type AuthDomain,
+	adminAuth,
+	type CustomerSession,
+	customerAuth,
+} from "@pampas-store/auth";
 import type { Context as ElysiaContext } from "elysia";
 
 import {
@@ -74,16 +80,60 @@ function extractLocaleFromRequest(request: Request): SupportedLocale {
 	return DEFAULT_LOCALE;
 }
 
+// Detect which auth domain based on cookies present
+function detectAuthDomain(request: Request): AuthDomain {
+	const cookieHeader = request.headers.get("cookie");
+	if (!cookieHeader) return null;
+
+	const cookies = parseCookies(cookieHeader);
+
+	// Check for admin session cookie first (more restrictive)
+	// Better-Auth uses format: {prefix}.session_token
+	if (cookies["admin.session_token"]) {
+		return "admin";
+	}
+
+	// Check for customer session cookie
+	if (cookies["customer.session_token"]) {
+		return "customer";
+	}
+
+	return null;
+}
+
 export async function createContext({ context }: CreateContextOptions) {
-	const session = await auth.api.getSession({
-		headers: context.request.headers,
-	});
+	const authDomain = detectAuthDomain(context.request);
+
+	let customerSession: CustomerSession | null = null;
+	let adminSession: AdminSession | null = null;
+
+	// Only fetch the session for the detected domain
+	if (authDomain === "customer") {
+		customerSession = await customerAuth.api.getSession({
+			headers: context.request.headers,
+		});
+	} else if (authDomain === "admin") {
+		adminSession = await adminAuth.api.getSession({
+			headers: context.request.headers,
+		});
+	}
 
 	const locale = extractLocaleFromRequest(context.request);
 	const t = getTranslator(locale);
 
 	return {
-		session,
+		// Domain identification
+		authDomain,
+
+		// Separate session objects - NEVER mixed
+		customerSession,
+		adminSession,
+
+		// Convenience getters
+		isCustomerAuthenticated: !!customerSession?.user,
+		isAdminAuthenticated: !!adminSession?.user,
+
+		// Locale
 		locale,
 		t,
 	};

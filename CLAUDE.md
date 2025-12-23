@@ -43,9 +43,46 @@ cd apps/server && bun run compile  # Compile server to standalone binary
 - **apps/web** - Frontend (TanStack Start + React 19 + TanStack Router)
 - **apps/server** - Backend API (Elysia + ORPC)
 - **packages/api** - Shared ORPC router definitions (procedures, types)
-- **packages/auth** - Better-Auth configuration
+- **packages/auth** - Better-Auth configuration (dual Customer/Admin instances)
 - **packages/db** - Prisma ORM schema and client
 - **packages/config** - Shared TypeScript configuration
+
+### E-Commerce Domain Architecture
+
+This is an e-commerce backend with **strict separation** between Customer and Admin domains (DDD bounded contexts).
+
+**Two User Domains:**
+1. **Customers** - Storefront users (shoppers)
+2. **Admins** - Back-office users (staff)
+
+These are intentionally NOT unified into a single users table for security, clean domain boundaries, and simpler authorization.
+
+**Database Schema Files:**
+```
+packages/db/prisma/schema/
+├── schema.prisma      # Prisma config (SQLite, Bun runtime)
+├── customer.prisma    # Customer domain models
+├── admin.prisma       # Admin domain models
+├── auth.prisma        # Legacy Better-Auth models (deprecated)
+└── todo.prisma        # Example app models
+```
+
+**Customer Domain Models:**
+- `CustomerGroup` - Customer segmentation
+- `Customer` - Core customer (Better-Auth User equivalent)
+- `CustomerSession` - Customer sessions
+- `CustomerAccount` - OAuth/credential accounts
+- `CustomerVerification` - Email verification tokens
+- `Wishlist` - Product wishlists
+- `CompareItem` - Product comparison
+- `CustomerNote` - Admin notes on customers
+
+**Admin Domain Models:**
+- `AdminRole` - Roles with JSON permissions
+- `Admin` - Core admin user
+- `AdminSession` - Admin sessions
+- `AdminAccount` - Credential accounts
+- `AdminVerification` - Email verification tokens
 
 ### ORPC Communication Layer
 
@@ -61,28 +98,57 @@ cd apps/server && bun run compile  # Compile server to standalone binary
 
 **Procedure Types (packages/api):**
 - `publicProcedure` - No authentication required
-- `protectedProcedure` - Enforces authentication via middleware
+- `customerProcedure` - Requires customer session (rejects admin sessions)
+- `adminProcedure` - Requires admin session (rejects customer sessions)
+- `customerManagementProcedure` - Admin with `customers:read`, `customers:write` permissions
+- `roleManagementProcedure` - Admin with `roles:manage` permission
+- `superAdminProcedure` - Admin with `*` (all) permissions
+- `protectedProcedure` - (Deprecated) Accepts either customer or admin session
 
 **Usage Pattern:**
 ```typescript
-// In React components
-const { data } = orpc.todo.getAll.useQuery();
-const mutation = orpc.todo.create.useMutation();
+// In React components (customer storefront)
+const { data } = orpc.customer.getProfile.useQuery();
+const { data } = orpc.customer.wishlist.getAll.useQuery();
+
+// Admin procedures
+const { data } = orpc.admin.customers.list.useQuery({ page: 1, limit: 20 });
 ```
 
-### Authentication Flow
+### Authentication Flow (Dual-Auth)
 
 **Setup (packages/auth):**
-- Better-Auth configured with Prisma adapter (SQLite)
-- Email/password authentication enabled
-- Cookie-based sessions (httpOnly, secure, sameSite=none)
+- **Two separate Better-Auth instances** for strict domain separation
+- `customerAuth` at `/api/customer-auth/*` - Email/password + Google OAuth
+- `adminAuth` at `/api/admin-auth/*` - Email/password only
+- Cookie isolation via prefixes: `customer.*` vs `admin.*`
 
-**Authentication Process:**
-1. Frontend: `authClient.signIn.email()` from `apps/web/src/lib/auth-client.ts`
-2. Session stored in database (Better-Auth handles)
-3. Subsequent requests include session cookie
-4. Backend: `auth.api.getSession()` extracts session from headers
-5. Protected procedures validate session via `authMiddleware`
+**Auth Package Structure:**
+```
+packages/auth/src/
+├── index.ts           # Exports both auth instances
+├── customer/index.ts  # Customer Better-Auth config
+└── admin/index.ts     # Admin Better-Auth config
+```
+
+**Customer Authentication:**
+1. Frontend: `authClient.signIn.email()` (basePath: `/api/customer-auth`)
+2. Session stored in `customer_session` table
+3. Cookie: `customer.session_token`
+4. Backend: `customerAuth.api.getSession()` validates
+5. `customerProcedure` middleware enforces customer-only access
+
+**Admin Authentication:**
+1. Admin app: `adminAuthClient.signIn.email()` (basePath: `/api/admin-auth`)
+2. Session stored in `admin_session` table
+3. Cookie: `admin.session_token`
+4. Backend: `adminAuth.api.getSession()` validates
+5. `adminProcedure` middleware enforces admin-only access
+
+**Security Guarantees:**
+- Admin sessions CANNOT authenticate as customers
+- Customer sessions CANNOT access admin routes
+- Cross-domain attempts throw `FORBIDDEN` error
 
 **Route Protection (apps/web):**
 - Use `beforeLoad` hook in TanStack Router to check authentication
@@ -91,12 +157,12 @@ const mutation = orpc.todo.create.useMutation();
 ### Database Access Patterns
 
 **Prisma Setup (packages/db):**
-- Split schema: `auth.prisma` (Better-Auth models) + `todo.prisma` (app models)
+- Split schema files: `customer.prisma`, `admin.prisma`, `todo.prisma`
 - LibSQL adapter for SQLite/Turso compatibility
 - Default export: single Prisma client instance
 
 **Access Pattern:**
-- ORPC procedures call Prisma methods directly: `prisma.todo.create()`
+- ORPC procedures call Prisma methods directly: `prisma.customer.findMany()`
 - Input validation via Zod schemas at procedure level
 - No direct Prisma access from frontend (always through ORPC)
 
@@ -104,6 +170,29 @@ const mutation = orpc.todo.create.useMutation();
 1. Edit schema files in `packages/db/prisma/schema/`
 2. Run `bun run db:push` to sync with database
 3. Prisma client auto-regenerates (used in `packages/db/src/index.ts`)
+
+### API Domain Structure
+
+```
+packages/api/src/
+├── index.ts                    # Procedure exports
+├── context.ts                  # Dual-auth context (detects customer vs admin)
+├── middleware/
+│   ├── customer-auth.ts        # customerProcedure
+│   ├── admin-auth.ts           # adminProcedure
+│   └── permissions.ts          # Role-based permission procedures
+├── domains/
+│   ├── customers/router.ts     # Customer-facing procedures
+│   └── admin/router.ts         # Admin-only procedures
+└── routers/
+    └── index.ts                # Combined appRouter
+```
+
+**Available API Routes:**
+- `orpc.customer.*` - Customer domain (profile, wishlist, compare)
+- `orpc.admin.*` - Admin domain (customer management, roles)
+- `orpc.todo.*` - Legacy example routes
+- `orpc.healthCheck` - Public health check
 
 ### State Management
 
@@ -200,10 +289,14 @@ HTTP Request → Elysia → RPCHandler → Procedure Middleware → Handler → 
 ## Key Development Patterns
 
 ### Adding New API Endpoints
-1. Define Zod input schema in `packages/api/src/procedures/`
-2. Create procedure using `publicProcedure` or `protectedProcedure`
-3. Add procedure to router in `packages/api/src/router.ts`
-4. Frontend automatically gets type-safe access via `orpc.newProcedure.useQuery()`
+1. Define Zod input schema in the domain router file
+2. Create procedure using appropriate middleware:
+   - `publicProcedure` - No auth required
+   - `customerProcedure` - Customer-only access
+   - `adminProcedure` - Admin-only access
+   - `customerManagementProcedure` - Admin with customer permissions
+3. Add procedure to domain router (`domains/customers/router.ts` or `domains/admin/router.ts`)
+4. Frontend automatically gets type-safe access via `orpc.domain.procedure.useQuery()`
 
 ### Adding New Database Models
 1. Create new schema file in `packages/db/prisma/schema/` (e.g., `mymodel.prisma`)
@@ -274,11 +367,26 @@ function MyComponent() {
 ```
 DATABASE_URL=file:./local.db
 CORS_ORIGIN=http://localhost:3001
+ADMIN_CORS_ORIGIN=http://localhost:3002
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
 ```
 
 **apps/web/.env:**
 ```
 VITE_SERVER_URL=http://localhost:3000
+```
+
+## Test Credentials
+
+**Admin User:**
+- Email: `nico@test.com`
+- Password: `password158`
+- Role: Super Admin (`["*"]` permissions)
+
+**Seed Script:**
+```bash
+cd packages/db && bun run src/seed-admin.ts
 ```
 
 ## Important Notes

@@ -1,0 +1,136 @@
+// Customer Groups
+model CustomerGroup {
+  id            String     @id @default(cuid())
+  code          String     @unique
+  name          String
+  isUserDefined Boolean    @default(true)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  customers     Customer[]
+
+  @@index([code])
+  @@map("customer_group")
+}
+
+// Core Customer model (Better-Auth User equivalent)
+model Customer {
+  id              String    @id @default(cuid())
+  firstName       String
+  lastName        String
+  email           String    @unique
+  emailVerified   Boolean   @default(false)
+  phone           String?
+  image           String?
+  status          String    @default("active") // active, inactive, suspended
+  isSuspended     Boolean   @default(false)
+  customerGroupId String?
+  channelId       String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  customerGroup CustomerGroup?    @relation(fields: [customerGroupId], references: [id])
+  sessions      CustomerSession[]
+  accounts      CustomerAccount[]
+  wishlists     Wishlist[]
+  compareItems  CompareItem[]
+  notes         CustomerNote[]
+
+  @@index([email])
+  @@index([customerGroupId])
+  @@index([status])
+  @@map("customer")
+}
+
+// Customer Session (Better-Auth Session equivalent)
+model CustomerSession {
+  id         String   @id @default(cuid())
+  expiresAt  DateTime
+  token      String   @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  ipAddress  String?
+  userAgent  String?
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@index([customerId])
+  @@index([token])
+  @@map("customer_session")
+}
+
+// Customer Account (Better-Auth Account equivalent - for OAuth)
+model CustomerAccount {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String // "credential", "google", etc.
+  customerId            String
+  customer              Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String? // Hashed password for credential provider
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([customerId])
+  @@index([providerId, accountId])
+  @@map("customer_account")
+}
+
+// Customer Verification (for email verification, password reset)
+model CustomerVerification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("customer_verification")
+}
+
+// Wishlist
+model Wishlist {
+  id          String   @id @default(cuid())
+  customerId  String
+  productId   String
+  channelId   String?
+  optionsJson String? // JSON stored as text in SQLite
+  createdAt   DateTime @default(now())
+  customer    Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@unique([customerId, productId])
+  @@index([customerId])
+  @@index([productId])
+  @@map("wishlist")
+}
+
+// Compare Items
+model CompareItem {
+  id         String   @id @default(cuid())
+  customerId String
+  productId  String
+  createdAt  DateTime @default(now())
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@unique([customerId, productId])
+  @@index([customerId])
+  @@map("compare_item")
+}
+
+// Customer Notes (admin-added notes about customers)
+model CustomerNote {
+  id         String   @id @default(cuid())
+  customerId String
+  note       String
+  createdAt  DateTime @default(now())
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@index([customerId])
+  @@map("customer_note")
+}

@@ -7,7 +7,7 @@ import { RPCHandler } from "@orpc/server/fetch";
 import { ZodToJsonSchemaConverter } from "@orpc/zod/zod4";
 import { createContext } from "@pampas-store/api/context";
 import { appRouter } from "@pampas-store/api/routers/index";
-import { auth } from "@pampas-store/auth";
+import { adminAuth, customerAuth } from "@pampas-store/auth";
 import { Elysia } from "elysia";
 
 const rpcHandler = new RPCHandler(appRouter, {
@@ -33,19 +33,32 @@ const apiHandler = new OpenAPIHandler(appRouter, {
 new Elysia()
 	.use(
 		cors({
-			origin: process.env.CORS_ORIGIN || "",
+			origin: [
+				process.env.CORS_ORIGIN || "",
+				process.env.ADMIN_CORS_ORIGIN || "",
+			].filter(Boolean),
 			methods: ["GET", "POST", "OPTIONS"],
 			allowedHeaders: ["Content-Type", "Authorization"],
 			credentials: true,
 		}),
 	)
-	.all("/api/auth/*", async (context) => {
+	// Customer auth routes
+	.all("/api/customer-auth/*", async (context) => {
 		const { request, status } = context;
 		if (["POST", "GET"].includes(request.method)) {
-			return auth.handler(request);
+			return customerAuth.handler(request);
 		}
 		return status(405);
 	})
+	// Admin auth routes
+	.all("/api/admin-auth/*", async (context) => {
+		const { request, status } = context;
+		if (["POST", "GET"].includes(request.method)) {
+			return adminAuth.handler(request);
+		}
+		return status(405);
+	})
+	// RPC routes with domain-aware context
 	.all("/rpc*", async (context) => {
 		const ctx = await createContext({ context });
 		const { response } = await rpcHandler.handle(context.request, {

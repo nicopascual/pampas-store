@@ -22,8 +22,6 @@ function RouteComponent() {
 	const navigate = useNavigate();
 
 	return (
-		<EmailSignUpForm
-			onSwitchToSignIn={() => navigate({ to: "/login" })}
-		/>
+		<EmailSignUpForm onSwitchToSignIn={() => navigate({ to: "/login" })} />
 	);
 }

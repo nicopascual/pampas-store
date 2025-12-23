@@ -3,5 +3,11 @@
 	"forbidden": "You do not have permission to perform this action",
 	"notFound": "The requested resource was not found",
 	"badRequest": "Invalid request",
-	"internalError": "An unexpected error occurred. Please try again later"
+	"internalError": "An unexpected error occurred. Please try again later",
+	"wrongAuthDomain": "Invalid authentication method for this resource",
+	"accountSuspended": "Your account has been suspended",
+	"accountInactive": "Your account is not active",
+	"noRoleAssigned": "No role assigned to your account",
+	"roleNotFound": "Your assigned role could not be found",
+	"insufficientPermissions": "You do not have permission to perform this action"
 }

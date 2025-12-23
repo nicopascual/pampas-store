@@ -3,5 +3,11 @@
 	"forbidden": "Voce nao tem permissao para realizar esta acao",
 	"notFound": "O recurso solicitado nao foi encontrado",
 	"badRequest": "Solicitacao invalida",
-	"internalError": "Ocorreu um erro inesperado. Por favor, tente novamente mais tarde"
+	"internalError": "Ocorreu um erro inesperado. Por favor, tente novamente mais tarde",
+	"wrongAuthDomain": "Metodo de autenticacao invalido para este recurso",
+	"accountSuspended": "Sua conta foi suspensa",
+	"accountInactive": "Sua conta nao esta ativa",
+	"noRoleAssigned": "Nenhum cargo atribuido a sua conta",
+	"roleNotFound": "O cargo atribuido nao foi encontrado",
+	"insufficientPermissions": "Voce nao tem permissao para realizar esta acao"
 }

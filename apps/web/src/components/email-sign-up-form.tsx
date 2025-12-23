@@ -85,7 +85,6 @@ export default function EmailSignUpForm({
 		},
 	});
 
-
 	if (isPending) {
 		return (
 			<div className="flex min-h-screen items-center justify-center">

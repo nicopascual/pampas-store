@@ -9,7 +9,5 @@ export const Route = createFileRoute("/login")({
 function RouteComponent() {
 	const navigate = useNavigate();
 
-	return (
-		<SignInForm onSwitchToSignUp={() => navigate({ to: "/sign-up" })} />
-	);
+	return <SignInForm onSwitchToSignUp={() => navigate({ to: "/sign-up" })} />;
 }

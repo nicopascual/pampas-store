@@ -1,20 +1,18 @@
-import prisma from "@pampas-store/db";
-import { betterAuth } from "better-auth";
-import { prismaAdapter } from "better-auth/adapters/prisma";
+// Customer Auth
 
-export const auth = betterAuth({
-	database: prismaAdapter(prisma, {
-		provider: "sqlite",
-	}),
-	trustedOrigins: [process.env.CORS_ORIGIN || ""],
-	emailAndPassword: {
-		enabled: true,
-	},
-	advanced: {
-		defaultCookieAttributes: {
-			sameSite: "none",
-			secure: true,
-			httpOnly: true,
-		},
-	},
-});
+// Admin Auth
+export {
+	type AdminAuth,
+	type AdminSession,
+	type AdminUser,
+	adminAuth,
+} from "./admin";
+export {
+	type CustomerAuth,
+	type CustomerSession,
+	type CustomerUser,
+	customerAuth,
+} from "./customer";
+
+// Auth domain type for context discrimination
+export type AuthDomain = "customer" | "admin" | null;

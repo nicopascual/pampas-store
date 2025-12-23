@@ -1,0 +1,87 @@
+// Admin Roles
+model AdminRole {
+  id              String   @id @default(cuid())
+  name            String   @unique
+  description     String?
+  permissionsJson String // JSON array of permission strings
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  admins          Admin[]
+
+  @@index([name])
+  @@map("admin_role")
+}
+
+// Core Admin model (Better-Auth User equivalent)
+model Admin {
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  image         String?
+  status        String   @default("active") // active, inactive, suspended
+  roleId        String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  role     AdminRole?     @relation(fields: [roleId], references: [id])
+  sessions AdminSession[]
+  accounts AdminAccount[]
+
+  @@index([email])
+  @@index([roleId])
+  @@index([status])
+  @@map("admin")
+}
+
+// Admin Session (Better-Auth Session equivalent)
+model AdminSession {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  adminId   String
+  admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@index([adminId])
+  @@index([token])
+  @@map("admin_session")
+}
+
+// Admin Account (Better-Auth Account equivalent - credential only)
+model AdminAccount {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String    @default("credential")
+  adminId               String
+  admin                 Admin     @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([adminId])
+  @@map("admin_account")
+}
+
+// Admin Verification
+model AdminVerification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("admin_verification")
+}
