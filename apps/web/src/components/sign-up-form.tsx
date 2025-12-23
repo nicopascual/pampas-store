@@ -122,7 +122,7 @@ export default function SignUpForm({
 	}
 
 	return (
-		<div className="flex min-h-screen">
+		<div className="flex min-h-screen bg-background">
 			{/* Left side - Form */}
 			<div className="flex w-full flex-col p-8 lg:w-[45%] lg:p-12">
 				{/* Logo */}

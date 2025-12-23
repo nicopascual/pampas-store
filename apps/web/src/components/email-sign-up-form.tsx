@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 import { authClient } from "@/lib/auth-client";
-import { useLocalizedZodSchema } from "@/lib/zod-i18n";
+import { useSignUpSchema } from "@/lib/zod-i18n";
 
 import Loader from "./loader";
 import { Button } from "./ui/button";
@@ -53,7 +53,7 @@ export default function EmailSignUpForm({
 }) {
 	const { t } = useTranslation("auth");
 	const navigate = useNavigate({ from: "/" });
-	const zodSchema = useLocalizedZodSchema();
+	const signUpSchema = useSignUpSchema();
 	const { isPending } = authClient.useSession();
 
 	const form = useForm({
@@ -81,7 +81,7 @@ export default function EmailSignUpForm({
 			);
 		},
 		validators: {
-			onSubmit: zodSchema.signUp,
+			onSubmit: signUpSchema,
 		},
 	});
 
@@ -95,7 +95,7 @@ export default function EmailSignUpForm({
 	}
 
 	return (
-		<div className="flex min-h-screen">
+		<div className="flex min-h-screen bg-background">
 			{/* Left side - Form */}
 			<div className="flex w-full flex-col p-8 lg:w-[45%] lg:p-12">
 				{/* Logo */}

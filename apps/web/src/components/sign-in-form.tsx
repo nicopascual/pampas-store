@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 import { authClient } from "@/lib/auth-client";
-import { useLocalizedZodSchema } from "@/lib/zod-i18n";
+import { useSignInSchema } from "@/lib/zod-i18n";
 
 import Loader from "./loader";
 import { Button } from "./ui/button";
@@ -122,7 +122,7 @@ function EmailSignInForm({
 }) {
 	const { t } = useTranslation("auth");
 	const navigate = useNavigate({ from: "/" });
-	const zodSchema = useLocalizedZodSchema();
+	const signInSchema = useSignInSchema();
 
 	const form = useForm({
 		defaultValues: {
@@ -147,7 +147,7 @@ function EmailSignInForm({
 			);
 		},
 		validators: {
-			onSubmit: zodSchema.signIn,
+			onSubmit: signInSchema,
 		},
 	});
 

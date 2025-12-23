@@ -6,7 +6,6 @@ import {
 	HeadContent,
 	Outlet,
 	Scripts,
-	useRouterState,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useTranslation } from "react-i18next";
@@ -56,11 +55,8 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 function RootDocument() {
 	const { i18n } = useTranslation();
 	const { locale } = Route.useRouteContext();
-	const routerState = useRouterState();
-	const isAuthPage = routerState.location.pathname === "/login" || routerState.location.pathname === "/sign-up";
-
 	return (
-		<html lang={locale || i18n.language} className={isAuthPage ? "" : "dark"}>
+		<html lang={locale || i18n.language} className="dark">
 			<head>
 				<HeadContent />
 			</head>
