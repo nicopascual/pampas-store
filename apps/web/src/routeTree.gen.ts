@@ -14,6 +14,8 @@ import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SignUpIndexRouteImport } from './routes/sign-up/index'
+import { Route as SignUpEmailRouteImport } from './routes/sign-up/email'
 
 const TodosRoute = TodosRouteImport.update({
   id: '/todos',
@@ -40,42 +42,72 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SignUpIndexRoute = SignUpIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SignUpRoute,
+} as any)
+const SignUpEmailRoute = SignUpEmailRouteImport.update({
+  id: '/email',
+  path: '/email',
+  getParentRoute: () => SignUpRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
-  '/sign-up': typeof SignUpRoute
+  '/sign-up': typeof SignUpRouteWithChildren
   '/todos': typeof TodosRoute
+  '/sign-up/email': typeof SignUpEmailRoute
+  '/sign-up/': typeof SignUpIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
-  '/sign-up': typeof SignUpRoute
   '/todos': typeof TodosRoute
+  '/sign-up/email': typeof SignUpEmailRoute
+  '/sign-up': typeof SignUpIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
-  '/sign-up': typeof SignUpRoute
+  '/sign-up': typeof SignUpRouteWithChildren
   '/todos': typeof TodosRoute
+  '/sign-up/email': typeof SignUpEmailRoute
+  '/sign-up/': typeof SignUpIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/login' | '/sign-up' | '/todos'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/sign-up'
+    | '/todos'
+    | '/sign-up/email'
+    | '/sign-up/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/login' | '/sign-up' | '/todos'
-  id: '__root__' | '/' | '/dashboard' | '/login' | '/sign-up' | '/todos'
+  to: '/' | '/dashboard' | '/login' | '/todos' | '/sign-up/email' | '/sign-up'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/sign-up'
+    | '/todos'
+    | '/sign-up/email'
+    | '/sign-up/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
   LoginRoute: typeof LoginRoute
-  SignUpRoute: typeof SignUpRoute
+  SignUpRoute: typeof SignUpRouteWithChildren
   TodosRoute: typeof TodosRoute
 }
 
@@ -116,14 +148,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sign-up/': {
+      id: '/sign-up/'
+      path: '/'
+      fullPath: '/sign-up/'
+      preLoaderRoute: typeof SignUpIndexRouteImport
+      parentRoute: typeof SignUpRoute
+    }
+    '/sign-up/email': {
+      id: '/sign-up/email'
+      path: '/email'
+      fullPath: '/sign-up/email'
+      preLoaderRoute: typeof SignUpEmailRouteImport
+      parentRoute: typeof SignUpRoute
+    }
   }
 }
+
+interface SignUpRouteChildren {
+  SignUpEmailRoute: typeof SignUpEmailRoute
+  SignUpIndexRoute: typeof SignUpIndexRoute
+}
+
+const SignUpRouteChildren: SignUpRouteChildren = {
+  SignUpEmailRoute: SignUpEmailRoute,
+  SignUpIndexRoute: SignUpIndexRoute,
+}
+
+const SignUpRouteWithChildren =
+  SignUpRoute._addFileChildren(SignUpRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
   LoginRoute: LoginRoute,
-  SignUpRoute: SignUpRoute,
+  SignUpRoute: SignUpRouteWithChildren,
   TodosRoute: TodosRoute,
 }
 export const routeTree = rootRouteImport

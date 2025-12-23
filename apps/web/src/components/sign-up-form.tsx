@@ -1,16 +1,11 @@
-import { useForm } from "@tanstack/react-form";
 import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 import { authClient } from "@/lib/auth-client";
-import { useLocalizedZodSchema } from "@/lib/zod-i18n";
 
 import Loader from "./loader";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
 
 function LogoIcon({ className }: { className?: string }) {
 	return (
@@ -51,15 +46,11 @@ function MailIcon({ className }: { className?: string }) {
 		<svg
 			className={className}
 			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
+			fill="currentColor"
 			aria-hidden="true"
 		>
-			<rect width="20" height="16" x="2" y="4" rx="2" />
-			<path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+			<path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
+			<path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
 		</svg>
 	);
 }
@@ -113,168 +104,6 @@ function AppleIcon({ className }: { className?: string }) {
 	);
 }
 
-function EmailSignUpForm({
-	onBack,
-	onSwitchToSignIn,
-}: {
-	onBack: () => void;
-	onSwitchToSignIn: () => void;
-}) {
-	const { t } = useTranslation("auth");
-	const navigate = useNavigate({ from: "/" });
-	const zodSchema = useLocalizedZodSchema();
-
-	const form = useForm({
-		defaultValues: {
-			email: "",
-			password: "",
-			name: "",
-		},
-		onSubmit: async ({ value }) => {
-			await authClient.signUp.email(
-				{
-					email: value.email,
-					password: value.password,
-					name: value.name,
-				},
-				{
-					onSuccess: () => {
-						navigate({ to: "/dashboard" });
-						toast.success(t("signUp.success"));
-					},
-					onError: (error) => {
-						toast.error(error.error.message || error.error.statusText);
-					},
-				},
-			);
-		},
-		validators: {
-			onSubmit: zodSchema.signUp,
-		},
-	});
-
-	return (
-		<div className="space-y-4">
-			<button
-				type="button"
-				onClick={onBack}
-				className="mb-2 flex items-center gap-1 text-muted-foreground text-sm hover:text-foreground"
-			>
-				<svg
-					className="size-4"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					strokeWidth="2"
-					aria-hidden="true"
-				>
-					<path d="M19 12H5M12 19l-7-7 7-7" />
-				</svg>
-				{t("signUp.backToOptions")}
-			</button>
-
-			<form
-				onSubmit={(e) => {
-					e.preventDefault();
-					e.stopPropagation();
-					form.handleSubmit();
-				}}
-				className="space-y-4"
-			>
-				<form.Field name="name">
-					{(field) => (
-						<div className="space-y-2">
-							<Label htmlFor={field.name}>{t("signUp.name")}</Label>
-							<Input
-								id={field.name}
-								name={field.name}
-								value={field.state.value}
-								onBlur={field.handleBlur}
-								onChange={(e) => field.handleChange(e.target.value)}
-								className="h-12"
-							/>
-							{field.state.meta.errors.map((error) => (
-								<p key={error?.message} className="text-red-500 text-sm">
-									{error?.message}
-								</p>
-							))}
-						</div>
-					)}
-				</form.Field>
-
-				<form.Field name="email">
-					{(field) => (
-						<div className="space-y-2">
-							<Label htmlFor={field.name}>{t("signUp.email")}</Label>
-							<Input
-								id={field.name}
-								name={field.name}
-								type="email"
-								value={field.state.value}
-								onBlur={field.handleBlur}
-								onChange={(e) => field.handleChange(e.target.value)}
-								className="h-12"
-							/>
-							{field.state.meta.errors.map((error) => (
-								<p key={error?.message} className="text-red-500 text-sm">
-									{error?.message}
-								</p>
-							))}
-						</div>
-					)}
-				</form.Field>
-
-				<form.Field name="password">
-					{(field) => (
-						<div className="space-y-2">
-							<Label htmlFor={field.name}>{t("signUp.password")}</Label>
-							<Input
-								id={field.name}
-								name={field.name}
-								type="password"
-								value={field.state.value}
-								onBlur={field.handleBlur}
-								onChange={(e) => field.handleChange(e.target.value)}
-								className="h-12"
-							/>
-							{field.state.meta.errors.map((error) => (
-								<p key={error?.message} className="text-red-500 text-sm">
-									{error?.message}
-								</p>
-							))}
-						</div>
-					)}
-				</form.Field>
-
-				<form.Subscribe>
-					{(state) => (
-						<Button
-							type="submit"
-							className="h-12 w-full"
-							disabled={!state.canSubmit || state.isSubmitting}
-						>
-							{state.isSubmitting ? t("signUp.submitting") : t("signUp.submit")}
-						</Button>
-					)}
-				</form.Subscribe>
-			</form>
-
-			<div className="pt-2 text-center">
-				<span className="text-muted-foreground text-sm">
-					{t("signUp.alreadyHaveAccount")}{" "}
-				</span>
-				<button
-					type="button"
-					onClick={onSwitchToSignIn}
-					className="font-medium text-primary text-sm hover:underline"
-				>
-					{t("signUp.logIn")}
-				</button>
-			</div>
-		</div>
-	);
-}
-
 export default function SignUpForm({
 	onSwitchToSignIn,
 }: {
@@ -282,7 +111,7 @@ export default function SignUpForm({
 }) {
 	const { t } = useTranslation("auth");
 	const { isPending } = authClient.useSession();
-	const [showEmailForm, setShowEmailForm] = useState(false);
+	const navigate = useNavigate();
 
 	if (isPending) {
 		return (
@@ -295,95 +124,88 @@ export default function SignUpForm({
 	return (
 		<div className="flex min-h-screen">
 			{/* Left side - Form */}
-			<div className="flex w-full flex-col justify-between p-8 lg:w-[45%] lg:p-12">
-				<div className="flex-1">
-					{/* Logo */}
-					<div className="mb-12 flex items-center gap-2">
-						<LogoIcon className="size-8" />
-						<span className="font-semibold text-xl">Pampas</span>
-					</div>
+			<div className="flex w-full flex-col p-8 lg:w-[45%] lg:p-12">
+				{/* Logo */}
+				<div className="flex items-center gap-2">
+					<LogoIcon className="size-8" />
+					<span className="font-semibold text-xl">Pampas</span>
+				</div>
 
-					{/* Main content */}
-					<div className="mx-auto max-w-sm">
+				{/* Main content - centered vertically and horizontally */}
+				<div className="flex flex-1 items-center justify-center">
+					<div className="w-full max-w-sm">
 						<h1 className="mb-2 font-bold text-2xl lg:text-3xl">
 							{t("signUp.title")}
 						</h1>
 						<p className="mb-8 text-muted-foreground">{t("signUp.subtitle")}</p>
 
-						{showEmailForm ? (
-							<EmailSignUpForm
-								onBack={() => setShowEmailForm(false)}
-								onSwitchToSignIn={onSwitchToSignIn}
-							/>
-						) : (
-							<div className="space-y-3">
-								{/* Sign Up with Email */}
-								<Button
-									variant="outline"
-									className="h-12 w-full justify-center gap-3"
-									onClick={() => setShowEmailForm(true)}
-								>
-									<MailIcon className="size-5" />
-									{t("signUp.signUpWithEmail")}
-								</Button>
+						<div className="space-y-3">
+							{/* Sign Up with Email */}
+							<Button
+								variant="outline"
+								className="h-12 w-full justify-center gap-3 border-2 border-foreground"
+								onClick={() => navigate({ to: "/sign-up/email" })}
+							>
+								<MailIcon className="size-5" />
+								{t("signUp.signUpWithEmail")}
+							</Button>
 
-								{/* Sign in with Google */}
-								<Button
-									variant="outline"
-									className="h-12 w-full justify-center gap-3"
-									onClick={() => toast.info(t("signUp.comingSoon"))}
-								>
-									<GoogleIcon className="size-5" />
-									{t("signUp.signInWithGoogle")}
-								</Button>
+							{/* Sign in with Google */}
+							<Button
+								variant="outline"
+								className="h-12 w-full justify-center gap-3"
+								onClick={() => toast.info(t("signUp.comingSoon"))}
+							>
+								<GoogleIcon className="size-5" />
+								{t("signUp.signInWithGoogle")}
+							</Button>
 
-								{/* Sign in with Facebook */}
-								<Button
-									className="h-12 w-full justify-center gap-3 bg-[#1877F2] text-white hover:bg-[#1877F2]/90"
-									onClick={() => toast.info(t("signUp.comingSoon"))}
-								>
-									<FacebookIcon className="size-5" />
-									{t("signUp.signInWithFacebook")}
-								</Button>
+							{/* Sign in with Facebook */}
+							<Button
+								className="h-12 w-full justify-center gap-3 bg-[#1877F2] text-white hover:bg-[#1877F2]/90"
+								onClick={() => toast.info(t("signUp.comingSoon"))}
+							>
+								<FacebookIcon className="size-5" />
+								{t("signUp.signInWithFacebook")}
+							</Button>
 
-								{/* Sign in with Apple */}
-								<Button
-									className="h-12 w-full justify-center gap-3 bg-black text-white hover:bg-black/90"
-									onClick={() => toast.info(t("signUp.comingSoon"))}
-								>
-									<AppleIcon className="size-5" />
-									{t("signUp.signInWithApple")}
-								</Button>
+							{/* Sign in with Apple */}
+							<Button
+								className="h-12 w-full justify-center gap-3 bg-black text-white hover:bg-black/90"
+								onClick={() => toast.info(t("signUp.comingSoon"))}
+							>
+								<AppleIcon className="size-5" />
+								{t("signUp.signInWithApple")}
+							</Button>
 
-								{/* Divider */}
-								<div className="flex items-center gap-4 py-2">
-									<div className="h-px flex-1 bg-border" />
-									<span className="text-muted-foreground text-sm">
-										{t("signUp.or")}
-									</span>
-									<div className="h-px flex-1 bg-border" />
-								</div>
-
-								{/* Already have account */}
-								<div className="text-center">
-									<span className="text-muted-foreground text-sm">
-										{t("signUp.alreadyHaveAccount")}{" "}
-									</span>
-									<button
-										type="button"
-										onClick={onSwitchToSignIn}
-										className="font-medium text-primary text-sm hover:underline"
-									>
-										{t("signUp.logIn")}
-									</button>
-								</div>
+							{/* Divider */}
+							<div className="flex items-center gap-4 py-2">
+								<div className="h-px flex-1 bg-border" />
+								<span className="text-muted-foreground text-sm">
+									{t("signUp.or")}
+								</span>
+								<div className="h-px flex-1 bg-border" />
 							</div>
-						)}
+
+							{/* Already have account */}
+							<div className="text-center">
+								<span className="text-muted-foreground text-sm">
+									{t("signUp.alreadyHaveAccount")}{" "}
+								</span>
+								<button
+									type="button"
+									onClick={onSwitchToSignIn}
+									className="font-medium text-primary text-sm hover:underline"
+								>
+									{t("signUp.logIn")}
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
 
 				{/* Footer */}
-				<div className="mt-8 text-muted-foreground text-sm">
+				<div className="text-muted-foreground text-sm">
 					{t("signUp.termsPrefix")}{" "}
 					<a href="/terms" className="text-primary hover:underline">
 						{t("signUp.termsOfService")}

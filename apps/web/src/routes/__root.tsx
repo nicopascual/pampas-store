@@ -65,14 +65,9 @@ function RootDocument() {
 				<HeadContent />
 			</head>
 			<body>
-				{isAuthPage ? (
-					<Outlet />
-				) : (
-					<div className="grid h-svh grid-rows-[auto_1fr]">
-						<Header />
+				<div className="grid h-svh grid-rows-[auto_1fr]">
 						<Outlet />
-					</div>
-				)}
+				</div>
 				<Toaster richColors />
 				<TanStackRouterDevtools position="bottom-left" />
 				<ReactQueryDevtools position="bottom" buttonPosition="bottom-right" />
