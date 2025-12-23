@@ -1,0 +1,29 @@
+{
+	"navigation": {
+		"home": "Inicio",
+		"dashboard": "Panel",
+		"todos": "Tareas"
+	},
+	"buttons": {
+		"signIn": "Iniciar Sesion",
+		"signOut": "Cerrar Sesion",
+		"submit": "Enviar",
+		"cancel": "Cancelar",
+		"add": "Agregar",
+		"delete": "Eliminar",
+		"retry": "Reintentar"
+	},
+	"status": {
+		"loading": "Cargando...",
+		"connected": "Conectado",
+		"disconnected": "Desconectado",
+		"checking": "Verificando..."
+	},
+	"language": {
+		"select": "Seleccionar Idioma",
+		"en": "Ingles",
+		"es": "Espanol",
+		"pt": "Portugues"
+	},
+	"notFound": "No Encontrado"
+}

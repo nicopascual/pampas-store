@@ -1,0 +1,7 @@
+{
+	"title": "Lista de Tareas",
+	"description": "Administra tus tareas eficientemente",
+	"placeholder": "Agregar una nueva tarea...",
+	"empty": "No hay tareas aun. Agrega una arriba!",
+	"deleteLabel": "Eliminar tarea"
+}

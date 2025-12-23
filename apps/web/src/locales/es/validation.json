@@ -1,0 +1,17 @@
+{
+	"email": {
+		"required": "El correo electronico es obligatorio",
+		"invalid": "Direccion de correo electronico invalida"
+	},
+	"password": {
+		"required": "La contrasena es obligatoria",
+		"minLength": "La contrasena debe tener al menos {{min}} caracteres"
+	},
+	"name": {
+		"required": "El nombre es obligatorio",
+		"minLength": "El nombre debe tener al menos {{min}} caracteres"
+	},
+	"todo": {
+		"required": "El texto de la tarea es obligatorio"
+	}
+}

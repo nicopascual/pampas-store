@@ -1,0 +1,17 @@
+{
+	"email": {
+		"required": "Email is required",
+		"invalid": "Invalid email address"
+	},
+	"password": {
+		"required": "Password is required",
+		"minLength": "Password must be at least {{min}} characters"
+	},
+	"name": {
+		"required": "Name is required",
+		"minLength": "Name must be at least {{min}} characters"
+	},
+	"todo": {
+		"required": "Task text is required"
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"string": {
+		"required": "This field is required",
+		"min": "Must be at least {{min}} characters",
+		"max": "Must be at most {{max}} characters",
+		"email": "Invalid email address"
+	},
+	"number": {
+		"required": "This field is required",
+		"min": "Must be at least {{min}}",
+		"max": "Must be at most {{max}}",
+		"integer": "Must be a whole number"
+	}
+}

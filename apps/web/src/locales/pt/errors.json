@@ -1,0 +1,6 @@
+{
+	"generic": "Ocorreu um erro",
+	"network": "Erro de rede. Por favor, verifique sua conexao.",
+	"unauthorized": "Por favor, faca login para continuar",
+	"notFound": "Nao Encontrado"
+}

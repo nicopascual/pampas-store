@@ -1,0 +1,29 @@
+{
+	"navigation": {
+		"home": "Home",
+		"dashboard": "Dashboard",
+		"todos": "Todos"
+	},
+	"buttons": {
+		"signIn": "Sign In",
+		"signOut": "Sign Out",
+		"submit": "Submit",
+		"cancel": "Cancel",
+		"add": "Add",
+		"delete": "Delete",
+		"retry": "Retry"
+	},
+	"status": {
+		"loading": "Loading...",
+		"connected": "Connected",
+		"disconnected": "Disconnected",
+		"checking": "Checking..."
+	},
+	"language": {
+		"select": "Select Language",
+		"en": "English",
+		"es": "Spanish",
+		"pt": "Portuguese"
+	},
+	"notFound": "Not Found"
+}

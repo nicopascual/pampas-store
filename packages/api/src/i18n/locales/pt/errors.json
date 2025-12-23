@@ -1,0 +1,7 @@
+{
+	"unauthorized": "Voce precisa estar logado para acessar este recurso",
+	"forbidden": "Voce nao tem permissao para realizar esta acao",
+	"notFound": "O recurso solicitado nao foi encontrado",
+	"badRequest": "Solicitacao invalida",
+	"internalError": "Ocorreu um erro inesperado. Por favor, tente novamente mais tarde"
+}

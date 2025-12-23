@@ -8,17 +8,26 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { useTranslation } from "react-i18next";
 import { Toaster } from "@/components/ui/sonner";
+import { getLocale } from "@/functions/get-locale";
+import { initI18n } from "@/lib/i18n";
 import type { orpc } from "@/utils/orpc";
 
 import Header from "../components/header";
 import appCss from "../index.css?url";
+
 export interface RouterAppContext {
 	orpc: typeof orpc;
 	queryClient: QueryClient;
 }
 
 export const Route = createRootRouteWithContext<RouterAppContext>()({
+	beforeLoad: async () => {
+		const locale = await getLocale();
+		initI18n(locale);
+		return { locale };
+	},
 	head: () => ({
 		meta: [
 			{
@@ -44,8 +53,11 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 });
 
 function RootDocument() {
+	const { i18n } = useTranslation();
+	const { locale } = Route.useRouteContext();
+
 	return (
-		<html lang="en" className="dark">
+		<html lang={locale || i18n.language} className="dark">
 			<head>
 				<HeadContent />
 			</head>

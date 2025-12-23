@@ -30,7 +30,7 @@ const apiHandler = new OpenAPIHandler(appRouter, {
 	],
 });
 
-const app = new Elysia()
+new Elysia()
 	.use(
 		cors({
 			origin: process.env.CORS_ORIGIN || "",
@@ -47,11 +47,20 @@ const app = new Elysia()
 		return status(405);
 	})
 	.all("/rpc*", async (context) => {
+		const ctx = await createContext({ context });
 		const { response } = await rpcHandler.handle(context.request, {
 			prefix: "/rpc",
-			context: await createContext({ context }),
+			context: ctx,
 		});
-		return response ?? new Response("Not Found", { status: 404 });
+		if (response) {
+			const headers = new Headers(response.headers);
+			headers.set("X-Locale", ctx.locale);
+			return new Response(response.body, {
+				status: response.status,
+				headers,
+			});
+		}
+		return new Response("Not Found", { status: 404 });
 	})
 	.all("/api*", async (context) => {
 		const { response } = await apiHandler.handle(context.request, {

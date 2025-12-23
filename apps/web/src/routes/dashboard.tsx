@@ -1,8 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
-
-import { getUser } from "@/functions/get-user";
 import { getPrivateData } from "@/functions/get-private-data";
+import { getUser } from "@/functions/get-user";
 import { prefetch } from "@/functions/server-orpc";
 import { orpc } from "@/utils/orpc";
 
@@ -25,7 +24,9 @@ export const Route = createFileRoute("/dashboard")({
 function RouteComponent() {
 	const { session } = Route.useRouteContext();
 
-	const { data: privateData } = useSuspenseQuery(orpc.privateData.queryOptions());
+	const { data: privateData } = useSuspenseQuery(
+		orpc.privateData.queryOptions(),
+	);
 
 	return (
 		<div>

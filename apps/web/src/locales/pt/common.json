@@ -1,0 +1,29 @@
+{
+	"navigation": {
+		"home": "Inicio",
+		"dashboard": "Painel",
+		"todos": "Tarefas"
+	},
+	"buttons": {
+		"signIn": "Entrar",
+		"signOut": "Sair",
+		"submit": "Enviar",
+		"cancel": "Cancelar",
+		"add": "Adicionar",
+		"delete": "Excluir",
+		"retry": "Tentar novamente"
+	},
+	"status": {
+		"loading": "Carregando...",
+		"connected": "Conectado",
+		"disconnected": "Desconectado",
+		"checking": "Verificando..."
+	},
+	"language": {
+		"select": "Selecionar Idioma",
+		"en": "Ingles",
+		"es": "Espanhol",
+		"pt": "Portugues"
+	},
+	"notFound": "Nao Encontrado"
+}

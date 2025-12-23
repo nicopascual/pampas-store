@@ -1,0 +1,17 @@
+{
+	"email": {
+		"required": "O e-mail e obrigatorio",
+		"invalid": "Endereco de e-mail invalido"
+	},
+	"password": {
+		"required": "A senha e obrigatoria",
+		"minLength": "A senha deve ter pelo menos {{min}} caracteres"
+	},
+	"name": {
+		"required": "O nome e obrigatorio",
+		"minLength": "O nome deve ter pelo menos {{min}} caracteres"
+	},
+	"todo": {
+		"required": "O texto da tarefa e obrigatorio"
+	}
+}

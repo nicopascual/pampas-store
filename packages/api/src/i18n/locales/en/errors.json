@@ -1,0 +1,7 @@
+{
+	"unauthorized": "You must be logged in to access this resource",
+	"forbidden": "You do not have permission to perform this action",
+	"notFound": "The requested resource was not found",
+	"badRequest": "Invalid request",
+	"internalError": "An unexpected error occurred. Please try again later"
+}

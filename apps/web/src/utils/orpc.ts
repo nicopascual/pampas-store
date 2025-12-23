@@ -6,12 +6,14 @@ import type { appRouter } from "@pampas-store/api/routers/index";
 import { QueryCache, QueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+import i18n from "@/lib/i18n";
+
 export const queryClient = new QueryClient({
 	queryCache: new QueryCache({
 		onError: (error, query) => {
-			toast.error(`Error: ${error.message}`, {
+			toast.error(`${i18n.t("errors:generic")}: ${error.message}`, {
 				action: {
-					label: "retry",
+					label: i18n.t("common:buttons.retry"),
 					onClick: query.invalidate,
 				},
 			});

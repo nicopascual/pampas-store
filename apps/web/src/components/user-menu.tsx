@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 
 import {
 	DropdownMenu,
@@ -15,6 +16,7 @@ import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 
 export default function UserMenu() {
+	const { t } = useTranslation(["auth", "common"]);
 	const navigate = useNavigate();
 	const { data: session, isPending } = authClient.useSession();
 
@@ -25,7 +27,7 @@ export default function UserMenu() {
 	if (!session) {
 		return (
 			<Link to="/login">
-				<Button variant="outline">Sign In</Button>
+				<Button variant="outline">{t("common:buttons.signIn")}</Button>
 			</Link>
 		);
 	}
@@ -37,7 +39,7 @@ export default function UserMenu() {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="bg-card">
 				<DropdownMenuGroup>
-					<DropdownMenuLabel>My Account</DropdownMenuLabel>
+					<DropdownMenuLabel>{t("auth:userMenu.myAccount")}</DropdownMenuLabel>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem>{session.user.email}</DropdownMenuItem>
 					<DropdownMenuItem
@@ -54,7 +56,7 @@ export default function UserMenu() {
 							});
 						}}
 					>
-						Sign Out
+						{t("common:buttons.signOut")}
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
 			</DropdownMenuContent>

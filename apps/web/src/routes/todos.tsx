@@ -2,6 +2,7 @@ import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Loader2, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -25,6 +26,7 @@ export const Route = createFileRoute("/todos")({
 });
 
 function TodosRoute() {
+	const { t } = useTranslation(["todos", "common"]);
 	const [newTodoText, setNewTodoText] = useState("");
 
 	const { data: todos, refetch } = useSuspenseQuery(
@@ -72,8 +74,8 @@ function TodosRoute() {
 		<div className="mx-auto w-full max-w-md py-10">
 			<Card>
 				<CardHeader>
-					<CardTitle>Todo List</CardTitle>
-					<CardDescription>Manage your tasks efficiently</CardDescription>
+					<CardTitle>{t("todos:title")}</CardTitle>
+					<CardDescription>{t("todos:description")}</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<form
@@ -83,7 +85,7 @@ function TodosRoute() {
 						<Input
 							value={newTodoText}
 							onChange={(e) => setNewTodoText(e.target.value)}
-							placeholder="Add a new task..."
+							placeholder={t("todos:placeholder")}
 							disabled={createMutation.isPending}
 						/>
 						<Button
@@ -93,13 +95,13 @@ function TodosRoute() {
 							{createMutation.isPending ? (
 								<Loader2 className="h-4 w-4 animate-spin" />
 							) : (
-								"Add"
+								t("common:buttons.add")
 							)}
 						</Button>
 					</form>
 
 					{todos.length === 0 ? (
-						<p className="py-4 text-center">No todos yet. Add one above!</p>
+						<p className="py-4 text-center">{t("todos:empty")}</p>
 					) : (
 						<ul className="space-y-2">
 							{todos.map((todo) => (
@@ -126,7 +128,7 @@ function TodosRoute() {
 										variant="ghost"
 										size="icon"
 										onClick={() => handleDeleteTodo(todo.id)}
-										aria-label="Delete todo"
+										aria-label={t("todos:deleteLabel")}
 									>
 										<Trash2 className="h-4 w-4" />
 									</Button>

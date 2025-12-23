@@ -1,0 +1,14 @@
+{
+	"string": {
+		"required": "Este campo e obrigatorio",
+		"min": "Deve ter pelo menos {{min}} caracteres",
+		"max": "Deve ter no maximo {{max}} caracteres",
+		"email": "Endereco de e-mail invalido"
+	},
+	"number": {
+		"required": "Este campo e obrigatorio",
+		"min": "Deve ser pelo menos {{min}}",
+		"max": "Deve ser no maximo {{max}}",
+		"integer": "Deve ser um numero inteiro"
+	}
+}

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 
 import { orpc } from "@/utils/orpc";
 
@@ -29,6 +30,7 @@ const TITLE_TEXT = `
  `;
 
 function HomeComponent() {
+	const { t } = useTranslation("common");
 	const healthCheck = useQuery(orpc.healthCheck.queryOptions());
 
 	return (
@@ -43,10 +45,10 @@ function HomeComponent() {
 						/>
 						<span className="text-muted-foreground text-sm">
 							{healthCheck.isLoading
-								? "Checking..."
+								? t("status.checking")
 								: healthCheck.data
-									? "Connected"
-									: "Disconnected"}
+									? t("status.connected")
+									: t("status.disconnected")}
 						</span>
 					</div>
 				</section>

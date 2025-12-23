@@ -1,0 +1,7 @@
+{
+	"unauthorized": "Debes iniciar sesion para acceder a este recurso",
+	"forbidden": "No tienes permiso para realizar esta accion",
+	"notFound": "El recurso solicitado no fue encontrado",
+	"badRequest": "Solicitud invalida",
+	"internalError": "Ocurrio un error inesperado. Por favor intenta de nuevo mas tarde"
+}
