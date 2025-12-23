@@ -1,4 +1,4 @@
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
@@ -141,14 +141,15 @@ export default function SignUpForm({
 
 						<div className="space-y-3">
 							{/* Sign Up with Email */}
-							<Button
-								variant="outline"
-								className="h-12 w-full justify-center gap-3 border-2 border-foreground"
-								onClick={() => navigate({ to: "/sign-up/email" })}
-							>
-								<MailIcon className="size-5" />
-								{t("signUp.signUpWithEmail")}
-							</Button>
+							<Link to="/sign-up/email" className="block">
+								<Button
+									variant="outline"
+									className="h-12 w-full justify-center gap-3 border-2 border-foreground"
+								>
+									<MailIcon className="size-5" />
+									{t("signUp.signUpWithEmail")}
+								</Button>
+							</Link>
 
 							{/* Sign in with Google */}
 							<Button
