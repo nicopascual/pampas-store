@@ -111,6 +111,64 @@ const mutation = orpc.todo.create.useMutation();
 - **Router Context**: Provides `orpc` and `queryClient` to all routes
 - **Local State**: React hooks and form state via TanStack React Form
 
+### Internationalization (i18n)
+
+**Supported Languages:** English (`en`), Spanish (`es`), Portuguese (`pt`)
+
+**Libraries:**
+- Frontend: `react-i18next` with bundled translations
+- Backend: `i18next` in `packages/api` for localized error messages
+
+**Translation Files:**
+```
+packages/api/src/i18n/locales/
+├── en/                    # English translations
+│   ├── errors.json        # API error messages
+│   ├── validation.json    # Validation error messages
+│   └── auth.json          # Auth-related messages
+├── es/                    # Spanish translations
+└── pt/                    # Portuguese translations
+
+apps/web/src/locales/
+├── en/                    # English translations
+│   ├── common.json        # Common UI strings
+│   ├── auth.json          # Auth pages
+│   ├── todos.json         # Todo feature
+│   ├── errors.json        # Error messages
+│   └── validation.json    # Form validation
+├── es/                    # Spanish translations
+└── pt/                    # Portuguese translations
+```
+
+**Locale Detection:**
+1. Cookie (`i18next` cookie) - highest priority
+2. `Accept-Language` header - fallback
+3. Default: `en`
+
+**Frontend Usage:**
+```typescript
+import { useTranslation } from "react-i18next";
+
+function MyComponent() {
+  const { t } = useTranslation("common");
+  return <h1>{t("welcome")}</h1>;
+}
+```
+
+**Backend Usage (ORPC procedures):**
+```typescript
+// context.t is available in all procedures
+throw new ORPCError("BAD_REQUEST", {
+  message: context.t("errors:validationFailed"),
+});
+```
+
+**Language Switcher:** `apps/web/src/components/language-switcher.tsx`
+
+**Adding New Translations:**
+1. Add keys to JSON files in all language folders
+2. Use namespaced keys: `t("namespace:key")` or `useTranslation("namespace")`
+
 ### Middleware & Context
 
 **ORPC Middleware (packages/api):**

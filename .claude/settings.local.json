@@ -1,5 +1,14 @@
 {
-	"permissions": {
-		"allow": ["Bash(cat:*)", "Bash(grep:*)", "Bash(ls:*)", "Bash(find:*)"]
-	}
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "shadcn"
+  ],
+  "enableAllProjectMcpServers": true
 }
