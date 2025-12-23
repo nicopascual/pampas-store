@@ -1,4 +1,4 @@
-import { QueryClientProvider } from "@tanstack/react-query";
+import { dehydrate, hydrate, QueryClientProvider } from "@tanstack/react-query";
 import { createRouter as createTanStackRouter } from "@tanstack/react-router";
 
 import "./index.css";
@@ -17,6 +17,13 @@ export const getRouter = () => {
 		Wrap: ({ children }) => (
 			<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 		),
+		dehydrate: () => ({
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			dehydratedQueryClient: dehydrate(queryClient) as any,
+		}),
+		hydrate: (dehydrated) => {
+			hydrate(queryClient, dehydrated.dehydratedQueryClient);
+		},
 	});
 	return router;
 };

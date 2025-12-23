@@ -54,10 +54,10 @@ cd apps/server && bun run compile  # Compile server to standalone binary
 - Backend serves router at `/rpc` endpoint via `RPCHandler`
 - Frontend uses `RouterClient<typeof appRouter>` for type-safe calls
 
-**Client Initialization (apps/web/src/lib/orpc.ts):**
-- **Server-side**: Uses `createRouterClient()` with direct context injection
-- **Client-side**: Uses `RPCLink` with fetch pointing to `VITE_SERVER_URL/rpc`
+**Client Initialization (apps/web/src/utils/orpc.ts):**
+- Uses `RPCLink` with fetch pointing to `VITE_SERVER_URL/rpc`
 - Integrated with TanStack Query via `createTanstackQueryUtils()`
+- Client-only (no server-side imports to avoid bundling issues)
 
 **Procedure Types (packages/api):**
 - `publicProcedure` - No authentication required
@@ -152,9 +152,58 @@ HTTP Request → Elysia → RPCHandler → Procedure Middleware → Handler → 
 2. Run `bun run db:push` to sync schema
 3. Use `prisma.myModel.*` methods in ORPC procedures
 
-### Isomorphic Functions
-- Use `createIsomorphicFn()` from TanStack Start for code that runs on both server and client
-- ORPC client automatically switches between direct calls (server) and fetch (client)
+### SSR Data Fetching Pattern
+
+Server functions for SSR are located in `apps/web/src/functions/`. This pattern ensures proper cookie forwarding for authenticated requests during SSR.
+
+**File Structure:**
+```
+src/functions/
+├── server-orpc.ts        # Shared utilities (middleware, client, prefetch helper)
+├── get-user.ts           # Auth - get current user session
+├── get-todos.ts          # Example: fetch todos
+└── get-private-data.ts   # Example: fetch protected data
+```
+
+**Creating a New Server Function:**
+```typescript
+// src/functions/get-my-data.ts
+import { createServerFn } from "@tanstack/react-start";
+import { createServerORPCClient, requestMiddleware } from "./server-orpc";
+
+export const getMyData = createServerFn()
+  .middleware([requestMiddleware])
+  .handler(async ({ context }) => {
+    const client = createServerORPCClient(context.request);
+    return client.myProcedure();
+  });
+```
+
+**Using in Route Loaders:**
+```typescript
+import { getMyData } from "@/functions/get-my-data";
+import { prefetch } from "@/functions/server-orpc";
+import { orpc } from "@/utils/orpc";
+
+export const Route = createFileRoute("/my-route")({
+  component: MyComponent,
+  loader: async ({ context }) => {
+    await prefetch(getMyData(), orpc.myProcedure, context.queryClient);
+  },
+});
+
+function MyComponent() {
+  // Data is already in cache from SSR, no loading state
+  const { data } = useSuspenseQuery(orpc.myProcedure.queryOptions());
+  return <div>{data}</div>;
+}
+```
+
+**Key Points:**
+- `requestMiddleware` captures cookies from the original request
+- `createServerORPCClient` forwards cookies to the backend API
+- `prefetch` helper fetches data and populates the query cache
+- Use `useSuspenseQuery` in components (data is guaranteed from SSR)
 
 ### Error Handling
 - ORPC interceptors log errors server-side

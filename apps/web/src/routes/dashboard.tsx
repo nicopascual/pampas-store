@@ -1,7 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 import { getUser } from "@/functions/get-user";
+import { getPrivateData } from "@/functions/get-private-data";
+import { prefetch } from "@/functions/server-orpc";
 import { orpc } from "@/utils/orpc";
 
 export const Route = createFileRoute("/dashboard")({
@@ -16,22 +18,20 @@ export const Route = createFileRoute("/dashboard")({
 				to: "/login",
 			});
 		}
-		await context.queryClient.prefetchQuery(
-			context.orpc.privateData.queryOptions(),
-		);
+		await prefetch(getPrivateData(), orpc.privateData, context.queryClient);
 	},
 });
 
 function RouteComponent() {
 	const { session } = Route.useRouteContext();
 
-	const privateData = useQuery(orpc.privateData.queryOptions());
+	const { data: privateData } = useSuspenseQuery(orpc.privateData.queryOptions());
 
 	return (
 		<div>
 			<h1>Dashboard</h1>
 			<p>Welcome {session?.user.name}</p>
-			<p>API: {privateData.data?.message}</p>
+			<p>API: {privateData.message}</p>
 		</div>
 	);
 }
