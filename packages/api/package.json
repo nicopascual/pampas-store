@@ -1,0 +1,29 @@
+{
+	"name": "@pampas-store/api",
+	"type": "module",
+	"exports": {
+		".": {
+			"default": "./src/index.ts"
+		},
+		"./*": {
+			"default": "./src/*.ts"
+		}
+	},
+	"scripts": {},
+	"dependencies": {
+		"@orpc/server": "catalog:",
+		"@orpc/client": "catalog:",
+		"@orpc/openapi": "catalog:",
+		"@orpc/zod": "catalog:",
+		"elysia": "catalog:",
+		"@prisma/client": "catalog:",
+		"dotenv": "catalog:",
+		"zod": "catalog:",
+		"@pampas-store/auth": "workspace:*",
+		"@pampas-store/db": "workspace:*"
+	},
+	"devDependencies": {
+		"typescript": "catalog:",
+		"@pampas-store/config": "workspace:*"
+	}
+}
