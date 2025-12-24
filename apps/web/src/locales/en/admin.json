@@ -1,0 +1,77 @@
+{
+	"dashboard": {
+		"stats": {
+			"totalRevenue": "Total Revenue",
+			"orders": "Orders",
+			"customers": "Customers",
+			"products": "Products",
+			"fromLastMonth": "from last month"
+		},
+		"recentOrders": {
+			"title": "Recent Orders",
+			"description": "Latest orders from your store",
+			"pending": "Pending"
+		},
+		"topProducts": {
+			"title": "Top Products",
+			"description": "Best selling products this month",
+			"sales": "sales"
+		}
+	},
+	"sidebar": {
+		"dashboard": "Dashboard",
+		"sales": {
+			"title": "Sales",
+			"orders": "Orders",
+			"shipments": "Shipments",
+			"invoices": "Invoices",
+			"refunds": "Refunds",
+			"transactions": "Transactions"
+		},
+		"catalog": {
+			"title": "Catalog",
+			"products": "Products",
+			"categories": "Categories",
+			"attributes": "Attributes",
+			"attributeFamilies": "Attribute Families"
+		},
+		"customers": {
+			"title": "Customers",
+			"list": "All Customers",
+			"groups": "Groups",
+			"reviews": "Reviews",
+			"gdprDataRequest": "GDPR Data Request"
+		},
+		"cms": "CMS",
+		"marketing": {
+			"title": "Marketing",
+			"promotions": "Promotions",
+			"communications": "Communications",
+			"searchSeo": "Search & SEO"
+		},
+		"reporting": {
+			"title": "Reporting",
+			"sales": "Sales",
+			"customers": "Customers",
+			"products": "Products"
+		},
+		"settings": {
+			"title": "Settings",
+			"locales": "Locales",
+			"currencies": "Currencies",
+			"exchangeRates": "Exchange Rates",
+			"inventorySources": "Inventory Sources",
+			"taxes": "Taxes",
+			"dataTransfer": "Data Transfer",
+			"configure": "Configure"
+		},
+		"collapse": "Collapse sidebar",
+		"expand": "Expand sidebar"
+	},
+	"header": {
+		"menu": "Menu",
+		"search": "Search...",
+		"notifications": "Notifications",
+		"profile": "Profile"
+	}
+}

@@ -14,7 +14,6 @@ import { getLocale } from "@/functions/get-locale";
 import { initI18n } from "@/lib/i18n";
 import type { orpc } from "@/utils/orpc";
 
-import Header from "../components/header";
 import appCss from "../index.css?url";
 
 export interface RouterAppContext {

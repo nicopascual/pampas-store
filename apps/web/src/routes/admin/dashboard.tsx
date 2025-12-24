@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-
+import { AdminLayout } from "@/components/admin";
+import { SidebarProvider } from "@/contexts/sidebar-context";
 import { getAdminUser } from "@/functions/get-admin-user";
 
 export const Route = createFileRoute("/admin/dashboard")({
@@ -18,5 +19,11 @@ export const Route = createFileRoute("/admin/dashboard")({
 });
 
 function RouteComponent() {
-	return <Outlet />;
+	return (
+		<SidebarProvider>
+			<AdminLayout>
+				<Outlet />
+			</AdminLayout>
+		</SidebarProvider>
+	);
 }

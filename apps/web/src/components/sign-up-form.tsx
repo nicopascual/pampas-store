@@ -1,10 +1,7 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
-import { authClient } from "@/lib/auth-client";
-
-import Loader from "./loader";
 import { Button } from "./ui/button";
 
 function LogoIcon({ className }: { className?: string }) {
@@ -110,16 +107,6 @@ export default function SignUpForm({
 	onSwitchToSignIn: () => void;
 }) {
 	const { t } = useTranslation("auth");
-	const { isPending } = authClient.useSession();
-	const navigate = useNavigate();
-
-	if (isPending) {
-		return (
-			<div className="flex min-h-screen items-center justify-center">
-				<Loader />
-			</div>
-		);
-	}
 
 	return (
 		<div className="flex min-h-screen bg-background">

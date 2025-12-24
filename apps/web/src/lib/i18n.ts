@@ -1,16 +1,19 @@
 import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
+import enAdmin from "@/locales/en/admin.json";
 import enAuth from "@/locales/en/auth.json";
 import enCommon from "@/locales/en/common.json";
 import enErrors from "@/locales/en/errors.json";
 import enTodos from "@/locales/en/todos.json";
 import enValidation from "@/locales/en/validation.json";
+import esAdmin from "@/locales/es/admin.json";
 import esAuth from "@/locales/es/auth.json";
 import esCommon from "@/locales/es/common.json";
 import esErrors from "@/locales/es/errors.json";
 import esTodos from "@/locales/es/todos.json";
 import esValidation from "@/locales/es/validation.json";
+import ptAdmin from "@/locales/pt/admin.json";
 import ptAuth from "@/locales/pt/auth.json";
 import ptCommon from "@/locales/pt/common.json";
 import ptErrors from "@/locales/pt/errors.json";
@@ -23,6 +26,7 @@ export const defaultLanguage: SupportedLanguage = "en";
 
 export const resources = {
 	en: {
+		admin: enAdmin,
 		common: enCommon,
 		auth: enAuth,
 		todos: enTodos,
@@ -30,6 +34,7 @@ export const resources = {
 		validation: enValidation,
 	},
 	es: {
+		admin: esAdmin,
 		common: esCommon,
 		auth: esAuth,
 		todos: esTodos,
@@ -37,6 +42,7 @@ export const resources = {
 		validation: esValidation,
 	},
 	pt: {
+		admin: ptAdmin,
 		common: ptCommon,
 		auth: ptAuth,
 		todos: ptTodos,
@@ -47,6 +53,7 @@ export const resources = {
 
 export const defaultNS = "common";
 export const namespaces = [
+	"admin",
 	"common",
 	"auth",
 	"todos",

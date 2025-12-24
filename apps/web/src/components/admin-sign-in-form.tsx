@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import { adminAuthClient } from "@/lib/admin-auth-client";
 import { useSignInSchema } from "@/lib/zod-i18n";
 
-import Loader from "./loader";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
@@ -47,7 +46,6 @@ function LogoIcon({ className }: { className?: string }) {
 
 export default function AdminSignInForm() {
 	const { t } = useTranslation("auth");
-	const { isPending } = adminAuthClient.useSession();
 	const navigate = useNavigate();
 	const signInSchema = useSignInSchema();
 
@@ -77,14 +75,6 @@ export default function AdminSignInForm() {
 			onSubmit: signInSchema,
 		},
 	});
-
-	if (isPending) {
-		return (
-			<div className="flex min-h-screen items-center justify-center">
-				<Loader />
-			</div>
-		);
-	}
 
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-muted/40">

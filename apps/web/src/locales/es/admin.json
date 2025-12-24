@@ -1,0 +1,77 @@
+{
+	"dashboard": {
+		"stats": {
+			"totalRevenue": "Ingresos Totales",
+			"orders": "Pedidos",
+			"customers": "Clientes",
+			"products": "Productos",
+			"fromLastMonth": "del mes pasado"
+		},
+		"recentOrders": {
+			"title": "Pedidos Recientes",
+			"description": "Ultimos pedidos de tu tienda",
+			"pending": "Pendiente"
+		},
+		"topProducts": {
+			"title": "Productos Destacados",
+			"description": "Productos mas vendidos este mes",
+			"sales": "ventas"
+		}
+	},
+	"sidebar": {
+		"dashboard": "Panel",
+		"sales": {
+			"title": "Ventas",
+			"orders": "Pedidos",
+			"shipments": "Envios",
+			"invoices": "Facturas",
+			"refunds": "Reembolsos",
+			"transactions": "Transacciones"
+		},
+		"catalog": {
+			"title": "Catalogo",
+			"products": "Productos",
+			"categories": "Categorias",
+			"attributes": "Atributos",
+			"attributeFamilies": "Familias de Atributos"
+		},
+		"customers": {
+			"title": "Clientes",
+			"list": "Todos los Clientes",
+			"groups": "Grupos",
+			"reviews": "Resenas",
+			"gdprDataRequest": "Solicitud de Datos GDPR"
+		},
+		"cms": "CMS",
+		"marketing": {
+			"title": "Marketing",
+			"promotions": "Promociones",
+			"communications": "Comunicaciones",
+			"searchSeo": "Busqueda y SEO"
+		},
+		"reporting": {
+			"title": "Reportes",
+			"sales": "Ventas",
+			"customers": "Clientes",
+			"products": "Productos"
+		},
+		"settings": {
+			"title": "Configuracion",
+			"locales": "Idiomas",
+			"currencies": "Monedas",
+			"exchangeRates": "Tasas de Cambio",
+			"inventorySources": "Fuentes de Inventario",
+			"taxes": "Impuestos",
+			"dataTransfer": "Transferencia de Datos",
+			"configure": "Configurar"
+		},
+		"collapse": "Colapsar barra lateral",
+		"expand": "Expandir barra lateral"
+	},
+	"header": {
+		"menu": "Menu",
+		"search": "Buscar...",
+		"notifications": "Notificaciones",
+		"profile": "Perfil"
+	}
+}

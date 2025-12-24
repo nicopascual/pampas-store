@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 import { useSignInSchema } from "@/lib/zod-i18n";
 
-import Loader from "./loader";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
@@ -258,16 +257,7 @@ export default function SignInForm({
 	onSwitchToSignUp: () => void;
 }) {
 	const { t } = useTranslation("auth");
-	const { isPending } = authClient.useSession();
 	const [showEmailForm, setShowEmailForm] = useState(false);
-
-	if (isPending) {
-		return (
-			<div className="flex min-h-screen items-center justify-center">
-				<Loader />
-			</div>
-		);
-	}
 
 	return (
 		<div className="flex min-h-screen">

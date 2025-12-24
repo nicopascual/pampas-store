@@ -5,6 +5,7 @@ import {
 	customerManagementProcedure,
 	roleManagementProcedure,
 } from "../../index";
+import { settingsRouter } from "./settings";
 
 export const adminRouter = {
 	// Get current admin profile
@@ -256,4 +257,7 @@ export const adminRouter = {
 				});
 			}),
 	},
+
+	// Settings management (channels, locales, currencies, config, themes)
+	settings: settingsRouter,
 };

@@ -1,0 +1,77 @@
+{
+	"dashboard": {
+		"stats": {
+			"totalRevenue": "Receita Total",
+			"orders": "Pedidos",
+			"customers": "Clientes",
+			"products": "Produtos",
+			"fromLastMonth": "do mes passado"
+		},
+		"recentOrders": {
+			"title": "Pedidos Recentes",
+			"description": "Ultimos pedidos da sua loja",
+			"pending": "Pendente"
+		},
+		"topProducts": {
+			"title": "Produtos em Destaque",
+			"description": "Produtos mais vendidos este mes",
+			"sales": "vendas"
+		}
+	},
+	"sidebar": {
+		"dashboard": "Painel",
+		"sales": {
+			"title": "Vendas",
+			"orders": "Pedidos",
+			"shipments": "Envios",
+			"invoices": "Faturas",
+			"refunds": "Reembolsos",
+			"transactions": "Transacoes"
+		},
+		"catalog": {
+			"title": "Catalogo",
+			"products": "Produtos",
+			"categories": "Categorias",
+			"attributes": "Atributos",
+			"attributeFamilies": "Familias de Atributos"
+		},
+		"customers": {
+			"title": "Clientes",
+			"list": "Todos os Clientes",
+			"groups": "Grupos",
+			"reviews": "Avaliacoes",
+			"gdprDataRequest": "Solicitacao de Dados GDPR"
+		},
+		"cms": "CMS",
+		"marketing": {
+			"title": "Marketing",
+			"promotions": "Promocoes",
+			"communications": "Comunicacoes",
+			"searchSeo": "Busca e SEO"
+		},
+		"reporting": {
+			"title": "Relatorios",
+			"sales": "Vendas",
+			"customers": "Clientes",
+			"products": "Produtos"
+		},
+		"settings": {
+			"title": "Configuracoes",
+			"locales": "Idiomas",
+			"currencies": "Moedas",
+			"exchangeRates": "Taxas de Cambio",
+			"inventorySources": "Fontes de Estoque",
+			"taxes": "Impostos",
+			"dataTransfer": "Transferencia de Dados",
+			"configure": "Configurar"
+		},
+		"collapse": "Recolher barra lateral",
+		"expand": "Expandir barra lateral"
+	},
+	"header": {
+		"menu": "Menu",
+		"search": "Buscar...",
+		"notifications": "Notificacoes",
+		"profile": "Perfil"
+	}
+}

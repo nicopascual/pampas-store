@@ -15,6 +15,7 @@ export {
 	customerManagementProcedure,
 	customerReadOnlyProcedure,
 	roleManagementProcedure,
+	settingsManagementProcedure,
 	superAdminProcedure,
 } from "./middleware/permissions";
 

@@ -1,0 +1,166 @@
+//////////////////////////////
+// CHANNELS & LOCALIZATION
+//////////////////////////////
+
+model Channel {
+  id              String  @id @default(cuid())
+  code            String  @unique
+  name            String
+  description     String?
+  hostname        String?
+  theme           String  @default("default")
+  isMaintenanceOn Boolean @default(false)
+  allowedIps      String? // JSON array of IPs
+
+  rootCategoryId  String?
+  defaultLocaleId String?
+  baseCurrencyId  String?
+
+  // Relations
+  defaultLocale       Locale?   @relation("ChannelDefaultLocale", fields: [defaultLocaleId], references: [id])
+  baseCurrency        Currency? @relation("ChannelBaseCurrency", fields: [baseCurrencyId], references: [id])
+  locales             ChannelLocale[]
+  currencies          ChannelCurrency[]
+  configs             CoreConfig[]
+  themeCustomizations ThemeCustomization[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([hostname])
+  @@index([defaultLocaleId])
+  @@index([baseCurrencyId])
+  @@map("channel")
+}
+
+model Locale {
+  id        String @id @default(cuid())
+  code      String @unique // e.g., "en", "es", "pt"
+  name      String // e.g., "English", "Spanish"
+  direction String @default("ltr") // "ltr" or "rtl"
+
+  // Relations
+  channelsAsDefault Channel[]       @relation("ChannelDefaultLocale")
+  channels          ChannelLocale[]
+  configs           CoreConfig[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([code])
+  @@map("locale")
+}
+
+model Currency {
+  id      String @id @default(cuid())
+  code    String @unique // e.g., "USD", "EUR"
+  name    String // e.g., "US Dollar"
+  symbol  String // e.g., "$", "EUR"
+  decimal Int    @default(2)
+
+  // Relations
+  channelsAsBase Channel[]              @relation("ChannelBaseCurrency")
+  channels       ChannelCurrency[]
+  exchangeRates  CurrencyExchangeRate[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([code])
+  @@map("currency")
+}
+
+model CurrencyExchangeRate {
+  id               String @id @default(cuid())
+  sourceCurrencyId String
+  targetCurrency   String // Currency code
+  rate             Float
+
+  sourceCurrency Currency @relation(fields: [sourceCurrencyId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([sourceCurrencyId, targetCurrency])
+  @@index([targetCurrency])
+  @@map("currency_exchange_rate")
+}
+
+//////////////////////////////
+// JUNCTION TABLES
+//////////////////////////////
+
+model ChannelLocale {
+  id        String @id @default(cuid())
+  channelId String
+  localeId  String
+
+  channel Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  locale  Locale  @relation(fields: [localeId], references: [id], onDelete: Cascade)
+
+  @@unique([channelId, localeId])
+  @@index([channelId])
+  @@index([localeId])
+  @@map("channel_locale")
+}
+
+model ChannelCurrency {
+  id         String @id @default(cuid())
+  channelId  String
+  currencyId String
+
+  channel  Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  currency Currency @relation(fields: [currencyId], references: [id], onDelete: Cascade)
+
+  @@unique([channelId, currencyId])
+  @@index([channelId])
+  @@index([currencyId])
+  @@map("channel_currency")
+}
+
+//////////////////////////////
+// CONFIGURATION
+//////////////////////////////
+
+model CoreConfig {
+  id    String @id @default(cuid())
+  code  String
+  value String
+
+  channelId String?
+  localeId  String?
+
+  channel Channel? @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  locale  Locale?  @relation(fields: [localeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([code, channelId, localeId])
+  @@index([code])
+  @@index([code, channelId])
+  @@index([code, localeId])
+  @@map("core_config")
+}
+
+//////////////////////////////
+// THEME
+//////////////////////////////
+
+model ThemeCustomization {
+  id    String  @id @default(cuid())
+  type  String // e.g., "color", "font", "layout"
+  name  String // e.g., "primaryColor", "headerFont"
+  value String?
+
+  channelId String?
+  channel   Channel? @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([type, name, channelId])
+  @@index([type])
+  @@index([channelId])
+  @@map("theme_customization")
+}

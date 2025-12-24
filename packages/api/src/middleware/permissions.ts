@@ -59,4 +59,7 @@ export const customerReadOnlyProcedure = createPermissionProcedure([
 export const roleManagementProcedure = createPermissionProcedure([
 	"roles:manage",
 ]);
+export const settingsManagementProcedure = createPermissionProcedure([
+	"settings:manage",
+]);
 export const superAdminProcedure = createPermissionProcedure(["*"]);

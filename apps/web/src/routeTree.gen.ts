@@ -19,6 +19,39 @@ import { Route as SignUpEmailRouteImport } from './routes/sign-up/email'
 import { Route as AdminSignInRouteImport } from './routes/admin/sign-in'
 import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
 import { Route as AdminDashboardIndexRouteImport } from './routes/admin/dashboard/index'
+import { Route as AdminDashboardCmsRouteImport } from './routes/admin/dashboard/cms'
+import { Route as AdminDashboardSettingsIndexRouteImport } from './routes/admin/dashboard/settings/index'
+import { Route as AdminDashboardSalesIndexRouteImport } from './routes/admin/dashboard/sales/index'
+import { Route as AdminDashboardReportingIndexRouteImport } from './routes/admin/dashboard/reporting/index'
+import { Route as AdminDashboardMarketingIndexRouteImport } from './routes/admin/dashboard/marketing/index'
+import { Route as AdminDashboardCustomersIndexRouteImport } from './routes/admin/dashboard/customers/index'
+import { Route as AdminDashboardCatalogIndexRouteImport } from './routes/admin/dashboard/catalog/index'
+import { Route as AdminDashboardSettingsTaxesRouteImport } from './routes/admin/dashboard/settings/taxes'
+import { Route as AdminDashboardSettingsLocalesRouteImport } from './routes/admin/dashboard/settings/locales'
+import { Route as AdminDashboardSettingsInventorySourcesRouteImport } from './routes/admin/dashboard/settings/inventory-sources'
+import { Route as AdminDashboardSettingsExchangeRatesRouteImport } from './routes/admin/dashboard/settings/exchange-rates'
+import { Route as AdminDashboardSettingsDataTransferRouteImport } from './routes/admin/dashboard/settings/data-transfer'
+import { Route as AdminDashboardSettingsCurrenciesRouteImport } from './routes/admin/dashboard/settings/currencies'
+import { Route as AdminDashboardSettingsConfigureRouteImport } from './routes/admin/dashboard/settings/configure'
+import { Route as AdminDashboardSalesTransactionsRouteImport } from './routes/admin/dashboard/sales/transactions'
+import { Route as AdminDashboardSalesShipmentsRouteImport } from './routes/admin/dashboard/sales/shipments'
+import { Route as AdminDashboardSalesRefundsRouteImport } from './routes/admin/dashboard/sales/refunds'
+import { Route as AdminDashboardSalesOrdersRouteImport } from './routes/admin/dashboard/sales/orders'
+import { Route as AdminDashboardSalesInvoicesRouteImport } from './routes/admin/dashboard/sales/invoices'
+import { Route as AdminDashboardReportingSalesRouteImport } from './routes/admin/dashboard/reporting/sales'
+import { Route as AdminDashboardReportingProductsRouteImport } from './routes/admin/dashboard/reporting/products'
+import { Route as AdminDashboardReportingCustomersRouteImport } from './routes/admin/dashboard/reporting/customers'
+import { Route as AdminDashboardMarketingSearchSeoRouteImport } from './routes/admin/dashboard/marketing/search-seo'
+import { Route as AdminDashboardMarketingPromotionsRouteImport } from './routes/admin/dashboard/marketing/promotions'
+import { Route as AdminDashboardMarketingCommunicationsRouteImport } from './routes/admin/dashboard/marketing/communications'
+import { Route as AdminDashboardCustomersReviewsRouteImport } from './routes/admin/dashboard/customers/reviews'
+import { Route as AdminDashboardCustomersListRouteImport } from './routes/admin/dashboard/customers/list'
+import { Route as AdminDashboardCustomersGroupsRouteImport } from './routes/admin/dashboard/customers/groups'
+import { Route as AdminDashboardCustomersGdprDataRequestRouteImport } from './routes/admin/dashboard/customers/gdpr-data-request'
+import { Route as AdminDashboardCatalogProductsRouteImport } from './routes/admin/dashboard/catalog/products'
+import { Route as AdminDashboardCatalogCategoriesRouteImport } from './routes/admin/dashboard/catalog/categories'
+import { Route as AdminDashboardCatalogAttributesRouteImport } from './routes/admin/dashboard/catalog/attributes'
+import { Route as AdminDashboardCatalogAttributeFamiliesRouteImport } from './routes/admin/dashboard/catalog/attribute-families'
 
 const TodosRoute = TodosRouteImport.update({
   id: '/todos',
@@ -70,6 +103,203 @@ const AdminDashboardIndexRoute = AdminDashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminDashboardRoute,
 } as any)
+const AdminDashboardCmsRoute = AdminDashboardCmsRouteImport.update({
+  id: '/cms',
+  path: '/cms',
+  getParentRoute: () => AdminDashboardRoute,
+} as any)
+const AdminDashboardSettingsIndexRoute =
+  AdminDashboardSettingsIndexRouteImport.update({
+    id: '/settings/',
+    path: '/settings/',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardSalesIndexRoute =
+  AdminDashboardSalesIndexRouteImport.update({
+    id: '/sales/',
+    path: '/sales/',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardReportingIndexRoute =
+  AdminDashboardReportingIndexRouteImport.update({
+    id: '/reporting/',
+    path: '/reporting/',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardMarketingIndexRoute =
+  AdminDashboardMarketingIndexRouteImport.update({
+    id: '/marketing/',
+    path: '/marketing/',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardCustomersIndexRoute =
+  AdminDashboardCustomersIndexRouteImport.update({
+    id: '/customers/',
+    path: '/customers/',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardCatalogIndexRoute =
+  AdminDashboardCatalogIndexRouteImport.update({
+    id: '/catalog/',
+    path: '/catalog/',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardSettingsTaxesRoute =
+  AdminDashboardSettingsTaxesRouteImport.update({
+    id: '/settings/taxes',
+    path: '/settings/taxes',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardSettingsLocalesRoute =
+  AdminDashboardSettingsLocalesRouteImport.update({
+    id: '/settings/locales',
+    path: '/settings/locales',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardSettingsInventorySourcesRoute =
+  AdminDashboardSettingsInventorySourcesRouteImport.update({
+    id: '/settings/inventory-sources',
+    path: '/settings/inventory-sources',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardSettingsExchangeRatesRoute =
+  AdminDashboardSettingsExchangeRatesRouteImport.update({
+    id: '/settings/exchange-rates',
+    path: '/settings/exchange-rates',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardSettingsDataTransferRoute =
+  AdminDashboardSettingsDataTransferRouteImport.update({
+    id: '/settings/data-transfer',
+    path: '/settings/data-transfer',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardSettingsCurrenciesRoute =
+  AdminDashboardSettingsCurrenciesRouteImport.update({
+    id: '/settings/currencies',
+    path: '/settings/currencies',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardSettingsConfigureRoute =
+  AdminDashboardSettingsConfigureRouteImport.update({
+    id: '/settings/configure',
+    path: '/settings/configure',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardSalesTransactionsRoute =
+  AdminDashboardSalesTransactionsRouteImport.update({
+    id: '/sales/transactions',
+    path: '/sales/transactions',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardSalesShipmentsRoute =
+  AdminDashboardSalesShipmentsRouteImport.update({
+    id: '/sales/shipments',
+    path: '/sales/shipments',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardSalesRefundsRoute =
+  AdminDashboardSalesRefundsRouteImport.update({
+    id: '/sales/refunds',
+    path: '/sales/refunds',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardSalesOrdersRoute =
+  AdminDashboardSalesOrdersRouteImport.update({
+    id: '/sales/orders',
+    path: '/sales/orders',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardSalesInvoicesRoute =
+  AdminDashboardSalesInvoicesRouteImport.update({
+    id: '/sales/invoices',
+    path: '/sales/invoices',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardReportingSalesRoute =
+  AdminDashboardReportingSalesRouteImport.update({
+    id: '/reporting/sales',
+    path: '/reporting/sales',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardReportingProductsRoute =
+  AdminDashboardReportingProductsRouteImport.update({
+    id: '/reporting/products',
+    path: '/reporting/products',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardReportingCustomersRoute =
+  AdminDashboardReportingCustomersRouteImport.update({
+    id: '/reporting/customers',
+    path: '/reporting/customers',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardMarketingSearchSeoRoute =
+  AdminDashboardMarketingSearchSeoRouteImport.update({
+    id: '/marketing/search-seo',
+    path: '/marketing/search-seo',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardMarketingPromotionsRoute =
+  AdminDashboardMarketingPromotionsRouteImport.update({
+    id: '/marketing/promotions',
+    path: '/marketing/promotions',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardMarketingCommunicationsRoute =
+  AdminDashboardMarketingCommunicationsRouteImport.update({
+    id: '/marketing/communications',
+    path: '/marketing/communications',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardCustomersReviewsRoute =
+  AdminDashboardCustomersReviewsRouteImport.update({
+    id: '/customers/reviews',
+    path: '/customers/reviews',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardCustomersListRoute =
+  AdminDashboardCustomersListRouteImport.update({
+    id: '/customers/list',
+    path: '/customers/list',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardCustomersGroupsRoute =
+  AdminDashboardCustomersGroupsRouteImport.update({
+    id: '/customers/groups',
+    path: '/customers/groups',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardCustomersGdprDataRequestRoute =
+  AdminDashboardCustomersGdprDataRequestRouteImport.update({
+    id: '/customers/gdpr-data-request',
+    path: '/customers/gdpr-data-request',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardCatalogProductsRoute =
+  AdminDashboardCatalogProductsRouteImport.update({
+    id: '/catalog/products',
+    path: '/catalog/products',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardCatalogCategoriesRoute =
+  AdminDashboardCatalogCategoriesRouteImport.update({
+    id: '/catalog/categories',
+    path: '/catalog/categories',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardCatalogAttributesRoute =
+  AdminDashboardCatalogAttributesRouteImport.update({
+    id: '/catalog/attributes',
+    path: '/catalog/attributes',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
+const AdminDashboardCatalogAttributeFamiliesRoute =
+  AdminDashboardCatalogAttributeFamiliesRouteImport.update({
+    id: '/catalog/attribute-families',
+    path: '/catalog/attribute-families',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -81,7 +311,40 @@ export interface FileRoutesByFullPath {
   '/admin/sign-in': typeof AdminSignInRoute
   '/sign-up/email': typeof SignUpEmailRoute
   '/sign-up/': typeof SignUpIndexRoute
+  '/admin/dashboard/cms': typeof AdminDashboardCmsRoute
   '/admin/dashboard/': typeof AdminDashboardIndexRoute
+  '/admin/dashboard/catalog/attribute-families': typeof AdminDashboardCatalogAttributeFamiliesRoute
+  '/admin/dashboard/catalog/attributes': typeof AdminDashboardCatalogAttributesRoute
+  '/admin/dashboard/catalog/categories': typeof AdminDashboardCatalogCategoriesRoute
+  '/admin/dashboard/catalog/products': typeof AdminDashboardCatalogProductsRoute
+  '/admin/dashboard/customers/gdpr-data-request': typeof AdminDashboardCustomersGdprDataRequestRoute
+  '/admin/dashboard/customers/groups': typeof AdminDashboardCustomersGroupsRoute
+  '/admin/dashboard/customers/list': typeof AdminDashboardCustomersListRoute
+  '/admin/dashboard/customers/reviews': typeof AdminDashboardCustomersReviewsRoute
+  '/admin/dashboard/marketing/communications': typeof AdminDashboardMarketingCommunicationsRoute
+  '/admin/dashboard/marketing/promotions': typeof AdminDashboardMarketingPromotionsRoute
+  '/admin/dashboard/marketing/search-seo': typeof AdminDashboardMarketingSearchSeoRoute
+  '/admin/dashboard/reporting/customers': typeof AdminDashboardReportingCustomersRoute
+  '/admin/dashboard/reporting/products': typeof AdminDashboardReportingProductsRoute
+  '/admin/dashboard/reporting/sales': typeof AdminDashboardReportingSalesRoute
+  '/admin/dashboard/sales/invoices': typeof AdminDashboardSalesInvoicesRoute
+  '/admin/dashboard/sales/orders': typeof AdminDashboardSalesOrdersRoute
+  '/admin/dashboard/sales/refunds': typeof AdminDashboardSalesRefundsRoute
+  '/admin/dashboard/sales/shipments': typeof AdminDashboardSalesShipmentsRoute
+  '/admin/dashboard/sales/transactions': typeof AdminDashboardSalesTransactionsRoute
+  '/admin/dashboard/settings/configure': typeof AdminDashboardSettingsConfigureRoute
+  '/admin/dashboard/settings/currencies': typeof AdminDashboardSettingsCurrenciesRoute
+  '/admin/dashboard/settings/data-transfer': typeof AdminDashboardSettingsDataTransferRoute
+  '/admin/dashboard/settings/exchange-rates': typeof AdminDashboardSettingsExchangeRatesRoute
+  '/admin/dashboard/settings/inventory-sources': typeof AdminDashboardSettingsInventorySourcesRoute
+  '/admin/dashboard/settings/locales': typeof AdminDashboardSettingsLocalesRoute
+  '/admin/dashboard/settings/taxes': typeof AdminDashboardSettingsTaxesRoute
+  '/admin/dashboard/catalog': typeof AdminDashboardCatalogIndexRoute
+  '/admin/dashboard/customers': typeof AdminDashboardCustomersIndexRoute
+  '/admin/dashboard/marketing': typeof AdminDashboardMarketingIndexRoute
+  '/admin/dashboard/reporting': typeof AdminDashboardReportingIndexRoute
+  '/admin/dashboard/sales': typeof AdminDashboardSalesIndexRoute
+  '/admin/dashboard/settings': typeof AdminDashboardSettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -91,7 +354,40 @@ export interface FileRoutesByTo {
   '/admin/sign-in': typeof AdminSignInRoute
   '/sign-up/email': typeof SignUpEmailRoute
   '/sign-up': typeof SignUpIndexRoute
+  '/admin/dashboard/cms': typeof AdminDashboardCmsRoute
   '/admin/dashboard': typeof AdminDashboardIndexRoute
+  '/admin/dashboard/catalog/attribute-families': typeof AdminDashboardCatalogAttributeFamiliesRoute
+  '/admin/dashboard/catalog/attributes': typeof AdminDashboardCatalogAttributesRoute
+  '/admin/dashboard/catalog/categories': typeof AdminDashboardCatalogCategoriesRoute
+  '/admin/dashboard/catalog/products': typeof AdminDashboardCatalogProductsRoute
+  '/admin/dashboard/customers/gdpr-data-request': typeof AdminDashboardCustomersGdprDataRequestRoute
+  '/admin/dashboard/customers/groups': typeof AdminDashboardCustomersGroupsRoute
+  '/admin/dashboard/customers/list': typeof AdminDashboardCustomersListRoute
+  '/admin/dashboard/customers/reviews': typeof AdminDashboardCustomersReviewsRoute
+  '/admin/dashboard/marketing/communications': typeof AdminDashboardMarketingCommunicationsRoute
+  '/admin/dashboard/marketing/promotions': typeof AdminDashboardMarketingPromotionsRoute
+  '/admin/dashboard/marketing/search-seo': typeof AdminDashboardMarketingSearchSeoRoute
+  '/admin/dashboard/reporting/customers': typeof AdminDashboardReportingCustomersRoute
+  '/admin/dashboard/reporting/products': typeof AdminDashboardReportingProductsRoute
+  '/admin/dashboard/reporting/sales': typeof AdminDashboardReportingSalesRoute
+  '/admin/dashboard/sales/invoices': typeof AdminDashboardSalesInvoicesRoute
+  '/admin/dashboard/sales/orders': typeof AdminDashboardSalesOrdersRoute
+  '/admin/dashboard/sales/refunds': typeof AdminDashboardSalesRefundsRoute
+  '/admin/dashboard/sales/shipments': typeof AdminDashboardSalesShipmentsRoute
+  '/admin/dashboard/sales/transactions': typeof AdminDashboardSalesTransactionsRoute
+  '/admin/dashboard/settings/configure': typeof AdminDashboardSettingsConfigureRoute
+  '/admin/dashboard/settings/currencies': typeof AdminDashboardSettingsCurrenciesRoute
+  '/admin/dashboard/settings/data-transfer': typeof AdminDashboardSettingsDataTransferRoute
+  '/admin/dashboard/settings/exchange-rates': typeof AdminDashboardSettingsExchangeRatesRoute
+  '/admin/dashboard/settings/inventory-sources': typeof AdminDashboardSettingsInventorySourcesRoute
+  '/admin/dashboard/settings/locales': typeof AdminDashboardSettingsLocalesRoute
+  '/admin/dashboard/settings/taxes': typeof AdminDashboardSettingsTaxesRoute
+  '/admin/dashboard/catalog': typeof AdminDashboardCatalogIndexRoute
+  '/admin/dashboard/customers': typeof AdminDashboardCustomersIndexRoute
+  '/admin/dashboard/marketing': typeof AdminDashboardMarketingIndexRoute
+  '/admin/dashboard/reporting': typeof AdminDashboardReportingIndexRoute
+  '/admin/dashboard/sales': typeof AdminDashboardSalesIndexRoute
+  '/admin/dashboard/settings': typeof AdminDashboardSettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -104,7 +400,40 @@ export interface FileRoutesById {
   '/admin/sign-in': typeof AdminSignInRoute
   '/sign-up/email': typeof SignUpEmailRoute
   '/sign-up/': typeof SignUpIndexRoute
+  '/admin/dashboard/cms': typeof AdminDashboardCmsRoute
   '/admin/dashboard/': typeof AdminDashboardIndexRoute
+  '/admin/dashboard/catalog/attribute-families': typeof AdminDashboardCatalogAttributeFamiliesRoute
+  '/admin/dashboard/catalog/attributes': typeof AdminDashboardCatalogAttributesRoute
+  '/admin/dashboard/catalog/categories': typeof AdminDashboardCatalogCategoriesRoute
+  '/admin/dashboard/catalog/products': typeof AdminDashboardCatalogProductsRoute
+  '/admin/dashboard/customers/gdpr-data-request': typeof AdminDashboardCustomersGdprDataRequestRoute
+  '/admin/dashboard/customers/groups': typeof AdminDashboardCustomersGroupsRoute
+  '/admin/dashboard/customers/list': typeof AdminDashboardCustomersListRoute
+  '/admin/dashboard/customers/reviews': typeof AdminDashboardCustomersReviewsRoute
+  '/admin/dashboard/marketing/communications': typeof AdminDashboardMarketingCommunicationsRoute
+  '/admin/dashboard/marketing/promotions': typeof AdminDashboardMarketingPromotionsRoute
+  '/admin/dashboard/marketing/search-seo': typeof AdminDashboardMarketingSearchSeoRoute
+  '/admin/dashboard/reporting/customers': typeof AdminDashboardReportingCustomersRoute
+  '/admin/dashboard/reporting/products': typeof AdminDashboardReportingProductsRoute
+  '/admin/dashboard/reporting/sales': typeof AdminDashboardReportingSalesRoute
+  '/admin/dashboard/sales/invoices': typeof AdminDashboardSalesInvoicesRoute
+  '/admin/dashboard/sales/orders': typeof AdminDashboardSalesOrdersRoute
+  '/admin/dashboard/sales/refunds': typeof AdminDashboardSalesRefundsRoute
+  '/admin/dashboard/sales/shipments': typeof AdminDashboardSalesShipmentsRoute
+  '/admin/dashboard/sales/transactions': typeof AdminDashboardSalesTransactionsRoute
+  '/admin/dashboard/settings/configure': typeof AdminDashboardSettingsConfigureRoute
+  '/admin/dashboard/settings/currencies': typeof AdminDashboardSettingsCurrenciesRoute
+  '/admin/dashboard/settings/data-transfer': typeof AdminDashboardSettingsDataTransferRoute
+  '/admin/dashboard/settings/exchange-rates': typeof AdminDashboardSettingsExchangeRatesRoute
+  '/admin/dashboard/settings/inventory-sources': typeof AdminDashboardSettingsInventorySourcesRoute
+  '/admin/dashboard/settings/locales': typeof AdminDashboardSettingsLocalesRoute
+  '/admin/dashboard/settings/taxes': typeof AdminDashboardSettingsTaxesRoute
+  '/admin/dashboard/catalog/': typeof AdminDashboardCatalogIndexRoute
+  '/admin/dashboard/customers/': typeof AdminDashboardCustomersIndexRoute
+  '/admin/dashboard/marketing/': typeof AdminDashboardMarketingIndexRoute
+  '/admin/dashboard/reporting/': typeof AdminDashboardReportingIndexRoute
+  '/admin/dashboard/sales/': typeof AdminDashboardSalesIndexRoute
+  '/admin/dashboard/settings/': typeof AdminDashboardSettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -118,7 +447,40 @@ export interface FileRouteTypes {
     | '/admin/sign-in'
     | '/sign-up/email'
     | '/sign-up/'
+    | '/admin/dashboard/cms'
     | '/admin/dashboard/'
+    | '/admin/dashboard/catalog/attribute-families'
+    | '/admin/dashboard/catalog/attributes'
+    | '/admin/dashboard/catalog/categories'
+    | '/admin/dashboard/catalog/products'
+    | '/admin/dashboard/customers/gdpr-data-request'
+    | '/admin/dashboard/customers/groups'
+    | '/admin/dashboard/customers/list'
+    | '/admin/dashboard/customers/reviews'
+    | '/admin/dashboard/marketing/communications'
+    | '/admin/dashboard/marketing/promotions'
+    | '/admin/dashboard/marketing/search-seo'
+    | '/admin/dashboard/reporting/customers'
+    | '/admin/dashboard/reporting/products'
+    | '/admin/dashboard/reporting/sales'
+    | '/admin/dashboard/sales/invoices'
+    | '/admin/dashboard/sales/orders'
+    | '/admin/dashboard/sales/refunds'
+    | '/admin/dashboard/sales/shipments'
+    | '/admin/dashboard/sales/transactions'
+    | '/admin/dashboard/settings/configure'
+    | '/admin/dashboard/settings/currencies'
+    | '/admin/dashboard/settings/data-transfer'
+    | '/admin/dashboard/settings/exchange-rates'
+    | '/admin/dashboard/settings/inventory-sources'
+    | '/admin/dashboard/settings/locales'
+    | '/admin/dashboard/settings/taxes'
+    | '/admin/dashboard/catalog'
+    | '/admin/dashboard/customers'
+    | '/admin/dashboard/marketing'
+    | '/admin/dashboard/reporting'
+    | '/admin/dashboard/sales'
+    | '/admin/dashboard/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -128,7 +490,40 @@ export interface FileRouteTypes {
     | '/admin/sign-in'
     | '/sign-up/email'
     | '/sign-up'
+    | '/admin/dashboard/cms'
     | '/admin/dashboard'
+    | '/admin/dashboard/catalog/attribute-families'
+    | '/admin/dashboard/catalog/attributes'
+    | '/admin/dashboard/catalog/categories'
+    | '/admin/dashboard/catalog/products'
+    | '/admin/dashboard/customers/gdpr-data-request'
+    | '/admin/dashboard/customers/groups'
+    | '/admin/dashboard/customers/list'
+    | '/admin/dashboard/customers/reviews'
+    | '/admin/dashboard/marketing/communications'
+    | '/admin/dashboard/marketing/promotions'
+    | '/admin/dashboard/marketing/search-seo'
+    | '/admin/dashboard/reporting/customers'
+    | '/admin/dashboard/reporting/products'
+    | '/admin/dashboard/reporting/sales'
+    | '/admin/dashboard/sales/invoices'
+    | '/admin/dashboard/sales/orders'
+    | '/admin/dashboard/sales/refunds'
+    | '/admin/dashboard/sales/shipments'
+    | '/admin/dashboard/sales/transactions'
+    | '/admin/dashboard/settings/configure'
+    | '/admin/dashboard/settings/currencies'
+    | '/admin/dashboard/settings/data-transfer'
+    | '/admin/dashboard/settings/exchange-rates'
+    | '/admin/dashboard/settings/inventory-sources'
+    | '/admin/dashboard/settings/locales'
+    | '/admin/dashboard/settings/taxes'
+    | '/admin/dashboard/catalog'
+    | '/admin/dashboard/customers'
+    | '/admin/dashboard/marketing'
+    | '/admin/dashboard/reporting'
+    | '/admin/dashboard/sales'
+    | '/admin/dashboard/settings'
   id:
     | '__root__'
     | '/'
@@ -140,7 +535,40 @@ export interface FileRouteTypes {
     | '/admin/sign-in'
     | '/sign-up/email'
     | '/sign-up/'
+    | '/admin/dashboard/cms'
     | '/admin/dashboard/'
+    | '/admin/dashboard/catalog/attribute-families'
+    | '/admin/dashboard/catalog/attributes'
+    | '/admin/dashboard/catalog/categories'
+    | '/admin/dashboard/catalog/products'
+    | '/admin/dashboard/customers/gdpr-data-request'
+    | '/admin/dashboard/customers/groups'
+    | '/admin/dashboard/customers/list'
+    | '/admin/dashboard/customers/reviews'
+    | '/admin/dashboard/marketing/communications'
+    | '/admin/dashboard/marketing/promotions'
+    | '/admin/dashboard/marketing/search-seo'
+    | '/admin/dashboard/reporting/customers'
+    | '/admin/dashboard/reporting/products'
+    | '/admin/dashboard/reporting/sales'
+    | '/admin/dashboard/sales/invoices'
+    | '/admin/dashboard/sales/orders'
+    | '/admin/dashboard/sales/refunds'
+    | '/admin/dashboard/sales/shipments'
+    | '/admin/dashboard/sales/transactions'
+    | '/admin/dashboard/settings/configure'
+    | '/admin/dashboard/settings/currencies'
+    | '/admin/dashboard/settings/data-transfer'
+    | '/admin/dashboard/settings/exchange-rates'
+    | '/admin/dashboard/settings/inventory-sources'
+    | '/admin/dashboard/settings/locales'
+    | '/admin/dashboard/settings/taxes'
+    | '/admin/dashboard/catalog/'
+    | '/admin/dashboard/customers/'
+    | '/admin/dashboard/marketing/'
+    | '/admin/dashboard/reporting/'
+    | '/admin/dashboard/sales/'
+    | '/admin/dashboard/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -225,6 +653,237 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDashboardIndexRouteImport
       parentRoute: typeof AdminDashboardRoute
     }
+    '/admin/dashboard/cms': {
+      id: '/admin/dashboard/cms'
+      path: '/cms'
+      fullPath: '/admin/dashboard/cms'
+      preLoaderRoute: typeof AdminDashboardCmsRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/settings/': {
+      id: '/admin/dashboard/settings/'
+      path: '/settings'
+      fullPath: '/admin/dashboard/settings'
+      preLoaderRoute: typeof AdminDashboardSettingsIndexRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/sales/': {
+      id: '/admin/dashboard/sales/'
+      path: '/sales'
+      fullPath: '/admin/dashboard/sales'
+      preLoaderRoute: typeof AdminDashboardSalesIndexRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/reporting/': {
+      id: '/admin/dashboard/reporting/'
+      path: '/reporting'
+      fullPath: '/admin/dashboard/reporting'
+      preLoaderRoute: typeof AdminDashboardReportingIndexRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/marketing/': {
+      id: '/admin/dashboard/marketing/'
+      path: '/marketing'
+      fullPath: '/admin/dashboard/marketing'
+      preLoaderRoute: typeof AdminDashboardMarketingIndexRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/customers/': {
+      id: '/admin/dashboard/customers/'
+      path: '/customers'
+      fullPath: '/admin/dashboard/customers'
+      preLoaderRoute: typeof AdminDashboardCustomersIndexRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/catalog/': {
+      id: '/admin/dashboard/catalog/'
+      path: '/catalog'
+      fullPath: '/admin/dashboard/catalog'
+      preLoaderRoute: typeof AdminDashboardCatalogIndexRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/settings/taxes': {
+      id: '/admin/dashboard/settings/taxes'
+      path: '/settings/taxes'
+      fullPath: '/admin/dashboard/settings/taxes'
+      preLoaderRoute: typeof AdminDashboardSettingsTaxesRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/settings/locales': {
+      id: '/admin/dashboard/settings/locales'
+      path: '/settings/locales'
+      fullPath: '/admin/dashboard/settings/locales'
+      preLoaderRoute: typeof AdminDashboardSettingsLocalesRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/settings/inventory-sources': {
+      id: '/admin/dashboard/settings/inventory-sources'
+      path: '/settings/inventory-sources'
+      fullPath: '/admin/dashboard/settings/inventory-sources'
+      preLoaderRoute: typeof AdminDashboardSettingsInventorySourcesRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/settings/exchange-rates': {
+      id: '/admin/dashboard/settings/exchange-rates'
+      path: '/settings/exchange-rates'
+      fullPath: '/admin/dashboard/settings/exchange-rates'
+      preLoaderRoute: typeof AdminDashboardSettingsExchangeRatesRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/settings/data-transfer': {
+      id: '/admin/dashboard/settings/data-transfer'
+      path: '/settings/data-transfer'
+      fullPath: '/admin/dashboard/settings/data-transfer'
+      preLoaderRoute: typeof AdminDashboardSettingsDataTransferRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/settings/currencies': {
+      id: '/admin/dashboard/settings/currencies'
+      path: '/settings/currencies'
+      fullPath: '/admin/dashboard/settings/currencies'
+      preLoaderRoute: typeof AdminDashboardSettingsCurrenciesRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/settings/configure': {
+      id: '/admin/dashboard/settings/configure'
+      path: '/settings/configure'
+      fullPath: '/admin/dashboard/settings/configure'
+      preLoaderRoute: typeof AdminDashboardSettingsConfigureRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/sales/transactions': {
+      id: '/admin/dashboard/sales/transactions'
+      path: '/sales/transactions'
+      fullPath: '/admin/dashboard/sales/transactions'
+      preLoaderRoute: typeof AdminDashboardSalesTransactionsRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/sales/shipments': {
+      id: '/admin/dashboard/sales/shipments'
+      path: '/sales/shipments'
+      fullPath: '/admin/dashboard/sales/shipments'
+      preLoaderRoute: typeof AdminDashboardSalesShipmentsRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/sales/refunds': {
+      id: '/admin/dashboard/sales/refunds'
+      path: '/sales/refunds'
+      fullPath: '/admin/dashboard/sales/refunds'
+      preLoaderRoute: typeof AdminDashboardSalesRefundsRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/sales/orders': {
+      id: '/admin/dashboard/sales/orders'
+      path: '/sales/orders'
+      fullPath: '/admin/dashboard/sales/orders'
+      preLoaderRoute: typeof AdminDashboardSalesOrdersRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/sales/invoices': {
+      id: '/admin/dashboard/sales/invoices'
+      path: '/sales/invoices'
+      fullPath: '/admin/dashboard/sales/invoices'
+      preLoaderRoute: typeof AdminDashboardSalesInvoicesRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/reporting/sales': {
+      id: '/admin/dashboard/reporting/sales'
+      path: '/reporting/sales'
+      fullPath: '/admin/dashboard/reporting/sales'
+      preLoaderRoute: typeof AdminDashboardReportingSalesRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/reporting/products': {
+      id: '/admin/dashboard/reporting/products'
+      path: '/reporting/products'
+      fullPath: '/admin/dashboard/reporting/products'
+      preLoaderRoute: typeof AdminDashboardReportingProductsRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/reporting/customers': {
+      id: '/admin/dashboard/reporting/customers'
+      path: '/reporting/customers'
+      fullPath: '/admin/dashboard/reporting/customers'
+      preLoaderRoute: typeof AdminDashboardReportingCustomersRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/marketing/search-seo': {
+      id: '/admin/dashboard/marketing/search-seo'
+      path: '/marketing/search-seo'
+      fullPath: '/admin/dashboard/marketing/search-seo'
+      preLoaderRoute: typeof AdminDashboardMarketingSearchSeoRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/marketing/promotions': {
+      id: '/admin/dashboard/marketing/promotions'
+      path: '/marketing/promotions'
+      fullPath: '/admin/dashboard/marketing/promotions'
+      preLoaderRoute: typeof AdminDashboardMarketingPromotionsRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/marketing/communications': {
+      id: '/admin/dashboard/marketing/communications'
+      path: '/marketing/communications'
+      fullPath: '/admin/dashboard/marketing/communications'
+      preLoaderRoute: typeof AdminDashboardMarketingCommunicationsRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/customers/reviews': {
+      id: '/admin/dashboard/customers/reviews'
+      path: '/customers/reviews'
+      fullPath: '/admin/dashboard/customers/reviews'
+      preLoaderRoute: typeof AdminDashboardCustomersReviewsRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/customers/list': {
+      id: '/admin/dashboard/customers/list'
+      path: '/customers/list'
+      fullPath: '/admin/dashboard/customers/list'
+      preLoaderRoute: typeof AdminDashboardCustomersListRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/customers/groups': {
+      id: '/admin/dashboard/customers/groups'
+      path: '/customers/groups'
+      fullPath: '/admin/dashboard/customers/groups'
+      preLoaderRoute: typeof AdminDashboardCustomersGroupsRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/customers/gdpr-data-request': {
+      id: '/admin/dashboard/customers/gdpr-data-request'
+      path: '/customers/gdpr-data-request'
+      fullPath: '/admin/dashboard/customers/gdpr-data-request'
+      preLoaderRoute: typeof AdminDashboardCustomersGdprDataRequestRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/catalog/products': {
+      id: '/admin/dashboard/catalog/products'
+      path: '/catalog/products'
+      fullPath: '/admin/dashboard/catalog/products'
+      preLoaderRoute: typeof AdminDashboardCatalogProductsRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/catalog/categories': {
+      id: '/admin/dashboard/catalog/categories'
+      path: '/catalog/categories'
+      fullPath: '/admin/dashboard/catalog/categories'
+      preLoaderRoute: typeof AdminDashboardCatalogCategoriesRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/catalog/attributes': {
+      id: '/admin/dashboard/catalog/attributes'
+      path: '/catalog/attributes'
+      fullPath: '/admin/dashboard/catalog/attributes'
+      preLoaderRoute: typeof AdminDashboardCatalogAttributesRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/catalog/attribute-families': {
+      id: '/admin/dashboard/catalog/attribute-families'
+      path: '/catalog/attribute-families'
+      fullPath: '/admin/dashboard/catalog/attribute-families'
+      preLoaderRoute: typeof AdminDashboardCatalogAttributeFamiliesRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
   }
 }
 
@@ -242,11 +901,84 @@ const SignUpRouteWithChildren =
   SignUpRoute._addFileChildren(SignUpRouteChildren)
 
 interface AdminDashboardRouteChildren {
+  AdminDashboardCmsRoute: typeof AdminDashboardCmsRoute
   AdminDashboardIndexRoute: typeof AdminDashboardIndexRoute
+  AdminDashboardCatalogAttributeFamiliesRoute: typeof AdminDashboardCatalogAttributeFamiliesRoute
+  AdminDashboardCatalogAttributesRoute: typeof AdminDashboardCatalogAttributesRoute
+  AdminDashboardCatalogCategoriesRoute: typeof AdminDashboardCatalogCategoriesRoute
+  AdminDashboardCatalogProductsRoute: typeof AdminDashboardCatalogProductsRoute
+  AdminDashboardCustomersGdprDataRequestRoute: typeof AdminDashboardCustomersGdprDataRequestRoute
+  AdminDashboardCustomersGroupsRoute: typeof AdminDashboardCustomersGroupsRoute
+  AdminDashboardCustomersListRoute: typeof AdminDashboardCustomersListRoute
+  AdminDashboardCustomersReviewsRoute: typeof AdminDashboardCustomersReviewsRoute
+  AdminDashboardMarketingCommunicationsRoute: typeof AdminDashboardMarketingCommunicationsRoute
+  AdminDashboardMarketingPromotionsRoute: typeof AdminDashboardMarketingPromotionsRoute
+  AdminDashboardMarketingSearchSeoRoute: typeof AdminDashboardMarketingSearchSeoRoute
+  AdminDashboardReportingCustomersRoute: typeof AdminDashboardReportingCustomersRoute
+  AdminDashboardReportingProductsRoute: typeof AdminDashboardReportingProductsRoute
+  AdminDashboardReportingSalesRoute: typeof AdminDashboardReportingSalesRoute
+  AdminDashboardSalesInvoicesRoute: typeof AdminDashboardSalesInvoicesRoute
+  AdminDashboardSalesOrdersRoute: typeof AdminDashboardSalesOrdersRoute
+  AdminDashboardSalesRefundsRoute: typeof AdminDashboardSalesRefundsRoute
+  AdminDashboardSalesShipmentsRoute: typeof AdminDashboardSalesShipmentsRoute
+  AdminDashboardSalesTransactionsRoute: typeof AdminDashboardSalesTransactionsRoute
+  AdminDashboardSettingsConfigureRoute: typeof AdminDashboardSettingsConfigureRoute
+  AdminDashboardSettingsCurrenciesRoute: typeof AdminDashboardSettingsCurrenciesRoute
+  AdminDashboardSettingsDataTransferRoute: typeof AdminDashboardSettingsDataTransferRoute
+  AdminDashboardSettingsExchangeRatesRoute: typeof AdminDashboardSettingsExchangeRatesRoute
+  AdminDashboardSettingsInventorySourcesRoute: typeof AdminDashboardSettingsInventorySourcesRoute
+  AdminDashboardSettingsLocalesRoute: typeof AdminDashboardSettingsLocalesRoute
+  AdminDashboardSettingsTaxesRoute: typeof AdminDashboardSettingsTaxesRoute
+  AdminDashboardCatalogIndexRoute: typeof AdminDashboardCatalogIndexRoute
+  AdminDashboardCustomersIndexRoute: typeof AdminDashboardCustomersIndexRoute
+  AdminDashboardMarketingIndexRoute: typeof AdminDashboardMarketingIndexRoute
+  AdminDashboardReportingIndexRoute: typeof AdminDashboardReportingIndexRoute
+  AdminDashboardSalesIndexRoute: typeof AdminDashboardSalesIndexRoute
+  AdminDashboardSettingsIndexRoute: typeof AdminDashboardSettingsIndexRoute
 }
 
 const AdminDashboardRouteChildren: AdminDashboardRouteChildren = {
+  AdminDashboardCmsRoute: AdminDashboardCmsRoute,
   AdminDashboardIndexRoute: AdminDashboardIndexRoute,
+  AdminDashboardCatalogAttributeFamiliesRoute:
+    AdminDashboardCatalogAttributeFamiliesRoute,
+  AdminDashboardCatalogAttributesRoute: AdminDashboardCatalogAttributesRoute,
+  AdminDashboardCatalogCategoriesRoute: AdminDashboardCatalogCategoriesRoute,
+  AdminDashboardCatalogProductsRoute: AdminDashboardCatalogProductsRoute,
+  AdminDashboardCustomersGdprDataRequestRoute:
+    AdminDashboardCustomersGdprDataRequestRoute,
+  AdminDashboardCustomersGroupsRoute: AdminDashboardCustomersGroupsRoute,
+  AdminDashboardCustomersListRoute: AdminDashboardCustomersListRoute,
+  AdminDashboardCustomersReviewsRoute: AdminDashboardCustomersReviewsRoute,
+  AdminDashboardMarketingCommunicationsRoute:
+    AdminDashboardMarketingCommunicationsRoute,
+  AdminDashboardMarketingPromotionsRoute:
+    AdminDashboardMarketingPromotionsRoute,
+  AdminDashboardMarketingSearchSeoRoute: AdminDashboardMarketingSearchSeoRoute,
+  AdminDashboardReportingCustomersRoute: AdminDashboardReportingCustomersRoute,
+  AdminDashboardReportingProductsRoute: AdminDashboardReportingProductsRoute,
+  AdminDashboardReportingSalesRoute: AdminDashboardReportingSalesRoute,
+  AdminDashboardSalesInvoicesRoute: AdminDashboardSalesInvoicesRoute,
+  AdminDashboardSalesOrdersRoute: AdminDashboardSalesOrdersRoute,
+  AdminDashboardSalesRefundsRoute: AdminDashboardSalesRefundsRoute,
+  AdminDashboardSalesShipmentsRoute: AdminDashboardSalesShipmentsRoute,
+  AdminDashboardSalesTransactionsRoute: AdminDashboardSalesTransactionsRoute,
+  AdminDashboardSettingsConfigureRoute: AdminDashboardSettingsConfigureRoute,
+  AdminDashboardSettingsCurrenciesRoute: AdminDashboardSettingsCurrenciesRoute,
+  AdminDashboardSettingsDataTransferRoute:
+    AdminDashboardSettingsDataTransferRoute,
+  AdminDashboardSettingsExchangeRatesRoute:
+    AdminDashboardSettingsExchangeRatesRoute,
+  AdminDashboardSettingsInventorySourcesRoute:
+    AdminDashboardSettingsInventorySourcesRoute,
+  AdminDashboardSettingsLocalesRoute: AdminDashboardSettingsLocalesRoute,
+  AdminDashboardSettingsTaxesRoute: AdminDashboardSettingsTaxesRoute,
+  AdminDashboardCatalogIndexRoute: AdminDashboardCatalogIndexRoute,
+  AdminDashboardCustomersIndexRoute: AdminDashboardCustomersIndexRoute,
+  AdminDashboardMarketingIndexRoute: AdminDashboardMarketingIndexRoute,
+  AdminDashboardReportingIndexRoute: AdminDashboardReportingIndexRoute,
+  AdminDashboardSalesIndexRoute: AdminDashboardSalesIndexRoute,
+  AdminDashboardSettingsIndexRoute: AdminDashboardSettingsIndexRoute,
 }
 
 const AdminDashboardRouteWithChildren = AdminDashboardRoute._addFileChildren(

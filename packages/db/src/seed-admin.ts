@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { PrismaLibSql } from "@prisma/adapter-libsql";
-import { PrismaClient } from "../prisma/generated/client";
 import { hashPassword } from "better-auth/crypto";
+import { PrismaClient } from "../prisma/generated/client";
 
 // Load environment from server
 const dotenv = await import("dotenv");
