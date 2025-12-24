@@ -136,6 +136,7 @@
       },
       "devDependencies": {
         "@pampas-store/config": "workspace:*",
+        "better-auth": "catalog:",
         "prisma": "^7.1.0",
         "typescript": "catalog:",
       },

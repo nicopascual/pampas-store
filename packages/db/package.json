@@ -17,6 +17,7 @@
 		"db:studio": "prisma studio"
 	},
 	"devDependencies": {
+		"better-auth": "catalog:",
 		"prisma": "^7.1.0",
 		"typescript": "catalog:",
 		"@pampas-store/config": "workspace:*"

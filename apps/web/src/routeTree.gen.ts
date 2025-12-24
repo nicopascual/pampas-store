@@ -16,6 +16,9 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SignUpIndexRouteImport } from './routes/sign-up/index'
 import { Route as SignUpEmailRouteImport } from './routes/sign-up/email'
+import { Route as AdminSignInRouteImport } from './routes/admin/sign-in'
+import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
+import { Route as AdminDashboardIndexRouteImport } from './routes/admin/dashboard/index'
 
 const TodosRoute = TodosRouteImport.update({
   id: '/todos',
@@ -52,6 +55,21 @@ const SignUpEmailRoute = SignUpEmailRouteImport.update({
   path: '/email',
   getParentRoute: () => SignUpRoute,
 } as any)
+const AdminSignInRoute = AdminSignInRouteImport.update({
+  id: '/admin/sign-in',
+  path: '/admin/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDashboardIndexRoute = AdminDashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminDashboardRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -59,16 +77,21 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/sign-up': typeof SignUpRouteWithChildren
   '/todos': typeof TodosRoute
+  '/admin/dashboard': typeof AdminDashboardRouteWithChildren
+  '/admin/sign-in': typeof AdminSignInRoute
   '/sign-up/email': typeof SignUpEmailRoute
   '/sign-up/': typeof SignUpIndexRoute
+  '/admin/dashboard/': typeof AdminDashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/todos': typeof TodosRoute
+  '/admin/sign-in': typeof AdminSignInRoute
   '/sign-up/email': typeof SignUpEmailRoute
   '/sign-up': typeof SignUpIndexRoute
+  '/admin/dashboard': typeof AdminDashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -77,8 +100,11 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/sign-up': typeof SignUpRouteWithChildren
   '/todos': typeof TodosRoute
+  '/admin/dashboard': typeof AdminDashboardRouteWithChildren
+  '/admin/sign-in': typeof AdminSignInRoute
   '/sign-up/email': typeof SignUpEmailRoute
   '/sign-up/': typeof SignUpIndexRoute
+  '/admin/dashboard/': typeof AdminDashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -88,10 +114,21 @@ export interface FileRouteTypes {
     | '/login'
     | '/sign-up'
     | '/todos'
+    | '/admin/dashboard'
+    | '/admin/sign-in'
     | '/sign-up/email'
     | '/sign-up/'
+    | '/admin/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/login' | '/todos' | '/sign-up/email' | '/sign-up'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/todos'
+    | '/admin/sign-in'
+    | '/sign-up/email'
+    | '/sign-up'
+    | '/admin/dashboard'
   id:
     | '__root__'
     | '/'
@@ -99,8 +136,11 @@ export interface FileRouteTypes {
     | '/login'
     | '/sign-up'
     | '/todos'
+    | '/admin/dashboard'
+    | '/admin/sign-in'
     | '/sign-up/email'
     | '/sign-up/'
+    | '/admin/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -109,6 +149,8 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   SignUpRoute: typeof SignUpRouteWithChildren
   TodosRoute: typeof TodosRoute
+  AdminDashboardRoute: typeof AdminDashboardRouteWithChildren
+  AdminSignInRoute: typeof AdminSignInRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -162,6 +204,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignUpEmailRouteImport
       parentRoute: typeof SignUpRoute
     }
+    '/admin/sign-in': {
+      id: '/admin/sign-in'
+      path: '/admin/sign-in'
+      fullPath: '/admin/sign-in'
+      preLoaderRoute: typeof AdminSignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/dashboard/': {
+      id: '/admin/dashboard/'
+      path: '/'
+      fullPath: '/admin/dashboard/'
+      preLoaderRoute: typeof AdminDashboardIndexRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
   }
 }
 
@@ -178,12 +241,26 @@ const SignUpRouteChildren: SignUpRouteChildren = {
 const SignUpRouteWithChildren =
   SignUpRoute._addFileChildren(SignUpRouteChildren)
 
+interface AdminDashboardRouteChildren {
+  AdminDashboardIndexRoute: typeof AdminDashboardIndexRoute
+}
+
+const AdminDashboardRouteChildren: AdminDashboardRouteChildren = {
+  AdminDashboardIndexRoute: AdminDashboardIndexRoute,
+}
+
+const AdminDashboardRouteWithChildren = AdminDashboardRoute._addFileChildren(
+  AdminDashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
   LoginRoute: LoginRoute,
   SignUpRoute: SignUpRouteWithChildren,
   TodosRoute: TodosRoute,
+  AdminDashboardRoute: AdminDashboardRouteWithChildren,
+  AdminSignInRoute: AdminSignInRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

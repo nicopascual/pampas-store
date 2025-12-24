@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { PrismaLibSql } from "@prisma/adapter-libsql";
 import { PrismaClient } from "../prisma/generated/client";
+import { hashPassword } from "better-auth/crypto";
 
 // Load environment from server
 const dotenv = await import("dotenv");
@@ -26,11 +27,8 @@ async function seedAdmin() {
 
 	console.log("Created role:", role.name);
 
-	// Hash password using Bun's built-in password hashing (bcrypt compatible)
-	const passwordHash = await Bun.password.hash("password158", {
-		algorithm: "bcrypt",
-		cost: 10,
-	});
+	// Hash password using Better-Auth's password hashing (salt:key format)
+	const passwordHash = await hashPassword("password158");
 
 	// Create admin user
 	const admin = await prisma.admin.upsert({
