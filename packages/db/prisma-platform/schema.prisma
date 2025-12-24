@@ -1,0 +1,85 @@
+// Platform Database Schema
+// This is a SEPARATE database for multi-tenant management
+// Each store/tenant has their own database using the main prisma schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "sqlite"
+  // URL configured in prisma-platform.config.ts
+}
+
+//////////////////////////////
+// STORES (TENANTS)
+//////////////////////////////
+
+model Store {
+  id        String  @id @default(cuid())
+  slug      String  @unique // e.g., "acme-store"
+  name      String
+  status    String  @default("active") // active, suspended, pending
+  plan      String  @default("starter") // starter, growth, enterprise
+
+  // Database location
+  isLocal       Boolean @default(true) // true = local file, false = cloud
+  databaseUrl   String? // Only for cloud (Turso URL)
+  databaseToken String? // Only for cloud (Turso token)
+
+  // Domain configuration
+  subdomain    String  @unique // {subdomain}.pampas-store.com
+  customDomain String? @unique // store.custom.com
+
+  // Timestamps
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  provisionedAt DateTime?
+
+  // Relations
+  platformAdmins StorePlatformAdmin[]
+
+  @@index([slug])
+  @@index([subdomain])
+  @@index([status])
+  @@map("store")
+}
+
+//////////////////////////////
+// PLATFORM ADMINS
+//////////////////////////////
+
+model PlatformAdmin {
+  id           String  @id @default(cuid())
+  email        String  @unique
+  name         String
+  passwordHash String
+  status       String  @default("active")
+  isSuperAdmin Boolean @default(false) // Platform-wide super admin
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  stores StorePlatformAdmin[]
+
+  @@index([email])
+  @@map("platform_admin")
+}
+
+model StorePlatformAdmin {
+  id              String @id @default(cuid())
+  platformAdminId String
+  storeId         String
+  role            String @default("owner") // owner, admin, viewer
+
+  platformAdmin PlatformAdmin @relation(fields: [platformAdminId], references: [id], onDelete: Cascade)
+  store         Store         @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([platformAdminId, storeId])
+  @@index([platformAdminId])
+  @@index([storeId])
+  @@map("store_platform_admin")
+}

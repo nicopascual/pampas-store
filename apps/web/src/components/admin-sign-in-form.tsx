@@ -62,8 +62,8 @@ export default function AdminSignInForm() {
 				},
 				{
 					onSuccess: () => {
-						navigate({ to: "/admin/dashboard" });
 						toast.success(t("admin.signIn.success"));
+						navigate({ to: "/admin/dashboard" });
 					},
 					onError: (error) => {
 						toast.error(error.error.message || error.error.statusText);

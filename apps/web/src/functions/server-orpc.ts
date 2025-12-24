@@ -12,12 +12,15 @@ export const requestMiddleware = createMiddleware().server(
 	},
 );
 
+// Server URL for SSR requests (not proxied through Vite)
+const SERVER_URL = process.env.VITE_SERVER_URL || "http://localhost:3000";
+
 // Create an ORPC client that forwards cookies to the backend
 export const createServerORPCClient = (
 	request: Request,
 ): RouterClient<typeof appRouter> => {
 	const link = new RPCLink({
-		url: `${process.env.VITE_SERVER_URL}/rpc`,
+		url: `${SERVER_URL}/rpc`,
 		headers: () => {
 			const cookie = request.headers.get("cookie");
 			return cookie ? { cookie } : {};
@@ -36,7 +39,7 @@ type PrefetchableQuery = {
  *
  * @example
  * loader: async ({ context }) => {
- *   await prefetch(getTodos(), orpc.todo.getAll, context.queryClient);
+ *   await prefetch(getData(), orpc.myProcedure, context.queryClient);
  * }
  */
 export async function prefetch<T>(

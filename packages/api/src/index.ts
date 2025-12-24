@@ -18,6 +18,12 @@ export {
 	settingsManagementProcedure,
 	superAdminProcedure,
 } from "./middleware/permissions";
+// Store-aware procedures (multi-tenant)
+export {
+	storeProcedure,
+	storeCustomerProcedure,
+	storeAdminProcedure,
+} from "./middleware/store-auth";
 
 // Legacy protected procedure - checks either customer OR admin session
 // @deprecated Use customerProcedure or adminProcedure for domain-specific auth

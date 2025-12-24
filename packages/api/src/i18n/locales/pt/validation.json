@@ -10,5 +10,8 @@
 		"min": "Deve ser pelo menos {{min}}",
 		"max": "Deve ser no maximo {{max}}",
 		"integer": "Deve ser um numero inteiro"
-	}
+	},
+	"storeSlugExists": "Ja existe uma loja com este slug",
+	"storeSubdomainExists": "Ja existe uma loja com este subdominio",
+	"storeDeleteConfirmation": "A confirmacao do slug da loja nao corresponde"
 }

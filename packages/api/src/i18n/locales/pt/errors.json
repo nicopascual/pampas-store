@@ -9,5 +9,7 @@
 	"accountInactive": "Sua conta nao esta ativa",
 	"noRoleAssigned": "Nenhum cargo atribuido a sua conta",
 	"roleNotFound": "O cargo atribuido nao foi encontrado",
-	"insufficientPermissions": "Voce nao tem permissao para realizar esta acao"
+	"insufficientPermissions": "Voce nao tem permissao para realizar esta acao",
+	"storeRequired": "Contexto de loja e necessario para esta operacao",
+	"storeNotFound": "Loja nao encontrada ou inativa"
 }

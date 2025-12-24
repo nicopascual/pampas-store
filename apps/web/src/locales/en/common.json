@@ -1,8 +1,7 @@
 {
 	"navigation": {
 		"home": "Home",
-		"dashboard": "Dashboard",
-		"todos": "Todos"
+		"dashboard": "Dashboard"
 	},
 	"buttons": {
 		"signIn": "Sign In",

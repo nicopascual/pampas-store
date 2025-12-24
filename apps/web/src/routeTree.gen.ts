@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TodosRouteImport } from './routes/todos'
 import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -53,11 +52,6 @@ import { Route as AdminDashboardCatalogCategoriesRouteImport } from './routes/ad
 import { Route as AdminDashboardCatalogAttributesRouteImport } from './routes/admin/dashboard/catalog/attributes'
 import { Route as AdminDashboardCatalogAttributeFamiliesRouteImport } from './routes/admin/dashboard/catalog/attribute-families'
 
-const TodosRoute = TodosRouteImport.update({
-  id: '/todos',
-  path: '/todos',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SignUpRoute = SignUpRouteImport.update({
   id: '/sign-up',
   path: '/sign-up',
@@ -306,7 +300,6 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/sign-up': typeof SignUpRouteWithChildren
-  '/todos': typeof TodosRoute
   '/admin/dashboard': typeof AdminDashboardRouteWithChildren
   '/admin/sign-in': typeof AdminSignInRoute
   '/sign-up/email': typeof SignUpEmailRoute
@@ -350,7 +343,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
-  '/todos': typeof TodosRoute
   '/admin/sign-in': typeof AdminSignInRoute
   '/sign-up/email': typeof SignUpEmailRoute
   '/sign-up': typeof SignUpIndexRoute
@@ -395,7 +387,6 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/sign-up': typeof SignUpRouteWithChildren
-  '/todos': typeof TodosRoute
   '/admin/dashboard': typeof AdminDashboardRouteWithChildren
   '/admin/sign-in': typeof AdminSignInRoute
   '/sign-up/email': typeof SignUpEmailRoute
@@ -442,7 +433,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/sign-up'
-    | '/todos'
     | '/admin/dashboard'
     | '/admin/sign-in'
     | '/sign-up/email'
@@ -486,7 +476,6 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/login'
-    | '/todos'
     | '/admin/sign-in'
     | '/sign-up/email'
     | '/sign-up'
@@ -530,7 +519,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/sign-up'
-    | '/todos'
     | '/admin/dashboard'
     | '/admin/sign-in'
     | '/sign-up/email'
@@ -576,20 +564,12 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   LoginRoute: typeof LoginRoute
   SignUpRoute: typeof SignUpRouteWithChildren
-  TodosRoute: typeof TodosRoute
   AdminDashboardRoute: typeof AdminDashboardRouteWithChildren
   AdminSignInRoute: typeof AdminSignInRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/todos': {
-      id: '/todos'
-      path: '/todos'
-      fullPath: '/todos'
-      preLoaderRoute: typeof TodosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/sign-up': {
       id: '/sign-up'
       path: '/sign-up'
@@ -990,7 +970,6 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   LoginRoute: LoginRoute,
   SignUpRoute: SignUpRouteWithChildren,
-  TodosRoute: TodosRoute,
   AdminDashboardRoute: AdminDashboardRouteWithChildren,
   AdminSignInRoute: AdminSignInRoute,
 }

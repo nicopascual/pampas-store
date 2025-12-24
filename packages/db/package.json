@@ -14,7 +14,12 @@
 		"db:push": "prisma db push",
 		"db:generate": "prisma generate",
 		"db:migrate": "prisma migrate dev",
-		"db:studio": "prisma studio"
+		"db:studio": "prisma studio",
+		"platform:push": "prisma db push --config=prisma-platform.config.ts",
+		"platform:generate": "prisma generate --config=prisma-platform.config.ts",
+		"platform:studio": "prisma studio --config=prisma-platform.config.ts",
+		"seed:platform": "bun run src/seed-platform.ts",
+		"seed:admin": "bun run src/seed-admin.ts"
 	},
 	"devDependencies": {
 		"better-auth": "catalog:",
@@ -23,6 +28,7 @@
 		"@pampas-store/config": "workspace:*"
 	},
 	"dependencies": {
+		"@libsql/client": "^0.15.0",
 		"@prisma/client": "catalog:",
 		"@prisma/adapter-libsql": "^7.1.0",
 		"dotenv": "catalog:",

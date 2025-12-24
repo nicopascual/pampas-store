@@ -7,3 +7,8 @@ export {
 	roleManagementProcedure,
 	superAdminProcedure,
 } from "./permissions";
+export {
+	storeProcedure,
+	storeCustomerProcedure,
+	storeAdminProcedure,
+} from "./store-auth";

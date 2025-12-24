@@ -1,8 +1,7 @@
 {
 	"navigation": {
 		"home": "Inicio",
-		"dashboard": "Panel",
-		"todos": "Tareas"
+		"dashboard": "Panel"
 	},
 	"buttons": {
 		"signIn": "Iniciar Sesion",

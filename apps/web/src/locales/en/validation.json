@@ -10,8 +10,5 @@
 	"name": {
 		"required": "Name is required",
 		"minLength": "Name must be at least {{min}} characters"
-	},
-	"todo": {
-		"required": "Task text is required"
 	}
 }

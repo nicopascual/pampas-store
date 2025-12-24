@@ -5,19 +5,16 @@ import enAdmin from "@/locales/en/admin.json";
 import enAuth from "@/locales/en/auth.json";
 import enCommon from "@/locales/en/common.json";
 import enErrors from "@/locales/en/errors.json";
-import enTodos from "@/locales/en/todos.json";
 import enValidation from "@/locales/en/validation.json";
 import esAdmin from "@/locales/es/admin.json";
 import esAuth from "@/locales/es/auth.json";
 import esCommon from "@/locales/es/common.json";
 import esErrors from "@/locales/es/errors.json";
-import esTodos from "@/locales/es/todos.json";
 import esValidation from "@/locales/es/validation.json";
 import ptAdmin from "@/locales/pt/admin.json";
 import ptAuth from "@/locales/pt/auth.json";
 import ptCommon from "@/locales/pt/common.json";
 import ptErrors from "@/locales/pt/errors.json";
-import ptTodos from "@/locales/pt/todos.json";
 import ptValidation from "@/locales/pt/validation.json";
 
 export const supportedLanguages = ["en", "es", "pt"] as const;
@@ -29,7 +26,6 @@ export const resources = {
 		admin: enAdmin,
 		common: enCommon,
 		auth: enAuth,
-		todos: enTodos,
 		errors: enErrors,
 		validation: enValidation,
 	},
@@ -37,7 +33,6 @@ export const resources = {
 		admin: esAdmin,
 		common: esCommon,
 		auth: esAuth,
-		todos: esTodos,
 		errors: esErrors,
 		validation: esValidation,
 	},
@@ -45,7 +40,6 @@ export const resources = {
 		admin: ptAdmin,
 		common: ptCommon,
 		auth: ptAuth,
-		todos: ptTodos,
 		errors: ptErrors,
 		validation: ptValidation,
 	},
@@ -56,7 +50,6 @@ export const namespaces = [
 	"admin",
 	"common",
 	"auth",
-	"todos",
 	"errors",
 	"validation",
 ] as const;

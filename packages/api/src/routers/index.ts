@@ -1,8 +1,8 @@
 import type { RouterClient } from "@orpc/server";
 import { adminRouter } from "../domains/admin/router";
 import { customerRouter } from "../domains/customers/router";
-import { protectedProcedure, publicProcedure } from "../index";
-import { todoRouter } from "./todo";
+import { platformRouter } from "../domains/platform";
+import { publicProcedure } from "../index";
 
 export const appRouter = {
 	// Health check (public)
@@ -16,14 +16,8 @@ export const appRouter = {
 	// Admin domain - back-office users
 	admin: adminRouter,
 
-	// Legacy routes (for backward compatibility)
-	privateData: protectedProcedure.handler(({ context }) => {
-		return {
-			message: "This is private",
-			user: context.customerSession?.user || context.adminSession?.user,
-		};
-	}),
-	todo: todoRouter,
+	// Platform domain - multi-tenant management (super admin)
+	platform: platformRouter,
 };
 
 export type AppRouter = typeof appRouter;

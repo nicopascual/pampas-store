@@ -10,8 +10,5 @@
 	"name": {
 		"required": "El nombre es obligatorio",
 		"minLength": "El nombre debe tener al menos {{min}} caracteres"
-	},
-	"todo": {
-		"required": "El texto de la tarea es obligatorio"
 	}
 }

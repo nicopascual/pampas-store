@@ -9,5 +9,7 @@
 	"accountInactive": "Your account is not active",
 	"noRoleAssigned": "No role assigned to your account",
 	"roleNotFound": "Your assigned role could not be found",
-	"insufficientPermissions": "You do not have permission to perform this action"
+	"insufficientPermissions": "You do not have permission to perform this action",
+	"storeRequired": "Store context is required for this operation",
+	"storeNotFound": "Store not found or inactive"
 }

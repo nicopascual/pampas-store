@@ -11,7 +11,7 @@ export const currenciesRouter = {
 					select: {
 						channels: true,
 						channelsAsBase: true,
-						exchangeRates: true,
+						exchangeRatesSource: true,
 					},
 				},
 			},
@@ -24,7 +24,9 @@ export const currenciesRouter = {
 			return prisma.currency.findUnique({
 				where: { id: input.id },
 				include: {
-					exchangeRates: true,
+					exchangeRatesSource: {
+						include: { targetCurrency: true },
+					},
 					channels: {
 						include: { channel: true },
 					},
@@ -78,21 +80,21 @@ export const currenciesRouter = {
 		.input(
 			z.object({
 				sourceCurrencyId: z.string(),
-				targetCurrency: z.string(),
+				targetCurrencyId: z.string(),
 				rate: z.number().positive(),
 			}),
 		)
 		.handler(async ({ input }) => {
 			return prisma.currencyExchangeRate.upsert({
 				where: {
-					sourceCurrencyId_targetCurrency: {
+					sourceCurrencyId_targetCurrencyId: {
 						sourceCurrencyId: input.sourceCurrencyId,
-						targetCurrency: input.targetCurrency,
+						targetCurrencyId: input.targetCurrencyId,
 					},
 				},
 				create: {
 					sourceCurrencyId: input.sourceCurrencyId,
-					targetCurrency: input.targetCurrency,
+					targetCurrencyId: input.targetCurrencyId,
 					rate: input.rate,
 				},
 				update: {
@@ -105,15 +107,15 @@ export const currenciesRouter = {
 		.input(
 			z.object({
 				sourceCurrencyId: z.string(),
-				targetCurrency: z.string(),
+				targetCurrencyId: z.string(),
 			}),
 		)
 		.handler(async ({ input }) => {
 			return prisma.currencyExchangeRate.delete({
 				where: {
-					sourceCurrencyId_targetCurrency: {
+					sourceCurrencyId_targetCurrencyId: {
 						sourceCurrencyId: input.sourceCurrencyId,
-						targetCurrency: input.targetCurrency,
+						targetCurrencyId: input.targetCurrencyId,
 					},
 				},
 			});
@@ -124,7 +126,8 @@ export const currenciesRouter = {
 		.handler(async ({ input }) => {
 			return prisma.currencyExchangeRate.findMany({
 				where: { sourceCurrencyId: input.currencyId },
-				orderBy: { targetCurrency: "asc" },
+				include: { targetCurrency: true },
+				orderBy: { targetCurrency: { code: "asc" } },
 			});
 		}),
 };

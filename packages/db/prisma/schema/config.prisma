@@ -59,9 +59,10 @@ model Currency {
   decimal Int    @default(2)
 
   // Relations
-  channelsAsBase Channel[]              @relation("ChannelBaseCurrency")
-  channels       ChannelCurrency[]
-  exchangeRates  CurrencyExchangeRate[]
+  channelsAsBase      Channel[]              @relation("ChannelBaseCurrency")
+  channels            ChannelCurrency[]
+  exchangeRatesSource CurrencyExchangeRate[] @relation("SourceCurrency")
+  exchangeRatesTarget CurrencyExchangeRate[] @relation("TargetCurrency")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -73,16 +74,17 @@ model Currency {
 model CurrencyExchangeRate {
   id               String @id @default(cuid())
   sourceCurrencyId String
-  targetCurrency   String // Currency code
+  targetCurrencyId String
   rate             Float
 
-  sourceCurrency Currency @relation(fields: [sourceCurrencyId], references: [id], onDelete: Cascade)
+  sourceCurrency Currency @relation("SourceCurrency", fields: [sourceCurrencyId], references: [id], onDelete: Cascade)
+  targetCurrency Currency @relation("TargetCurrency", fields: [targetCurrencyId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([sourceCurrencyId, targetCurrency])
-  @@index([targetCurrency])
+  @@unique([sourceCurrencyId, targetCurrencyId])
+  @@index([targetCurrencyId])
   @@map("currency_exchange_rate")
 }
 

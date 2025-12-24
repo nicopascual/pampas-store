@@ -127,10 +127,12 @@ model CompareItem {
 model CustomerNote {
   id         String   @id @default(cuid())
   customerId String
+  adminId    String? // Admin who created the note
   note       String
   createdAt  DateTime @default(now())
   customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
 
   @@index([customerId])
+  @@index([adminId])
   @@map("customer_note")
 }

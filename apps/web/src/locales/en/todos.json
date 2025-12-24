@@ -1,7 +1,0 @@
-{
-	"title": "Todo List",
-	"description": "Manage your tasks efficiently",
-	"placeholder": "Add a new task...",
-	"empty": "No todos yet. Add one above!",
-	"deleteLabel": "Delete todo"
-}

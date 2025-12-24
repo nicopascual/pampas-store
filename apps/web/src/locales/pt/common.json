@@ -1,8 +1,7 @@
 {
 	"navigation": {
 		"home": "Inicio",
-		"dashboard": "Painel",
-		"todos": "Tarefas"
+		"dashboard": "Painel"
 	},
 	"buttons": {
 		"signIn": "Entrar",
