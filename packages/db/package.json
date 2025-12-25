@@ -31,6 +31,7 @@
 		"@libsql/client": "^0.15.0",
 		"@prisma/client": "catalog:",
 		"@prisma/adapter-libsql": "^7.1.0",
+		"@pampas-store/logger": "workspace:*",
 		"dotenv": "catalog:",
 		"zod": "catalog:"
 	}

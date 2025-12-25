@@ -1,8 +1,11 @@
 import { PrismaLibSql } from "@prisma/adapter-libsql";
 import { PrismaClient } from "../prisma/generated/client";
+import { getRootLogger } from "@pampas-store/logger";
 import path from "node:path";
 import fs from "node:fs";
 import { fileURLToPath } from "node:url";
+
+const logger = getRootLogger();
 
 // ESM equivalent of __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -41,11 +44,39 @@ export function getStorePrismaClient(info: StoreConnectionInfo): PrismaClient {
 	const cached = tenantClients.get(info.storeId);
 	if (cached) {
 		cached.lastAccess = Date.now();
+		logger.debug(
+			{
+				category: "database",
+				storeId: info.storeId,
+				storeSlug: info.slug,
+				poolSize: tenantClients.size,
+			},
+			"Database connection pool cache hit",
+		);
 		return cached.client;
 	}
 
+	logger.info(
+		{
+			category: "database",
+			storeId: info.storeId,
+			storeSlug: info.slug,
+			isLocal: info.isLocal,
+			poolSize: tenantClients.size,
+		},
+		"Creating new tenant database connection",
+	);
+
 	// Evict oldest connection if at capacity
 	if (tenantClients.size >= MAX_POOL_SIZE) {
+		logger.warn(
+			{
+				category: "database",
+				poolSize: tenantClients.size,
+				maxSize: MAX_POOL_SIZE,
+			},
+			"Connection pool at capacity, evicting oldest connection",
+		);
 		evictOldestConnection();
 	}
 
@@ -58,11 +89,30 @@ export function getStorePrismaClient(info: StoreConnectionInfo): PrismaClient {
 		// Ensure directory exists
 		fs.mkdirSync(DATA_DIR, { recursive: true });
 
+		logger.debug(
+			{
+				category: "database",
+				storeId: info.storeId,
+				storeSlug: info.slug,
+				dbPath,
+			},
+			"Using local SQLite database",
+		);
+
 		adapter = new PrismaLibSql({
 			url: `file:${dbPath}`,
 		});
 	} else {
 		// CLOUD: Use Turso/libSQL remote
+		logger.debug(
+			{
+				category: "database",
+				storeId: info.storeId,
+				storeSlug: info.slug,
+			},
+			"Using Turso cloud database",
+		);
+
 		adapter = new PrismaLibSql({
 			url: info.databaseUrl,
 			authToken: info.databaseToken ?? undefined,
@@ -75,6 +125,16 @@ export function getStorePrismaClient(info: StoreConnectionInfo): PrismaClient {
 		client,
 		lastAccess: Date.now(),
 	});
+
+	logger.info(
+		{
+			category: "database",
+			storeId: info.storeId,
+			storeSlug: info.slug,
+			poolSize: tenantClients.size,
+		},
+		"Tenant database connection created",
+	);
 
 	return client;
 }
@@ -96,6 +156,15 @@ function evictOldestConnection(): void {
 	if (oldestKey) {
 		const entry = tenantClients.get(oldestKey);
 		if (entry) {
+			logger.info(
+				{
+					category: "database",
+					storeId: oldestKey,
+					idleMs: Date.now() - entry.lastAccess,
+					poolSize: tenantClients.size - 1,
+				},
+				"Evicting LRU tenant database connection",
+			);
 			entry.client.$disconnect();
 		}
 		tenantClients.delete(oldestKey);
@@ -125,11 +194,33 @@ export function getPoolSize(): number {
 // Cleanup idle connections every minute
 const cleanupInterval = setInterval(() => {
 	const now = Date.now();
+	let evictedCount = 0;
+
 	for (const [key, value] of tenantClients.entries()) {
 		if (now - value.lastAccess > IDLE_TIMEOUT_MS) {
+			logger.debug(
+				{
+					category: "database",
+					storeId: key,
+					idleMs: now - value.lastAccess,
+				},
+				"Cleaning up idle tenant connection",
+			);
 			value.client.$disconnect();
 			tenantClients.delete(key);
+			evictedCount++;
 		}
+	}
+
+	if (evictedCount > 0) {
+		logger.info(
+			{
+				category: "database",
+				evictedCount,
+				remainingConnections: tenantClients.size,
+			},
+			"Periodic cleanup completed",
+		);
 	}
 }, 60000);
 

@@ -17,6 +17,7 @@
 		"@orpc/zod": "catalog:",
 		"@pampas-store/auth": "workspace:*",
 		"@pampas-store/db": "workspace:*",
+		"@pampas-store/logger": "workspace:*",
 		"@prisma/client": "catalog:",
 		"dotenv": "catalog:",
 		"elysia": "catalog:",

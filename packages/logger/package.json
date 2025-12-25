@@ -1,0 +1,16 @@
+{
+	"name": "@pampas-store/logger",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"dependencies": {
+		"pino": "^9.5.0",
+		"nanoid": "^5.0.7"
+	},
+	"devDependencies": {
+		"@pampas-store/config": "workspace:*"
+	}
+}

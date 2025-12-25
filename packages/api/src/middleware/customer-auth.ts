@@ -24,12 +24,28 @@ export type CustomerUser = {
 const requireCustomerAuth = o.middleware(async ({ context, next }) => {
 	// CRITICAL: Reject if this is an admin session trying to access customer routes
 	if (context.authDomain === "admin") {
+		context.log.warn(
+			{
+				category: "security",
+				requestId: context.requestId,
+				authDomain: "admin",
+				targetDomain: "customer",
+			},
+			"Domain violation: admin attempting customer-only route",
+		);
 		throw new ORPCError("FORBIDDEN", {
 			message: context.t("errors:wrongAuthDomain"),
 		});
 	}
 
 	if (!context.customerSession?.user) {
+		context.log.warn(
+			{
+				category: "security",
+				requestId: context.requestId,
+			},
+			"Unauthorized customer access attempt",
+		);
 		throw new ORPCError("UNAUTHORIZED", {
 			message: context.t("errors:unauthorized"),
 		});
@@ -39,10 +55,27 @@ const requireCustomerAuth = o.middleware(async ({ context, next }) => {
 
 	// Check if customer is suspended
 	if (user.isSuspended) {
+		context.log.warn(
+			{
+				category: "security",
+				requestId: context.requestId,
+				userId: user.id,
+			},
+			"Suspended customer access attempt",
+		);
 		throw new ORPCError("FORBIDDEN", {
 			message: context.t("errors:accountSuspended"),
 		});
 	}
+
+	context.log.debug(
+		{
+			category: "security",
+			requestId: context.requestId,
+			userId: user.id,
+		},
+		"Customer authentication successful",
+	);
 
 	return next({
 		context: {

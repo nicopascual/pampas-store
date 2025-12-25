@@ -10,6 +10,11 @@ import {
 	getStorePrismaClient,
 	type StoreConnectionInfo,
 } from "@pampas-store/db/tenant-client";
+import {
+	createRequestLogger,
+	type AuthContext,
+	type TenantContext,
+} from "@pampas-store/logger";
 import type { Context as ElysiaContext } from "elysia";
 
 import {
@@ -22,6 +27,7 @@ import {
 
 export type CreateContextOptions = {
 	context: ElysiaContext | { request: Request };
+	requestId: string;
 };
 
 // Store cache configuration
@@ -172,23 +178,43 @@ async function lookupStoreById(
 // Resolve store from request
 async function resolveStore(
 	request: Request,
+	requestId: string,
+	logger: ReturnType<typeof createRequestLogger>,
 ): Promise<StoreConnectionInfo | null> {
 	const host = request.headers.get("host") || "";
-	console.log("[Context] Resolving store for host:", host);
+	logger.debug(
+		{ host, category: "tenant", requestId },
+		"Resolving store for host",
+	);
 
 	// Check header override (for admin tools / testing)
 	const storeHeader = request.headers.get("x-store-id");
 	if (storeHeader) {
-		console.log("[Context] Using x-store-id header:", storeHeader);
+		logger.debug(
+			{ storeId: storeHeader, category: "tenant", requestId },
+			"Using x-store-id header override",
+		);
 		return lookupStoreById(storeHeader);
 	}
 
 	// Check cache first
 	const cached = storeCache.get(host);
 	if (cached && cached.expires > Date.now()) {
-		console.log("[Context] Store found in cache:", cached.store.slug);
+		logger.debug(
+			{
+				storeSlug: cached.store.slug,
+				category: "tenant",
+				requestId,
+			},
+			"Store found in cache (hit)",
+		);
 		return cached.store;
 	}
+
+	logger.debug(
+		{ host, category: "tenant", requestId },
+		"Store cache miss, querying database",
+	);
 
 	// Lookup by custom domain first
 	let store = await platformPrisma.store.findUnique({
@@ -204,13 +230,24 @@ async function resolveStore(
 	});
 
 	if (store) {
-		console.log("[Context] Store found by custom domain:", store.slug);
+		logger.info(
+			{
+				storeSlug: store.slug,
+				method: "customDomain",
+				category: "tenant",
+				requestId,
+			},
+			"Store resolved by custom domain",
+		);
 	}
 
 	// Fallback to subdomain lookup
 	if (!store) {
 		const subdomain = extractSubdomain(host);
-		console.log("[Context] Extracted subdomain:", subdomain);
+		logger.debug(
+			{ subdomain, category: "tenant", requestId },
+			"Extracted subdomain from host",
+		);
 		if (subdomain) {
 			store = await platformPrisma.store.findUnique({
 				where: { subdomain },
@@ -224,7 +261,15 @@ async function resolveStore(
 				},
 			});
 			if (store) {
-				console.log("[Context] Store found by subdomain:", store.slug);
+				logger.info(
+					{
+						storeSlug: store.slug,
+						method: "subdomain",
+						category: "tenant",
+						requestId,
+					},
+					"Store resolved by subdomain",
+				);
 			}
 		}
 	}
@@ -238,15 +283,29 @@ async function resolveStore(
 			databaseToken: store.databaseToken,
 		};
 		storeCache.set(host, { store: info, expires: Date.now() + STORE_CACHE_TTL_MS });
-		console.log("[Context] Store resolved successfully:", info.slug);
+		logger.info(
+			{
+				storeSlug: info.slug,
+				storeId: info.storeId,
+				category: "tenant",
+				requestId,
+			},
+			"Store resolution successful",
+		);
 		return info;
 	}
 
-	console.log("[Context] No store found for host:", host);
+	logger.warn(
+		{ host, category: "tenant", requestId },
+		"Store not found or inactive",
+	);
 	return null;
 }
 
-export async function createContext({ context }: CreateContextOptions) {
+export async function createContext({
+	context,
+	requestId,
+}: CreateContextOptions) {
 	const authDomain = detectAuthDomain(context.request);
 
 	let customerSession: CustomerSession | null = null;
@@ -266,13 +325,45 @@ export async function createContext({ context }: CreateContextOptions) {
 	const locale = extractLocaleFromRequest(context.request);
 	const t = getTranslator(locale);
 
+	// Create initial logger (before store resolution)
+	const initialLogger = createRequestLogger(requestId);
+
 	// Resolve store from request (multi-tenant)
-	const storeInfo = await resolveStore(context.request);
+	const storeInfo = await resolveStore(context.request, requestId, initialLogger);
 
 	// Get store-specific Prisma client (or null for platform-only routes)
 	const prisma = storeInfo ? getStorePrismaClient(storeInfo) : null;
 
+	// Build tenant context for logger
+	const tenantContext: TenantContext | undefined = storeInfo
+		? {
+				storeId: storeInfo.storeId,
+				storeSlug: storeInfo.slug,
+			}
+		: undefined;
+
+	// Build auth context for logger - extract userId from the session matching authDomain
+	let authContext: AuthContext | undefined;
+	if (authDomain === "customer" && customerSession?.user) {
+		authContext = {
+			authDomain,
+			userId: customerSession.user.id,
+		};
+	} else if (authDomain === "admin" && adminSession?.user) {
+		authContext = {
+			authDomain,
+			userId: adminSession.user.id,
+		};
+	}
+
+	// Create final logger with all context
+	const log = createRequestLogger(requestId, tenantContext, authContext);
+
 	return {
+		// Request tracking
+		requestId,
+		log,
+
 		// Store context (multi-tenant)
 		store: storeInfo ? { id: storeInfo.storeId, slug: storeInfo.slug } : null,
 		prisma, // Store-specific database (null if no store resolved)

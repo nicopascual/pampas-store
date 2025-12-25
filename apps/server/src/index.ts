@@ -8,12 +8,18 @@ import { ZodToJsonSchemaConverter } from "@orpc/zod/zod4";
 import { createContext } from "@pampas-store/api/context";
 import { appRouter } from "@pampas-store/api/routers/index";
 import { adminAuth, customerAuth } from "@pampas-store/auth";
+import {
+	extractOrGenerateRequestId,
+	getRootLogger,
+} from "@pampas-store/logger";
 import { Elysia } from "elysia";
+
+const logger = getRootLogger();
 
 const rpcHandler = new RPCHandler(appRouter, {
 	interceptors: [
 		onError((error) => {
-			console.error(error);
+			logger.error({ err: error, category: "request" }, "RPC error");
 		}),
 	],
 });
@@ -25,7 +31,7 @@ const apiHandler = new OpenAPIHandler(appRouter, {
 	],
 	interceptors: [
 		onError((error) => {
-			console.error(error);
+			logger.error({ err: error, category: "request" }, "API error");
 		}),
 	],
 });
@@ -33,7 +39,10 @@ const apiHandler = new OpenAPIHandler(appRouter, {
 // Base domain for multi-tenant subdomain matching
 const BASE_DOMAIN = process.env.BASE_DOMAIN || "localhost:3001";
 
-console.log("[Server] Starting with BASE_DOMAIN:", BASE_DOMAIN);
+logger.info(
+	{ baseDomain: BASE_DOMAIN, category: "request" },
+	"Server starting with BASE_DOMAIN",
+);
 
 // CORS origin validator that supports multi-tenant subdomains
 const isAllowedOrigin = (origin: string): boolean => {
@@ -44,7 +53,10 @@ const isAllowedOrigin = (origin: string): boolean => {
 	].filter(Boolean) as string[];
 
 	if (allowedOrigins.includes(origin)) {
-		console.log("[CORS] Origin allowed (explicit):", origin);
+		logger.debug(
+			{ origin, type: "explicit", category: "security" },
+			"CORS origin allowed (explicit)",
+		);
 		return true;
 	}
 
@@ -59,14 +71,20 @@ const isAllowedOrigin = (origin: string): boolean => {
 			host.endsWith(BASE_DOMAIN) ||
 			(baseDomainWithoutPort && host.endsWith(baseDomainWithoutPort))
 		) {
-			console.log("[CORS] Origin allowed (subdomain):", origin);
+			logger.debug(
+				{ origin, host, type: "subdomain", category: "security" },
+				"CORS origin allowed (subdomain)",
+			);
 			return true;
 		}
 	} catch {
 		// Invalid URL, not allowed
 	}
 
-	console.log("[CORS] Origin REJECTED:", origin);
+	logger.warn(
+		{ origin, category: "security" },
+		"CORS origin rejected",
+	);
 	return false;
 };
 
@@ -87,14 +105,39 @@ new Elysia()
 	// Customer auth routes
 	.all("/api/customer-auth/*", async (context) => {
 		const { request, status } = context;
-		console.log("[CustomerAuth]", request.method, request.url);
+		const requestId = extractOrGenerateRequestId(
+			Object.fromEntries(request.headers.entries()),
+		);
+		logger.debug(
+			{
+				requestId,
+				method: request.method,
+				url: request.url,
+				category: "security",
+			},
+			"Customer auth request",
+		);
 		if (["POST", "GET"].includes(request.method)) {
 			try {
 				const response = await customerAuth.handler(request);
-				console.log("[CustomerAuth] Response status:", response.status);
+				logger.debug(
+					{
+						requestId,
+						status: response.status,
+						category: "security",
+					},
+					"Customer auth response",
+				);
 				return response;
 			} catch (error) {
-				console.error("[CustomerAuth] Error:", error);
+				logger.error(
+					{
+						requestId,
+						err: error,
+						category: "security",
+					},
+					"Customer auth error",
+				);
 				throw error;
 			}
 		}
@@ -103,14 +146,39 @@ new Elysia()
 	// Admin auth routes
 	.all("/api/admin-auth/*", async (context) => {
 		const { request, status } = context;
-		console.log("[AdminAuth]", request.method, request.url);
+		const requestId = extractOrGenerateRequestId(
+			Object.fromEntries(request.headers.entries()),
+		);
+		logger.debug(
+			{
+				requestId,
+				method: request.method,
+				url: request.url,
+				category: "security",
+			},
+			"Admin auth request",
+		);
 		if (["POST", "GET"].includes(request.method)) {
 			try {
 				const response = await adminAuth.handler(request);
-				console.log("[AdminAuth] Response status:", response.status);
+				logger.debug(
+					{
+						requestId,
+						status: response.status,
+						category: "security",
+					},
+					"Admin auth response",
+				);
 				return response;
 			} catch (error) {
-				console.error("[AdminAuth] Error:", error);
+				logger.error(
+					{
+						requestId,
+						err: error,
+						category: "security",
+					},
+					"Admin auth error",
+				);
 				throw error;
 			}
 		}
@@ -118,14 +186,43 @@ new Elysia()
 	})
 	// RPC routes with domain-aware context
 	.all("/rpc*", async (context) => {
-		const ctx = await createContext({ context });
+		const startTime = Date.now();
+		const requestId = extractOrGenerateRequestId(
+			Object.fromEntries(context.request.headers.entries()),
+		);
+		const ctx = await createContext({ context, requestId });
+
+		logger.debug(
+			{
+				requestId,
+				method: context.request.method,
+				url: context.request.url,
+				category: "request",
+			},
+			"RPC request started",
+		);
+
 		const { response } = await rpcHandler.handle(context.request, {
 			prefix: "/rpc",
 			context: ctx,
 		});
+
 		if (response) {
+			const latencyMs = Date.now() - startTime;
 			const headers = new Headers(response.headers);
 			headers.set("X-Locale", ctx.locale);
+			headers.set("X-Request-Id", requestId);
+
+			logger.info(
+				{
+					requestId,
+					status: response.status,
+					latencyMs,
+					category: "request",
+				},
+				"RPC request completed",
+			);
+
 			return new Response(response.body, {
 				status: response.status,
 				headers,
@@ -134,13 +231,16 @@ new Elysia()
 		return new Response("Not Found", { status: 404 });
 	})
 	.all("/api*", async (context) => {
+		const requestId = extractOrGenerateRequestId(
+			Object.fromEntries(context.request.headers.entries()),
+		);
 		const { response } = await apiHandler.handle(context.request, {
 			prefix: "/api-reference",
-			context: await createContext({ context }),
+			context: await createContext({ context, requestId }),
 		});
 		return response ?? new Response("Not Found", { status: 404 });
 	})
 	.get("/", () => "OK")
 	.listen(3000, () => {
-		console.log("Server is running on http://localhost:3000");
+		logger.info({ port: 3000, category: "request" }, "Server listening");
 	});

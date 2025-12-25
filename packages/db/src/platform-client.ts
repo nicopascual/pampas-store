@@ -1,7 +1,10 @@
 import { PrismaClient } from "../prisma-platform/generated/client";
 import { PrismaLibSql } from "@prisma/adapter-libsql";
+import { getRootLogger } from "@pampas-store/logger";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
+const logger = getRootLogger();
 
 // ESM equivalent of __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -16,7 +19,14 @@ const platformDbUrl = isCloud
 	? process.env.PLATFORM_DATABASE_URL!
 	: `file:${path.join(DATA_DIR, "platform.db")}`;
 
-console.log("[PlatformDB] Connecting to:", platformDbUrl);
+logger.info(
+	{
+		category: "database",
+		isCloud,
+		url: isCloud ? "libsql://***" : platformDbUrl,
+	},
+	"Platform database connecting",
+);
 
 // Create Prisma adapter with libSQL
 const adapter = new PrismaLibSql({
@@ -26,6 +36,13 @@ const adapter = new PrismaLibSql({
 
 // Export singleton platform Prisma client
 export const platformPrisma = new PrismaClient({ adapter });
+
+logger.info(
+	{
+		category: "database",
+	},
+	"Platform database client initialized",
+);
 
 // Re-export types
 export type { Store, PlatformAdmin, StorePlatformAdmin } from "../prisma-platform/generated/client";
