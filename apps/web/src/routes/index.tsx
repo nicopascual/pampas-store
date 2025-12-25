@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
@@ -6,11 +6,6 @@ import { orpc } from "@/utils/orpc";
 
 export const Route = createFileRoute("/")({
 	component: HomeComponent,
-	loader: async ({ context }) => {
-		await context.queryClient.ensureQueryData(
-			context.orpc.healthCheck.queryOptions(),
-		);
-	},
 });
 
 const TITLE_TEXT = `
@@ -31,7 +26,7 @@ const TITLE_TEXT = `
 
 function HomeComponent() {
 	const { t } = useTranslation("common");
-	const { data: healthCheck } = useSuspenseQuery(
+	const { data: healthCheck, isLoading } = useQuery(
 		orpc.healthCheck.queryOptions(),
 	);
 
@@ -43,10 +38,10 @@ function HomeComponent() {
 					<h2 className="mb-2 font-medium">API Status</h2>
 					<div className="flex items-center gap-2">
 						<div
-							className={`h-2 w-2 rounded-full ${healthCheck ? "bg-green-500" : "bg-red-500"}`}
+							className={`h-2 w-2 rounded-full ${isLoading ? "bg-yellow-500" : healthCheck ? "bg-green-500" : "bg-red-500"}`}
 						/>
 						<span className="text-muted-foreground text-sm">
-							{healthCheck ? t("status.connected") : t("status.disconnected")}
+							{isLoading ? t("status.loading") : healthCheck ? t("status.connected") : t("status.disconnected")}
 						</span>
 					</div>
 				</section>
